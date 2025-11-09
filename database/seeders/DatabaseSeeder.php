@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             CleanUploadsSeeder::class,
             UserSeeder::class,
             ColorThemeSeeder::class,
+            TaskStatusSeeder::class,
+            FileCategorySeeder::class,
         ]);
     }
 }

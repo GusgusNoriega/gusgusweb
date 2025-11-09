@@ -18,6 +18,13 @@
           'rbac' => [['Inicio', route('dashboard')], ['Admin', '#'], ['RBAC', '#']],
           'currencies' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Monedas', '#']],
           'color-themes' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Temas de Color', '#']],
+          'projects' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', '#']],
+          'projects.show' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#']],
+          'projects.backlog' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Backlog', '#']],
+          'projects.gantt' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Gantt', '#']],
+          'projects.files' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Files', '#']],
+          'catalogs.task-status' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Catálogos', '#'], ['Estados de Tarea', '#']],
+          'catalogs.file-categories' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Catálogos', '#'], ['Categorías de Archivo', '#']],
         ];
         $crumbs = $breadcrumbs[$currentRoute] ?? [['Inicio', '/'], ['Página', '#']];
       @endphp

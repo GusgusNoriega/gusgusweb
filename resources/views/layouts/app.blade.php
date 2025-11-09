@@ -29,6 +29,8 @@
       }
     }
   </script>
+  <!-- Alpine.js para tabs y pequeños estados en vistas -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <!-- Variables de color dinámicas del tema del usuario -->
   <style>
@@ -60,6 +62,9 @@
       color-scheme: dark; /* hint al navegador */
     }
 
+    /* Oculta elementos hasta que cargue Alpine (x-cloak) */
+    [x-cloak] { display: none !important; }
+ 
     /* Scrollbar sutil */
     ::-webkit-scrollbar{width:10px;height:10px}
     ::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:999px}
@@ -161,6 +166,8 @@
                 <a href="{{ route('currencies') }}" data-route="currencies" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">💰</span>Monedas</a>
                 <a href="{{ route('color-themes') }}" data-route="color-themes" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎨</span>Temas de Color</a>
                 <a href="{{ route('rbac') }}" data-route="rbac" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🛠</span>Roles & Permisos</a>
+                <a href="{{ route('projects') }}" data-route="projects" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📁</span>Proyectos</a>
+                <a href="{{ route('catalogs.task-status') }}" data-route="catalogs.task-status" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📚</span>Catálogos</a>
               </div>
             </div>
           </section>
@@ -240,6 +247,13 @@
         'currencies': 2,
         'color-themes': 2,
         'rbac': 2,
+        'projects': 2,
+        'projects.show': 2,
+        'projects.backlog': 2,
+        'projects.gantt': 2,
+        'projects.files': 2,
+        'catalogs.task-status': 2,
+        'catalogs.file-categories': 2,
       };
 
       // --- Año del footer ---

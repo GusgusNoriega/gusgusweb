@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Project;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +47,47 @@ Route::middleware('auth')->group(function () {
         Route::get('/color-themes', function () {
             return view('color-themes.manage');
         })->name('color-themes');
+
+        // ========================= Projects (Vistas) =========================
+        Route::get('/projects', function () {
+            return view('projects.index');
+        })->name('projects');
+
+        // Show: sólo Overview
+        Route::get('/projects/{id}', function ($id) {
+            $project = Project::find($id);
+            if (!$project) abort(404);
+            return view('projects.show', ['projectId' => (int)$id, 'project' => $project]);
+        })->name('projects.show');
+
+        // Vistas dedicadas
+        Route::get('/projects/{id}/backlog', function ($id) {
+            $project = Project::find($id);
+            if (!$project) abort(404);
+            return view('projects.backlog', ['projectId' => (int)$id, 'project' => $project]);
+        })->name('projects.backlog');
+
+        Route::get('/projects/{id}/gantt', function ($id) {
+            $project = Project::find($id);
+            if (!$project) abort(404);
+            return view('projects.gantt', ['projectId' => (int)$id, 'project' => $project]);
+        })->name('projects.gantt');
+
+        Route::get('/projects/{id}/files', function ($id) {
+            $project = Project::find($id);
+            if (!$project) abort(404);
+            return view('projects.files', ['projectId' => (int)$id, 'project' => $project]);
+        })->name('projects.files');
+
+        // ========================= Catálogos (Vistas) =========================
+        Route::prefix('catalogs')->group(function () {
+            Route::get('/task-status', function () {
+                return view('catalogs.task-status');
+            })->name('catalogs.task-status');
+
+            Route::get('/file-categories', function () {
+                return view('catalogs.file-categories');
+            })->name('catalogs.file-categories');
+        });
     });
 });

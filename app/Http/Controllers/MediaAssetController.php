@@ -79,7 +79,7 @@ class MediaAssetController extends Controller
 
         $assetData = [
             'type' => null,
-            'path' => null,
+            'storage_path' => null,
             'url' => null,
             'provider' => $request->input('provider'),
             'duration_seconds' => $request->input('duration_seconds'),
@@ -157,7 +157,7 @@ class MediaAssetController extends Controller
             }
 
             $assetData['type']       = $type;
-            $assetData['path']       = $path;
+            $assetData['storage_path'] = $path;
             $assetData['url']        = Storage::disk($disk)->url($path);
             $assetData['mime_type']  = $mimeType;
             $assetData['size_bytes'] = $file->getSize();
@@ -254,8 +254,8 @@ class MediaAssetController extends Controller
                 return $this->apiValidationError(['file' => ['Tipo de archivo no permitido']]);
             }
 
-            if ($media->path) {
-                Storage::disk('public')->delete($media->path);
+            if ($media->storage_path) {
+                Storage::disk('public')->delete($media->storage_path);
             }
 
             $userId = 1;
@@ -279,7 +279,7 @@ class MediaAssetController extends Controller
             }
 
             $media->type = $type;
-            $media->path = $path;
+            $media->storage_path = $path;
             $media->url = Storage::disk($disk)->url($path);
             $media->mime_type = $mimeType;
             $media->size_bytes = $file->getSize();
@@ -299,9 +299,9 @@ class MediaAssetController extends Controller
 
         // URL externa
         if ($request->filled('url')) {
-            if ($media->path) {
-                Storage::disk('public')->delete($media->path);
-                $media->path = null;
+            if ($media->storage_path) {
+                Storage::disk('public')->delete($media->storage_path);
+                $media->storage_path = null;
             }
             $media->url = (string)$request->input('url');
         }
