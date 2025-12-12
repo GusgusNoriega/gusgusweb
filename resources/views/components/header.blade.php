@@ -12,19 +12,36 @@
       @php
         $currentRoute = Route::currentRouteName();
         $breadcrumbs = [
+          // Dashboard
           'dashboard' => [['Inicio', route('dashboard')], ['Dashboard', '#']],
-          'funnel' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Funnel', '#']],
-          'users' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Usuarios', '#']],
-          'rbac' => [['Inicio', route('dashboard')], ['Admin', '#'], ['RBAC', '#']],
-          'currencies' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Monedas', '#']],
-          'color-themes' => [['Inicio', route('dashboard')], ['Admin', '#'], ['Temas de Color', '#']],
-          'projects' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', '#']],
-          'projects.show' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#']],
-          'projects.backlog' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Backlog', '#']],
-          'projects.gantt' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Gantt', '#']],
-          'projects.files' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Proyectos', route('projects')], ['Detalle', '#'], ['Files', '#']],
-          'catalogs.task-status' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Catálogos', '#'], ['Estados de Tarea', '#']],
-          'catalogs.file-categories' => [['Inicio', route('dashboard')], ['Gestión', '#'], ['Catálogos', '#'], ['Categorías de Archivo', '#']],
+          
+          // Proyectos
+          'projects' => [['Inicio', route('dashboard')], ['Proyectos', '#'], ['Todos los Proyectos', '#']],
+          'projects.show' => [['Inicio', route('dashboard')], ['Proyectos', route('projects')], ['Detalle', '#']],
+          'projects.backlog' => [['Inicio', route('dashboard')], ['Proyectos', route('projects')], ['Detalle', '#'], ['Backlog', '#']],
+          'projects.gantt' => [['Inicio', route('dashboard')], ['Proyectos', route('projects')], ['Detalle', '#'], ['Gantt', '#']],
+          'projects.files' => [['Inicio', route('dashboard')], ['Proyectos', route('projects')], ['Detalle', '#'], ['Archivos', '#']],
+          
+          // Administración
+          'users' => [['Inicio', route('dashboard')], ['Administración', '#'], ['Usuarios', '#']],
+          'rbac' => [['Inicio', route('dashboard')], ['Administración', '#'], ['Roles & Permisos', '#']],
+          
+          // Catálogos
+          'catalogs.task-status' => [['Inicio', route('dashboard')], ['Catálogos', '#'], ['Estados de Tarea', '#']],
+          'catalogs.file-categories' => [['Inicio', route('dashboard')], ['Catálogos', '#'], ['Categorías de Archivo', '#']],
+          'currencies' => [['Inicio', route('dashboard')], ['Catálogos', '#'], ['Monedas', '#']],
+          'color-themes' => [['Inicio', route('dashboard')], ['Catálogos', '#'], ['Temas de Color', '#']],
+          
+          // Configuración
+          'smtp-settings' => [['Inicio', route('dashboard')], ['Configuración', '#'], ['Configuración SMTP', '#']],
+          'email-templates' => [['Inicio', route('dashboard')], ['Configuración', '#'], ['Plantillas de Email', '#']],
+          
+          // Cotizaciones
+          'quotes' => [['Inicio', route('dashboard')], ['Cotizaciones', '#'], ['Todas las Cotizaciones', '#']],
+          'quotes.settings' => [['Inicio', route('dashboard')], ['Cotizaciones', route('quotes')], ['Configuración', '#']],
+          
+          // Herramientas
+          'funnel' => [['Inicio', route('dashboard')], ['Herramientas', '#'], ['Funnel', '#']],
         ];
         $crumbs = $breadcrumbs[$currentRoute] ?? [['Inicio', '/'], ['Página', '#']];
       @endphp

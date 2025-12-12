@@ -19,6 +19,12 @@ use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\FileCategoryController;
 use App\Http\Controllers\MediaAttachmentController;
 
+use App\Http\Controllers\SmtpSettingController;
+use App\Http\Controllers\EmailTemplateController;
+
+use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\QuoteSettingController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -115,4 +121,74 @@ Route::middleware(['auth.api', 'admin.api'])->group(function () {
    Route::get('tasks/{taskId}/attachments', [MediaAttachmentController::class, 'listTaskAttachments']);
    Route::post('tasks/{taskId}/attachments', [MediaAttachmentController::class, 'addTaskAttachment']);
    Route::delete('tasks/{taskId}/attachments/{attachmentId}', [MediaAttachmentController::class, 'deleteTaskAttachment']);
+});
+
+// =======================
+// SMTP SETTINGS
+// =======================
+Route::middleware(['auth.api'])->prefix('smtp')->group(function () {
+    Route::get('/settings', [SmtpSettingController::class, 'getSettings']);
+    Route::put('/settings/{id}', [SmtpSettingController::class, 'updateSetting'])->middleware('admin.api');
+    Route::post('/test', [SmtpSettingController::class, 'testConnection'])->middleware('admin.api');
+});
+
+// =======================
+// EMAIL TEMPLATES
+// =======================
+Route::middleware(['auth.api', 'admin.api'])->prefix('email-templates')->group(function () {
+    Route::get('/', [EmailTemplateController::class, 'index']);
+    Route::get('/{id}', [EmailTemplateController::class, 'show']);
+    Route::post('/', [EmailTemplateController::class, 'store']);
+    Route::put('/{id}', [EmailTemplateController::class, 'update']);
+    Route::delete('/{id}', [EmailTemplateController::class, 'destroy']);
+    Route::post('/{id}/restore', [EmailTemplateController::class, 'restore']);
+    Route::post('/test/send', [EmailTemplateController::class, 'sendTest']);
+});
+
+// =======================
+// QUOTES (COTIZACIONES)
+// =======================
+Route::middleware(['auth.api', 'admin.api'])->prefix('quotes')->group(function () {
+    // CRUD básico de cotizaciones
+    Route::get('/', [QuoteController::class, 'index']);
+    Route::post('/', [QuoteController::class, 'store']);
+    Route::get('/{id}', [QuoteController::class, 'show']);
+    Route::put('/{id}', [QuoteController::class, 'update']);
+    Route::delete('/{id}', [QuoteController::class, 'destroy']);
+    
+    // Acciones adicionales
+    Route::post('/{id}/restore', [QuoteController::class, 'restore']);
+    Route::post('/{id}/duplicate', [QuoteController::class, 'duplicate']);
+    Route::patch('/{id}/status', [QuoteController::class, 'updateStatus']);
+    
+    // Items de cotización
+    Route::post('/{quoteId}/items', [QuoteController::class, 'addItem']);
+    Route::put('/{quoteId}/items/{itemId}', [QuoteController::class, 'updateItem']);
+    Route::delete('/{quoteId}/items/{itemId}', [QuoteController::class, 'removeItem']);
+    Route::post('/{quoteId}/items/reorder', [QuoteController::class, 'reorderItems']);
+    
+    // PDF
+    Route::get('/{id}/pdf/download', [QuoteController::class, 'downloadPdf']);
+    Route::get('/{id}/pdf/preview', [QuoteController::class, 'previewPdf']);
+    Route::get('/{id}/pdf/base64', [QuoteController::class, 'getPdfBase64']);
+});
+
+// =======================
+// QUOTE SETTINGS (CONFIGURACIÓN DE COTIZACIONES)
+// =======================
+Route::middleware(['auth.api', 'admin.api'])->prefix('quote-settings')->group(function () {
+    Route::get('/', [QuoteSettingController::class, 'show']);
+    Route::put('/', [QuoteSettingController::class, 'update']);
+    
+    // Gestión de imágenes
+    Route::post('/logo', [QuoteSettingController::class, 'updateCompanyLogo']);
+    Route::delete('/logo', [QuoteSettingController::class, 'removeCompanyLogo']);
+    Route::post('/background-image', [QuoteSettingController::class, 'updateBackgroundImage']);
+    Route::delete('/background-image', [QuoteSettingController::class, 'removeBackgroundImage']);
+    Route::post('/last-page-image', [QuoteSettingController::class, 'updateLastPageImage']);
+    Route::delete('/last-page-image', [QuoteSettingController::class, 'removeLastPageImage']);
+    
+    // Términos y notas por defecto
+    Route::put('/terms-conditions', [QuoteSettingController::class, 'updateTermsConditions']);
+    Route::put('/notes', [QuoteSettingController::class, 'updateNotes']);
 });

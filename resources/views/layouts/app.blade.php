@@ -133,58 +133,132 @@
 
         <!-- Menú (Acordeón modular) -->
         <nav id="dash-accordion" class="flex-1 overflow-y-auto p-2 space-y-2">
-          <!-- Grupo 1 -->
+          <!-- Grupo 1: Dashboard -->
           <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
             <button id="dash-acc-btn-1" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-1" aria-expanded="true">
               <span class="flex items-center gap-3">
-                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M3 6h18"></path><path d="M3 18h18"></path></svg>
-                <span class="text-sm font-medium">General</span>
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                <span class="text-sm font-medium">Dashboard</span>
               </span>
               <svg class="size-4 rotate-0 transition-transform" id="dash-acc-icon-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
             <div id="dash-acc-panel-1" class="hidden cv-auto">
               <div class="p-2 bg-[var(--c-surface)] min-h-0">
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🏠</span>Inicio</a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📄</span>Reportes</a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📦</span>Productos</a>
+                <a href="{{ route('dashboard') }}" data-route="dashboard" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🏠</span>Inicio</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📊</span>Analíticas</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📈</span>Reportes</a>
               </div>
             </div>
           </section>
 
-          <!-- Grupo 2 -->
+          <!-- Grupo 2: Proyectos -->
           <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
             <button id="dash-acc-btn-2" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-2" aria-expanded="false">
               <span class="flex items-center gap-3">
-                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h10"/></svg>
-                <span class="text-sm font-medium">Gestión</span>
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                <span class="text-sm font-medium">Proyectos</span>
               </span>
               <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
             <div id="dash-acc-panel-2" class="hidden cv-auto">
               <div class="p-2 bg-[var(--c-surface)] min-h-0">
-                <a href="{{ route('users') }}" data-route="users" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">👥</span>Usuarios</a>
-                <a href="{{ route('currencies') }}" data-route="currencies" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">💰</span>Monedas</a>
-                <a href="{{ route('color-themes') }}" data-route="color-themes" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎨</span>Temas de Color</a>
-                <a href="{{ route('rbac') }}" data-route="rbac" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🛠</span>Roles & Permisos</a>
-                <a href="{{ route('projects') }}" data-route="projects" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📁</span>Proyectos</a>
-                <a href="{{ route('catalogs.task-status') }}" data-route="catalogs.task-status" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📚</span>Catálogos</a>
+                <a href="{{ route('projects') }}" data-route="projects" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📁</span>Todos los Proyectos</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">✅</span>Mis Tareas</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📅</span>Calendario</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">⏱️</span>Tiempo Registrado</a>
               </div>
             </div>
           </section>
 
-          <!-- Grupo 3 -->
+          <!-- Grupo 3: Administración -->
           <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
             <button id="dash-acc-btn-3" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-3" aria-expanded="false">
               <span class="flex items-center gap-3">
-                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
-                <span class="text-sm font-medium">Ajustes</span>
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span class="text-sm font-medium">Administración</span>
               </span>
               <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
             <div id="dash-acc-panel-3" class="hidden cv-auto">
               <div class="p-2 bg-[var(--c-surface)] min-h-0">
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎨</span>Tema & Marca</a>
-                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🔔</span>Notificaciones</a>
+                <a href="{{ route('users') }}" data-route="users" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">👥</span>Usuarios</a>
+                <a href="{{ route('rbac') }}" data-route="rbac" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🛡️</span>Roles & Permisos</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📋</span>Registro de Actividad</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grupo 4: Catálogos -->
+          <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
+            <button id="dash-acc-btn-4" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-4" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                <span class="text-sm font-medium">Catálogos</span>
+              </span>
+              <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div id="dash-acc-panel-4" class="hidden cv-auto">
+              <div class="p-2 bg-[var(--c-surface)] min-h-0">
+                <a href="{{ route('catalogs.task-status') }}" data-route="catalogs.task-status" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📊</span>Estados de Tarea</a>
+                <a href="{{ route('catalogs.file-categories') }}" data-route="catalogs.file-categories" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📂</span>Categorías de Archivo</a>
+                <a href="{{ route('currencies') }}" data-route="currencies" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">💰</span>Monedas</a>
+                <a href="{{ route('color-themes') }}" data-route="color-themes" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎨</span>Temas de Color</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grupo 5: Configuración -->
+          <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
+            <button id="dash-acc-btn-5" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-5" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                <span class="text-sm font-medium">Configuración</span>
+              </span>
+              <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div id="dash-acc-panel-5" class="hidden cv-auto">
+              <div class="p-2 bg-[var(--c-surface)] min-h-0">
+                <a href="{{ route('smtp-settings') }}" data-route="smtp-settings" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📧</span>Configuración SMTP</a>
+                <a href="{{ route('email-templates') }}" data-route="email-templates" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📝</span>Plantillas de Email</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🔔</span>Notificaciones</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🔐</span>Seguridad</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">💾</span>Respaldos</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grupo 6: Cotizaciones -->
+          <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
+            <button id="dash-acc-btn-6" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-6" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span class="text-sm font-medium">Cotizaciones</span>
+              </span>
+              <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div id="dash-acc-panel-6" class="hidden cv-auto">
+              <div class="p-2 bg-[var(--c-surface)] min-h-0">
+                <a href="{{ route('quotes') }}" data-route="quotes" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📋</span>Todas las Cotizaciones</a>
+                <a href="{{ route('quotes.settings') }}" data-route="quotes.settings" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">⚙️</span>Configuración</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Grupo 7: Herramientas -->
+          <section class="rounded-2xl overflow-hidden ring-1 ring-[var(--c-border)]">
+            <button id="dash-acc-btn-7" class="w-full flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-elev)] hover:bg-[var(--c-elev)]/80 transition" aria-controls="dash-acc-panel-7" aria-expanded="false">
+              <span class="flex items-center gap-3">
+                <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                <span class="text-sm font-medium">Herramientas</span>
+              </span>
+              <svg class="size-4 -rotate-90 transition-transform" id="dash-acc-icon-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div id="dash-acc-panel-7" class="hidden cv-auto">
+              <div class="p-2 bg-[var(--c-surface)] min-h-0">
+                <a href="{{ route('funnel') }}" data-route="funnel" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎯</span>Funnel</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🖼️</span>Gestor de Media</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📤</span>Importar/Exportar</a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🔧</span>API & Webhooks</a>
               </div>
             </div>
           </section>
@@ -242,18 +316,26 @@
       const currentRoute = '{{ request()->route()->getName() }}';
 
       // --- Mapa de rutas a grupos ---
+      // Grupo 1: Dashboard | Grupo 2: Proyectos | Grupo 3: Administración
+      // Grupo 4: Catálogos | Grupo 5: Configuración | Grupo 6: Cotizaciones | Grupo 7: Herramientas
       const routeToGroup = {
-        'users': 2,
-        'currencies': 2,
-        'color-themes': 2,
-        'rbac': 2,
+        'dashboard': 1,
         'projects': 2,
         'projects.show': 2,
         'projects.backlog': 2,
         'projects.gantt': 2,
         'projects.files': 2,
-        'catalogs.task-status': 2,
-        'catalogs.file-categories': 2,
+        'users': 3,
+        'rbac': 3,
+        'catalogs.task-status': 4,
+        'catalogs.file-categories': 4,
+        'currencies': 4,
+        'color-themes': 4,
+        'smtp-settings': 5,
+        'email-templates': 5,
+        'quotes': 6,
+        'quotes.settings': 6,
+        'funnel': 7,
       };
 
       // --- Año del footer ---
@@ -298,6 +380,10 @@
         { btn: 'dash-acc-btn-1', panel: 'dash-acc-panel-1', icon: 'dash-acc-icon-1', defaultOpen: currentGroup === 1 },
         { btn: 'dash-acc-btn-2', panel: 'dash-acc-panel-2', icon: 'dash-acc-icon-2', defaultOpen: currentGroup === 2 },
         { btn: 'dash-acc-btn-3', panel: 'dash-acc-panel-3', icon: 'dash-acc-icon-3', defaultOpen: currentGroup === 3 },
+        { btn: 'dash-acc-btn-4', panel: 'dash-acc-panel-4', icon: 'dash-acc-icon-4', defaultOpen: currentGroup === 4 },
+        { btn: 'dash-acc-btn-5', panel: 'dash-acc-panel-5', icon: 'dash-acc-icon-5', defaultOpen: currentGroup === 5 },
+        { btn: 'dash-acc-btn-6', panel: 'dash-acc-panel-6', icon: 'dash-acc-icon-6', defaultOpen: currentGroup === 6 },
+        { btn: 'dash-acc-btn-7', panel: 'dash-acc-panel-7', icon: 'dash-acc-icon-7', defaultOpen: currentGroup === 7 },
       ];
 
       const openPanel = (panelEl, btnEl, iconEl) => {

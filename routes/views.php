@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
+use App\Http\Controllers\QuoteWebController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,16 @@ Route::middleware('auth')->group(function () {
             return view('color-themes.manage');
         })->name('color-themes');
 
+        // ========================= SMTP Settings (Vista) =========================
+        Route::get('/smtp-settings', function () {
+            return view('smtp.settings');
+        })->name('smtp-settings');
+
+        // ========================= Email Templates (Vista) =========================
+        Route::get('/email-templates', function () {
+            return view('email-templates.manage');
+        })->name('email-templates');
+
         // ========================= Projects (Vistas) =========================
         Route::get('/projects', function () {
             return view('projects.index');
@@ -89,5 +100,18 @@ Route::middleware('auth')->group(function () {
                 return view('catalogs.file-categories');
             })->name('catalogs.file-categories');
         });
+
+        // ========================= Cotizaciones (Vistas) =========================
+        Route::get('/quotes', function () {
+            return view('quotes.index');
+        })->name('quotes');
+
+        Route::get('/quotes/settings', function () {
+            return view('quotes.settings');
+        })->name('quotes.settings');
+
+        // PDF Downloads (using web session auth)
+        Route::get('/quotes/{id}/pdf/download', [QuoteWebController::class, 'downloadPdf'])->name('quotes.pdf.download');
+        Route::get('/quotes/{id}/pdf/preview', [QuoteWebController::class, 'previewPdf'])->name('quotes.pdf.preview');
     });
 });
