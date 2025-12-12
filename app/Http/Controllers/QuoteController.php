@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quote;
 use App\Models\QuoteItem;
+use App\Models\QuoteItemTask;
 use App\Models\QuoteSetting;
 use App\Services\QuotePdfService;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class QuoteController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Quote::with(['user', 'creator', 'currency', 'items'])
+        $query = Quote::with(['user', 'creator', 'currency', 'items.tasks'])
             ->withCount('items');
 
         // Filtros
@@ -87,6 +88,7 @@ class QuoteController extends Controller
             'tax_rate' => 'nullable|numeric|min:0|max:100',
             'discount_amount' => 'nullable|numeric|min:0',
             'valid_until' => 'nullable|date|after:today',
+            'estimated_start_date' => 'nullable|date',
             'notes' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
             'client_name' => 'nullable|string|max:255',
@@ -103,6 +105,14 @@ class QuoteController extends Controller
             'items.*.unit_price' => 'required_with:items|numeric|min:0',
             'items.*.discount_percent' => 'nullable|numeric|min:0|max:100',
             'items.*.sort_order' => 'nullable|integer|min:0',
+
+            // Tasks per item
+            'items.*.tasks' => 'nullable|array',
+            'items.*.tasks.*.name' => 'required_with:items.*.tasks|string|max:255',
+            'items.*.tasks.*.description' => 'nullable|string',
+            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|integer|min:1',
+            'items.*.tasks.*.duration_unit' => 'required_with:items.*.tasks|in:hours,days',
+            'items.*.tasks.*.sort_order' => 'nullable|integer|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -129,6 +139,7 @@ class QuoteController extends Controller
                 'tax_rate' => $request->tax_rate ?? $settings->default_tax_rate ?? 0,
                 'discount_amount' => $request->discount_amount ?? 0,
                 'valid_until' => $request->valid_until,
+                'estimated_start_date' => $request->estimated_start_date,
                 'notes' => $request->notes ?? $settings->default_notes,
                 'terms_conditions' => $request->terms_conditions ?? $settings->default_terms_conditions,
                 'client_name' => $request->client_name,
@@ -143,7 +154,7 @@ class QuoteController extends Controller
             // Crear items si se proporcionaron
             if ($request->has('items') && is_array($request->items)) {
                 foreach ($request->items as $index => $itemData) {
-                    $quote->items()->create([
+                    $item = $quote->items()->create([
                         'name' => $itemData['name'],
                         'description' => $itemData['description'] ?? null,
                         'quantity' => $itemData['quantity'],
@@ -152,6 +163,18 @@ class QuoteController extends Controller
                         'discount_percent' => $itemData['discount_percent'] ?? 0,
                         'sort_order' => $itemData['sort_order'] ?? $index,
                     ]);
+
+                    if (!empty($itemData['tasks']) && is_array($itemData['tasks'])) {
+                        foreach ($itemData['tasks'] as $tIndex => $taskData) {
+                            $item->tasks()->create([
+                                'name' => $taskData['name'],
+                                'description' => $taskData['description'] ?? null,
+                                'duration_value' => $taskData['duration_value'],
+                                'duration_unit' => $taskData['duration_unit'] ?? 'hours',
+                                'sort_order' => $taskData['sort_order'] ?? $tIndex,
+                            ]);
+                        }
+                    }
                 }
             }
 
@@ -161,7 +184,7 @@ class QuoteController extends Controller
 
             DB::commit();
 
-            $quote->load(['user', 'creator', 'currency', 'items']);
+            $quote->load(['user', 'creator', 'currency', 'items.tasks']);
 
             return response()->json([
                 'success' => true,
@@ -188,7 +211,7 @@ class QuoteController extends Controller
             'user',
             'creator',
             'currency',
-            'items',
+            'items.tasks',
             'customBackgroundImage',
             'customLastPageImage',
         ])->find($id);
@@ -229,6 +252,7 @@ class QuoteController extends Controller
             'discount_amount' => 'nullable|numeric|min:0',
             'status' => 'nullable|in:draft,sent,accepted,rejected,expired',
             'valid_until' => 'nullable|date',
+            'estimated_start_date' => 'nullable|date',
             'notes' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
             'client_name' => 'nullable|string|max:255',
@@ -247,6 +271,14 @@ class QuoteController extends Controller
             'items.*.unit_price' => 'required_with:items|numeric|min:0',
             'items.*.discount_percent' => 'nullable|numeric|min:0|max:100',
             'items.*.sort_order' => 'nullable|integer|min:0',
+
+            // Tasks per item
+            'items.*.tasks' => 'nullable|array',
+            'items.*.tasks.*.name' => 'required_with:items.*.tasks|string|max:255',
+            'items.*.tasks.*.description' => 'nullable|string',
+            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|integer|min:1',
+            'items.*.tasks.*.duration_unit' => 'required_with:items.*.tasks|in:hours,days',
+            'items.*.tasks.*.sort_order' => 'nullable|integer|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -269,6 +301,7 @@ class QuoteController extends Controller
                 'discount_amount',
                 'status',
                 'valid_until',
+                'estimated_start_date',
                 'notes',
                 'terms_conditions',
                 'client_name',
@@ -286,7 +319,7 @@ class QuoteController extends Controller
 
                 if (is_array($request->items)) {
                     foreach ($request->items as $index => $itemData) {
-                        $quote->items()->create([
+                        $item = $quote->items()->create([
                             'name' => $itemData['name'],
                             'description' => $itemData['description'] ?? null,
                             'quantity' => $itemData['quantity'],
@@ -295,6 +328,18 @@ class QuoteController extends Controller
                             'discount_percent' => $itemData['discount_percent'] ?? 0,
                             'sort_order' => $itemData['sort_order'] ?? $index,
                         ]);
+
+                        if (!empty($itemData['tasks']) && is_array($itemData['tasks'])) {
+                            foreach ($itemData['tasks'] as $tIndex => $taskData) {
+                                $item->tasks()->create([
+                                    'name' => $taskData['name'],
+                                    'description' => $taskData['description'] ?? null,
+                                    'duration_value' => $taskData['duration_value'],
+                                    'duration_unit' => $taskData['duration_unit'] ?? 'hours',
+                                    'sort_order' => $taskData['sort_order'] ?? $tIndex,
+                                ]);
+                            }
+                        }
                     }
                 }
             }
@@ -306,7 +351,7 @@ class QuoteController extends Controller
 
             DB::commit();
 
-            $quote->load(['user', 'creator', 'currency', 'items']);
+            $quote->load(['user', 'creator', 'currency', 'items.tasks']);
 
             return response()->json([
                 'success' => true,
@@ -391,7 +436,7 @@ class QuoteController extends Controller
      */
     public function duplicate(int $id): JsonResponse
     {
-        $quote = Quote::with('items')->find($id);
+        $quote = Quote::with('items.tasks')->find($id);
 
         if (!$quote) {
             return response()->json([
@@ -416,11 +461,18 @@ class QuoteController extends Controller
                 $newItem = $item->replicate();
                 $newItem->quote_id = $newQuote->id;
                 $newItem->save();
+
+                // Duplicate tasks for each item
+                foreach ($item->tasks as $task) {
+                    $newTask = $task->replicate();
+                    $newTask->quote_item_id = $newItem->id;
+                    $newTask->save();
+                }
             }
 
             DB::commit();
 
-            $newQuote->load(['user', 'creator', 'currency', 'items']);
+            $newQuote->load(['user', 'creator', 'currency', 'items.tasks']);
 
             return response()->json([
                 'success' => true,

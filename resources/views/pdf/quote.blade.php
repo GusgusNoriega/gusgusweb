@@ -223,6 +223,57 @@
             vertical-align: top;
         }
 
+        /* Tasks section */
+        .tasks-section {
+            margin-top: 10px;
+            page-break-inside: avoid;
+        }
+
+        .tasks-box {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        .tasks-summary {
+            display: block;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .tasks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 6px;
+        }
+
+        .tasks-table thead th {
+            background: #f3f4f6;
+            color: #111827;
+            padding: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            text-align: left;
+        }
+
+        .tasks-table tbody td {
+            padding: 6px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 12px;
+            vertical-align: top;
+        }
+
+        .task-item-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: #1e40af;
+            margin-top: 8px;
+        }
+
         .items-table tbody td:last-child {
             text-align: right;
             font-weight: 600;
@@ -523,6 +574,52 @@
             </table>
         </div>
 
+        {{-- Tasks / Work plan --}}
+        @php
+            $hasTasks = false;
+            foreach ($items as $it) {
+                if ($it->tasks && $it->tasks->count() > 0) { $hasTasks = true; break; }
+            }
+        @endphp
+        @if($hasTasks)
+        <div class="tasks-section">
+            <div class="section-title">Plan de trabajo (tareas)</div>
+            <div class="tasks-box">
+                <div class="tasks-summary">
+                    Inicio estimado: <strong>{{ \Carbon\Carbon::parse($timeline['estimated_start_date'])->format('d/m/Y') }}</strong> |
+                    Entrega estimada: <strong>{{ \Carbon\Carbon::parse($timeline['estimated_delivery_date'])->format('d/m/Y') }}</strong> |
+                    Duración: <strong>{{ number_format($timeline['total_hours'], 2) }}</strong> h (~ <strong>{{ number_format($timeline['total_days'], 2) }}</strong> días @ {{ number_format($workHoursPerDay, 0) }}h/día)
+                </div>
+
+                @foreach($items as $item)
+                    @if($item->tasks && $item->tasks->count() > 0)
+                        <div class="task-item-title">{{ $item->name }}</div>
+                        <table class="tasks-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%">Tarea</th>
+                                    <th style="width: 25%">Descripción</th>
+                                    <th style="width: 20%" class="text-right">Tiempo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($item->tasks as $task)
+                                    <tr>
+                                        <td><strong>{{ $task->name }}</strong></td>
+                                        <td>{{ $task->description ?? '-' }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($task->duration_value, 0) }} {{ $task->duration_unit === 'days' ? 'días' : 'horas' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+        @endif
+
         {{-- Totals --}}
         <div class="totals-section">
             <table class="totals-table">
@@ -538,7 +635,7 @@
                 @endif
                 @if($quote->tax_rate > 0)
                 <tr>
-                    <td>IVA ({{ number_format($quote->tax_rate, 0) }}%):</td>
+                    <td>IGV ({{ number_format($quote->tax_rate, 0) }}%):</td>
                     <td class="currency">{{ $currencySymbol }}{{ number_format($quote->tax_amount, 2) }}</td>
                 </tr>
                 @endif

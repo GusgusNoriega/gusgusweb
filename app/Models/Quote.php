@@ -27,6 +27,7 @@ class Quote extends Model
         'total',
         'status',
         'valid_until',
+        'estimated_start_date',
         'notes',
         'terms_conditions',
         'client_name',
@@ -44,6 +45,7 @@ class Quote extends Model
         'discount_amount' => 'decimal:2',
         'total' => 'decimal:2',
         'valid_until' => 'date',
+        'estimated_start_date' => 'date',
     ];
 
     /**

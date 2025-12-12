@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class QuoteItem extends Model
 {
@@ -86,6 +87,14 @@ class QuoteItem extends Model
     public function quote(): BelongsTo
     {
         return $this->belongsTo(Quote::class, 'quote_id');
+    }
+
+    /**
+     * Tasks breakdown for this quote item
+     */
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(QuoteItemTask::class, 'quote_item_id')->orderBy('sort_order');
     }
 
     // ==================== ACCESSORS ====================

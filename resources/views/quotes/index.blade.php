@@ -216,7 +216,7 @@
         <!-- Financial Info -->
         <div class="border-t border-[var(--c-border)] pt-4">
           <h4 class="text-sm font-semibold text-[var(--c-text)] mb-3">Información Financiera</h4>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
               <label for="quote-currency-id" class="block text-sm font-medium text-[var(--c-text)] mb-1">Moneda</label>
               <select id="quote-currency-id" name="currency_id" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
@@ -230,6 +230,11 @@
             <div>
               <label for="quote-valid-until" class="block text-sm font-medium text-[var(--c-text)] mb-1">Válida hasta</label>
               <input type="date" id="quote-valid-until" name="valid_until" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+            </div>
+            <div>
+              <label for="quote-estimated-start-date" class="block text-sm font-medium text-[var(--c-text)] mb-1">Inicio estimado</label>
+              <input type="date" id="quote-estimated-start-date" name="estimated_start_date" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+              <p class="text-xs text-[var(--c-muted)] mt-1">Se usa para calcular entrega (días hábiles).</p>
             </div>
           </div>
         </div>
@@ -251,6 +256,37 @@
           <div id="items-empty" class="text-center py-8 text-[var(--c-muted)]">
             <p>No hay items agregados</p>
           </div>
+        </div>
+
+        <!-- Timeline / Planificación -->
+        <div class="border-t border-[var(--c-border)] pt-4">
+          <div class="flex items-center justify-between mb-3">
+            <h4 class="text-sm font-semibold text-[var(--c-text)]">Planificación</h4>
+            <span id="timeline-tasks-count" class="text-xs text-[var(--c-muted)]">0 tareas</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3">
+            <div class="bg-[var(--c-elev)] rounded-xl p-3 border border-[var(--c-border)]">
+              <div class="text-xs text-[var(--c-muted)]">Inicio</div>
+              <div id="timeline-start" class="text-sm font-semibold text-[var(--c-text)]">—</div>
+            </div>
+            <div class="bg-[var(--c-elev)] rounded-xl p-3 border border-[var(--c-border)]">
+              <div class="text-xs text-[var(--c-muted)]">Entrega estimada</div>
+              <div id="timeline-delivery" class="text-sm font-semibold text-[var(--c-text)]">—</div>
+            </div>
+            <div class="bg-[var(--c-elev)] rounded-xl p-3 border border-[var(--c-border)]">
+              <div class="text-xs text-[var(--c-muted)]">Horas</div>
+              <div id="timeline-total-hours" class="text-sm font-semibold text-[var(--c-text)]">0.00 h</div>
+            </div>
+            <div class="bg-[var(--c-elev)] rounded-xl p-3 border border-[var(--c-border)]">
+              <div class="text-xs text-[var(--c-muted)]">Días (aprox.)</div>
+              <div id="timeline-total-days" class="text-sm font-semibold text-[var(--c-text)]">0.00 días</div>
+            </div>
+            <div class="bg-[var(--c-elev)] rounded-xl p-3 border border-[var(--c-border)]">
+              <div class="text-xs text-[var(--c-muted)]">Días hábiles</div>
+              <div id="timeline-business-days" class="text-sm font-semibold text-[var(--c-text)]">0 días hábiles</div>
+            </div>
+          </div>
+          <p class="text-xs text-[var(--c-muted)] mt-2">Conversión usando <span id="timeline-work-hours-per-day" class="font-medium">8</span> horas/día (configurable en Configuración de Cotizaciones).</p>
         </div>
 
         <!-- Totals -->
@@ -328,6 +364,53 @@
         </button>
       </div>
     </div>
+
+    <!-- Tasks panel -->
+    <div class="mt-3 pt-3 border-t border-[var(--c-border)]">
+      <div class="flex items-center justify-between">
+        <button type="button" class="btn-toggle-tasks text-sm text-[var(--c-text)] hover:underline">Ver/ocultar tareas</button>
+        <button type="button" class="btn-add-task inline-flex items-center gap-1 px-3 py-1 text-xs bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Agregar tarea
+        </button>
+      </div>
+      <div class="tasks-panel hidden mt-3">
+        <div class="tasks-container space-y-2"></div>
+        <p class="text-xs text-[var(--c-muted)] mt-2">Tip: usa “días” para tareas grandes y “horas” para ajustes/QA.</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- Task Template (hidden) -->
+<template id="task-template">
+  <div class="task-row bg-[var(--c-surface)] rounded-lg border border-[var(--c-border)] p-3">
+    <div class="grid grid-cols-12 gap-2 items-start">
+      <div class="col-span-12 md:col-span-4">
+        <input type="text" name="task_name[]" placeholder="Nombre de la tarea *" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm" required>
+      </div>
+      <div class="col-span-6 md:col-span-2">
+        <input type="number" name="task_duration_value[]" step="1" min="1" value="1" inputmode="numeric" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm" required>
+      </div>
+      <div class="col-span-6 md:col-span-2">
+        <select name="task_duration_unit[]" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+          <option value="hours">Horas</option>
+          <option value="days">Días</option>
+        </select>
+      </div>
+      <div class="col-span-11 md:col-span-3">
+        <input type="text" name="task_description[]" placeholder="Descripción (opcional)" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+      </div>
+      <div class="col-span-1 flex justify-end">
+        <button type="button" class="btn-remove-task p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition" title="Eliminar tarea">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -341,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let usersCache = [];
   let currenciesCache = [];
   let quoteTotals = { subtotal: 0, discount: 0, tax: 0, total: 0 };
+  let workHoursPerDay = 8;
 
   // Verificar token
   if (!API_TOKEN) {
@@ -353,6 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadUsers();
   loadCurrencies();
   loadStats();
+  loadQuoteSettings();
 
   // Event listeners
   document.getElementById('btn-create-quote').addEventListener('click', () => openQuoteModal());
@@ -367,6 +452,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Recalculate on tax change
   document.getElementById('quote-tax-rate').addEventListener('input', calculateTotals);
+
+  // Recalculate on start date change
+  document.getElementById('quote-estimated-start-date').addEventListener('input', calculateTimeline);
 
   // Functions
   async function loadQuotes(page = 1) {
@@ -469,6 +557,29 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     } catch (error) {
       console.error('Error loading currencies:', error);
+    }
+  }
+
+  async function loadQuoteSettings() {
+    try {
+      const response = await fetch(`${API_BASE}/quote-settings`, {
+        headers: {
+          'Authorization': `Bearer ${API_TOKEN}`,
+          'Accept': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        workHoursPerDay = parseFloat(data.data.work_hours_per_day) || 8;
+        const el = document.getElementById('timeline-work-hours-per-day');
+        if (el) el.textContent = String(workHoursPerDay);
+      }
+    } catch (e) {
+      // fallback default
+      workHoursPerDay = 8;
+      const el = document.getElementById('timeline-work-hours-per-day');
+      if (el) el.textContent = String(workHoursPerDay);
     }
   }
 
@@ -608,6 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('items-container').innerHTML = '';
     document.getElementById('items-empty').classList.remove('hidden');
     updateTotalsDisplay();
+    updateTimelineDisplay({ totalHours: 0, totalDays: 0, businessDays: 0, start: null, delivery: null, tasksCount: 0 });
 
     if (quoteData) {
       title.textContent = 'Editar Cotización';
@@ -622,6 +734,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('quote-currency-id').value = quoteData.currency_id || '';
       document.getElementById('quote-tax-rate').value = quoteData.tax_rate || 0;
       document.getElementById('quote-valid-until').value = quoteData.valid_until ? quoteData.valid_until.split('T')[0] : '';
+      document.getElementById('quote-estimated-start-date').value = quoteData.estimated_start_date ? quoteData.estimated_start_date.split('T')[0] : '';
       document.getElementById('quote-notes').value = quoteData.notes || '';
       document.getElementById('quote-terms').value = quoteData.terms_conditions || '';
 
@@ -632,9 +745,12 @@ document.addEventListener('DOMContentLoaded', function() {
           addItem(item);
         });
       }
+      calculateTimeline();
     } else {
       title.textContent = 'Nueva Cotización';
       document.getElementById('quote-id').value = '';
+      document.getElementById('quote-estimated-start-date').value = '';
+      calculateTimeline();
     }
 
     modal.classList.remove('hidden');
@@ -660,6 +776,11 @@ document.addEventListener('DOMContentLoaded', function() {
       row.querySelector('[name="item_unit_price[]"]').value = itemData.unit_price || 0;
       row.querySelector('[name="item_discount[]"]').value = itemData.discount_percent || 0;
       updateItemTotal(row);
+
+      // Load tasks if present
+      if (itemData.tasks && Array.isArray(itemData.tasks)) {
+        itemData.tasks.forEach(task => addTask(row, task));
+      }
     }
 
     // Event listeners for item
@@ -669,6 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('items-empty').classList.remove('hidden');
       }
       calculateTotals();
+      calculateTimeline();
     });
 
     row.querySelectorAll('.item-quantity, .item-price, .item-discount').forEach(input => {
@@ -678,8 +800,120 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
 
+    // Tasks events
+    row.querySelector('.btn-add-task').addEventListener('click', () => {
+      addTask(row);
+      calculateTimeline();
+    });
+
+    row.querySelector('.btn-toggle-tasks').addEventListener('click', () => {
+      const panel = row.querySelector('.tasks-panel');
+      panel.classList.toggle('hidden');
+    });
+
     container.appendChild(clone);
     calculateTotals();
+    calculateTimeline();
+  }
+
+  function addTask(itemRow, taskData = null) {
+    const tasksContainer = itemRow.querySelector('.tasks-container');
+    itemRow.querySelector('.tasks-panel').classList.remove('hidden');
+    const template = document.getElementById('task-template');
+    const clone = template.content.cloneNode(true);
+    const taskRow = clone.querySelector('.task-row');
+
+    const durationInput = taskRow.querySelector('[name="task_duration_value[]"]');
+    const unitSelect = taskRow.querySelector('[name="task_duration_unit[]"]');
+
+    if (taskData) {
+      taskRow.querySelector('[name="task_name[]"]').value = taskData.name || '';
+      taskRow.querySelector('[name="task_description[]"]').value = taskData.description || '';
+      // En UI se manejan enteros para horas/días
+      durationInput.value = String(Math.max(1, Math.round(parseFloat(taskData.duration_value) || 1)));
+      unitSelect.value = taskData.duration_unit || 'hours';
+    }
+
+    // Siempre enteros (horas y días)
+    durationInput.step = '1';
+    durationInput.min = '1';
+
+    const normalizeDuration = () => {
+      const v = Math.round(parseFloat(durationInput.value) || 1);
+      durationInput.value = String(Math.max(1, v));
+    };
+
+    durationInput.addEventListener('blur', () => {
+      normalizeDuration();
+      calculateTimeline();
+    });
+
+    unitSelect.addEventListener('change', () => {
+      normalizeDuration();
+      calculateTimeline();
+    });
+
+    taskRow.querySelector('.btn-remove-task').addEventListener('click', () => {
+      taskRow.remove();
+      calculateTimeline();
+    });
+
+    taskRow.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', calculateTimeline);
+      el.addEventListener('change', calculateTimeline);
+    });
+
+    tasksContainer.appendChild(clone);
+  }
+
+  function calculateTimeline() {
+    const container = document.getElementById('items-container');
+    const itemRows = container.querySelectorAll('.item-row');
+
+    let totalHours = 0;
+    let tasksCount = 0;
+
+    itemRows.forEach(itemRow => {
+      const taskRows = itemRow.querySelectorAll('.task-row');
+      taskRows.forEach(tr => {
+        const value = parseFloat(tr.querySelector('[name="task_duration_value[]"]').value) || 0;
+        const unit = tr.querySelector('[name="task_duration_unit[]"]').value || 'hours';
+        if (value <= 0) return;
+        tasksCount++;
+        totalHours += unit === 'days' ? (value * workHoursPerDay) : value;
+      });
+    });
+
+    const totalDays = workHoursPerDay > 0 ? (totalHours / workHoursPerDay) : 0;
+    const businessDays = Math.ceil(totalDays);
+
+    const startStr = document.getElementById('quote-estimated-start-date').value;
+    const start = startStr ? new Date(startStr + 'T00:00:00') : null;
+    const delivery = start ? addBusinessDays(start, businessDays) : null;
+
+    updateTimelineDisplay({ totalHours, totalDays, businessDays, start, delivery, tasksCount });
+  }
+
+  function addBusinessDays(date, days) {
+    const d = new Date(date.getTime());
+    let remaining = days;
+    while (remaining > 0) {
+      d.setDate(d.getDate() + 1);
+      const day = d.getDay();
+      if (day === 0 || day === 6) continue; // Sun(0), Sat(6)
+      remaining--;
+    }
+    return d;
+  }
+
+  function updateTimelineDisplay({ totalHours, totalDays, businessDays, start, delivery, tasksCount }) {
+    const fmt = (d) => d ? d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+    document.getElementById('timeline-total-hours').textContent = (totalHours || 0).toFixed(2) + ' h';
+    document.getElementById('timeline-total-days').textContent = (totalDays || 0).toFixed(2) + ' días';
+    document.getElementById('timeline-business-days').textContent = (businessDays || 0) + ' días hábiles';
+    document.getElementById('timeline-start').textContent = fmt(start);
+    document.getElementById('timeline-delivery').textContent = fmt(delivery);
+    document.getElementById('timeline-tasks-count').textContent = (tasksCount || 0) + ' tareas';
   }
 
   function updateItemTotal(row) {
@@ -741,6 +975,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const rows = container.querySelectorAll('.item-row');
     
     rows.forEach((row, index) => {
+      // Collect tasks for this item
+      const tasks = [];
+      row.querySelectorAll('.task-row').forEach((taskRow, tIndex) => {
+        tasks.push({
+          name: taskRow.querySelector('[name="task_name[]"]').value,
+          description: taskRow.querySelector('[name="task_description[]"]').value,
+          duration_value: parseFloat(taskRow.querySelector('[name="task_duration_value[]"]').value) || 0,
+          duration_unit: taskRow.querySelector('[name="task_duration_unit[]"]').value || 'hours',
+          sort_order: tIndex,
+        });
+      });
+
       items.push({
         name: row.querySelector('[name="item_name[]"]').value,
         description: row.querySelector('[name="item_description[]"]').value,
@@ -748,7 +994,8 @@ document.addEventListener('DOMContentLoaded', function() {
         unit: row.querySelector('[name="item_unit[]"]').value,
         unit_price: parseFloat(row.querySelector('[name="item_unit_price[]"]').value) || 0,
         discount_percent: parseFloat(row.querySelector('[name="item_discount[]"]').value) || 0,
-        sort_order: index
+        sort_order: index,
+        tasks: tasks
       });
     });
 
@@ -763,6 +1010,7 @@ document.addEventListener('DOMContentLoaded', function() {
       currency_id: document.getElementById('quote-currency-id').value || null,
       tax_rate: parseFloat(document.getElementById('quote-tax-rate').value) || 0,
       valid_until: document.getElementById('quote-valid-until').value || null,
+      estimated_start_date: document.getElementById('quote-estimated-start-date').value || null,
       notes: document.getElementById('quote-notes').value,
       terms_conditions: document.getElementById('quote-terms').value,
       items: items

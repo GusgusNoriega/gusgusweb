@@ -41,6 +41,11 @@
               <label for="default-tax-rate" class="block text-sm font-medium text-[var(--c-text)] mb-1">Tasa de Impuesto por Defecto (%)</label>
               <input type="number" id="default-tax-rate" name="default_tax_rate" step="0.01" min="0" max="100" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
             </div>
+            <div>
+              <label for="work-hours-per-day" class="block text-sm font-medium text-[var(--c-text)] mb-1">Horas de trabajo por día</label>
+              <input type="number" id="work-hours-per-day" name="work_hours_per_day" step="0.25" min="0.1" max="24" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+              <p class="text-xs text-[var(--c-muted)] mt-1">Se usa para convertir horas ↔ días y calcular entrega estimada.</p>
+            </div>
             <div class="md:col-span-2">
               <label for="company-address" class="block text-sm font-medium text-[var(--c-text)] mb-1">Dirección</label>
               <textarea id="company-address" name="company_address" rows="2" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent"></textarea>
@@ -208,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('company-phone').value = settings.company_phone || '';
     document.getElementById('company-address').value = settings.company_address || '';
     document.getElementById('default-tax-rate').value = settings.default_tax_rate || 0;
+    document.getElementById('work-hours-per-day').value = settings.work_hours_per_day || 8;
     document.getElementById('default-terms').value = settings.default_terms_conditions || '';
     document.getElementById('default-notes').value = settings.default_notes || '';
 
@@ -248,7 +254,8 @@ document.addEventListener('DOMContentLoaded', function() {
       company_email: document.getElementById('company-email').value,
       company_phone: document.getElementById('company-phone').value,
       company_address: document.getElementById('company-address').value,
-      default_tax_rate: parseFloat(document.getElementById('default-tax-rate').value) || 0
+      default_tax_rate: parseFloat(document.getElementById('default-tax-rate').value) || 0,
+      work_hours_per_day: parseFloat(document.getElementById('work-hours-per-day').value) || 8,
     };
 
     try {

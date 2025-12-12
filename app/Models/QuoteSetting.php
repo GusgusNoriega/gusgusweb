@@ -20,10 +20,12 @@ class QuoteSetting extends Model
         'default_terms_conditions',
         'default_notes',
         'default_tax_rate',
+        'work_hours_per_day',
     ];
 
     protected $casts = [
         'default_tax_rate' => 'decimal:2',
+        'work_hours_per_day' => 'decimal:2',
     ];
 
     // ==================== RELATIONSHIPS ====================
