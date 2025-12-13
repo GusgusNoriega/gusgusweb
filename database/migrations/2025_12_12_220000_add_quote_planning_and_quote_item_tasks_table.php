@@ -27,7 +27,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('quote_item_id');
             $table->string('name');
-            $table->text('description')->nullable();
+            // Puede ser texto largo (detalles extensos por tarea)
+            $table->longText('description')->nullable();
             $table->decimal('duration_value', 10, 2)->default(0);
             $table->enum('duration_unit', ['hours', 'days'])->default('hours');
             $table->unsignedInteger('sort_order')->default(0);

@@ -388,7 +388,7 @@
 <template id="task-template">
   <div class="task-row bg-[var(--c-surface)] rounded-lg border border-[var(--c-border)] p-3">
     <div class="grid grid-cols-12 gap-2 items-start">
-      <div class="col-span-12 md:col-span-4">
+      <div class="col-span-12 md:col-span-6">
         <input type="text" name="task_name[]" placeholder="Nombre de la tarea *" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm" required>
       </div>
       <div class="col-span-6 md:col-span-2">
@@ -400,15 +400,16 @@
           <option value="days">Días</option>
         </select>
       </div>
-      <div class="col-span-11 md:col-span-3">
-        <input type="text" name="task_description[]" placeholder="Descripción (opcional)" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
-      </div>
-      <div class="col-span-1 flex justify-end">
+      <div class="col-span-12 md:col-span-2 flex justify-end">
         <button type="button" class="btn-remove-task p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition" title="Eliminar tarea">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
           </svg>
         </button>
+      </div>
+
+      <div class="col-span-12">
+        <textarea name="task_description[]" rows="2" placeholder="Descripción (opcional)" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm"></textarea>
       </div>
     </div>
   </div>
@@ -858,7 +859,7 @@ document.addEventListener('DOMContentLoaded', function() {
       calculateTimeline();
     });
 
-    taskRow.querySelectorAll('input, select').forEach(el => {
+    taskRow.querySelectorAll('input, select, textarea').forEach(el => {
       el.addEventListener('input', calculateTimeline);
       el.addEventListener('change', calculateTimeline);
     });

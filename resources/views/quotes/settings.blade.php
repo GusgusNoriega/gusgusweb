@@ -43,7 +43,7 @@
             </div>
             <div>
               <label for="work-hours-per-day" class="block text-sm font-medium text-[var(--c-text)] mb-1">Horas de trabajo por día</label>
-              <input type="number" id="work-hours-per-day" name="work_hours_per_day" step="0.25" min="0.1" max="24" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+              <input type="number" id="work-hours-per-day" name="work_hours_per_day" step="0.25" min="0.25" max="24" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
               <p class="text-xs text-[var(--c-muted)] mt-1">Se usa para convertir horas ↔ días y calcular entrega estimada.</p>
             </div>
             <div class="md:col-span-2">

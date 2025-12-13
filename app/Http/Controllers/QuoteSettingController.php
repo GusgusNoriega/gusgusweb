@@ -40,7 +40,7 @@ class QuoteSettingController extends Controller
             'default_terms_conditions' => 'nullable|string',
             'default_notes' => 'nullable|string',
             'default_tax_rate' => 'nullable|numeric|min:0|max:100',
-            'work_hours_per_day' => 'nullable|numeric|min:0.1|max:24',
+            'work_hours_per_day' => 'nullable|numeric|min:0.25|max:24',
         ]);
 
         if ($validator->fails()) {
