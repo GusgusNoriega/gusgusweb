@@ -31,6 +31,7 @@ class Quote extends Model
         'notes',
         'terms_conditions',
         'client_name',
+        'client_ruc',
         'client_email',
         'client_phone',
         'client_address',

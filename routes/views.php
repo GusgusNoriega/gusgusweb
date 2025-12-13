@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Project;
 use App\Http\Controllers\QuoteWebController;
+use App\Http\Controllers\LeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +17,35 @@ use App\Http\Controllers\QuoteWebController;
 
 // Ruta principal
 Route::get('/', function () {
-    return view('welcome');
-})->middleware('guest');
+    return view('marketing.home');
+})->name('home')->middleware('guest');
+
+// Página de gracias (lectura única por token)
+Route::get('/gracias/{token}', [LeadController::class, 'thankYou'])
+    ->name('leads.thankyou')
+    ->middleware('guest');
+
+// Sitemap (por ahora, sólo la home pública)
+Route::get('/sitemap.xml', function () {
+    $loc = url('/');
+    $lastmod = now()->toDateString();
+
+    $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{$loc}</loc>
+    <lastmod>{$lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
+XML;
+
+    return response($xml, 200)
+        ->header('Content-Type', 'application/xml; charset=UTF-8')
+        ->header('X-Robots-Tag', 'noindex, follow');
+})->name('sitemap');
 
 // Rutas de autenticación (vistas)
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login')->middleware('guest');
@@ -32,6 +60,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/funnel', function () {
             return view('funnel');
         })->name('funnel');
+
+        Route::get('/leads', function () {
+            return view('leads.manage');
+        })->name('leads');
 
         Route::get('/users', function () {
             return view('users.manage');

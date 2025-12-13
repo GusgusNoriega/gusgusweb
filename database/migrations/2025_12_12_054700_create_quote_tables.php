@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('quote_settings', function (Blueprint $table) {
             $table->id();
             $table->string('company_name')->nullable();
+            $table->string('company_ruc', 30)->nullable();
             $table->text('company_address')->nullable();
             $table->string('company_phone')->nullable();
             $table->string('company_email')->nullable();
@@ -52,6 +53,7 @@ return new class extends Migration
             
             // Campos para cliente sin cuenta en el sistema
             $table->string('client_name')->nullable();
+            $table->string('client_ruc', 30)->nullable();
             $table->string('client_email')->nullable();
             $table->string('client_phone')->nullable();
             $table->text('client_address')->nullable();

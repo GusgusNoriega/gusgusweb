@@ -11,6 +11,7 @@ class QuoteSetting extends Model
 
     protected $fillable = [
         'company_name',
+        'company_ruc',
         'company_address',
         'company_phone',
         'company_email',

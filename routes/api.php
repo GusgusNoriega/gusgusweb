@@ -25,6 +25,8 @@ use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteSettingController;
 
+use App\Http\Controllers\LeadController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,6 +44,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Rutas de autenticación API
 Route::post('/login', [AuthController::class, 'apiLogin']);
+
+// =======================
+// LEADS (público para captación + admin para gestión)
+// =======================
+// Público: recibe leads desde el formulario de marketing
+Route::post('/leads', [LeadController::class, 'store'])->middleware('throttle:20,1');
+
+// Admin: listado / ver / editar / eliminar
+Route::middleware(['auth.api', 'admin.api'])->group(function () {
+    Route::apiResource('leads', LeadController::class)->except(['store']);
+});
 
 // Media Manager routes
 Route::apiResource('media', MediaAssetController::class);

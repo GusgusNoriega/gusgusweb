@@ -31,6 +31,7 @@ class QuoteSettingController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'company_name' => 'nullable|string|max:255',
+            'company_ruc' => 'nullable|string|max:30',
             'company_address' => 'nullable|string|max:500',
             'company_phone' => 'nullable|string|max:50',
             'company_email' => 'nullable|email|max:255',
@@ -54,6 +55,7 @@ class QuoteSettingController extends Controller
         try {
             $settings = QuoteSetting::updateSettings($request->only([
                 'company_name',
+                'company_ruc',
                 'company_address',
                 'company_phone',
                 'company_email',

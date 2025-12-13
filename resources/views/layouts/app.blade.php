@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>@yield('title', 'Dashboard Base • Tailwind + Dark Mode')</title>
 
+  <!-- SEO: panel administrativo (no indexar) -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex, nofollow" />
+
   @if(session('passport_token'))
     <meta name="api-token" content="{{ session('passport_token') }}">
   @endif
@@ -256,6 +260,7 @@
             <div id="dash-acc-panel-7" class="hidden cv-auto">
               <div class="p-2 bg-[var(--c-surface)] min-h-0">
                 <a href="{{ route('funnel') }}" data-route="funnel" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎯</span>Funnel</a>
+                <a href="{{ route('leads') }}" data-route="leads" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📨</span>Leads</a>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🖼️</span>Gestor de Media</a>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📤</span>Importar/Exportar</a>
                 <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm opacity-50"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🔧</span>API & Webhooks</a>
@@ -336,6 +341,7 @@
         'quotes': 6,
         'quotes.settings': 6,
         'funnel': 7,
+        'leads': 7,
       };
 
       // --- Año del footer ---

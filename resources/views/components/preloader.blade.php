@@ -35,8 +35,14 @@
   }
 </style>
 
-{{-- Overlay visible por defecto --}}
-<div id="preloader" class="preloader-overlay is-visible" role="status" aria-live="polite" aria-label="Cargando">
+@php
+  // Por defecto se mantiene el comportamiento actual (visible al cargar).
+  // En marketing, podemos inicializarlo oculto pasando ['startVisible' => false].
+  $startVisible = $startVisible ?? true;
+@endphp
+
+{{-- Overlay (visible sólo si $startVisible=true) --}}
+<div id="preloader" class="preloader-overlay {{ $startVisible ? 'is-visible' : '' }}" role="status" aria-live="polite" aria-label="Cargando">
   <div class="preloader-spinner"></div>
 </div>
 
@@ -44,7 +50,7 @@
   (function () {
     var MIN_MS = 500; // mínimo de visibilidad para evitar parpadeo
     var preloader = document.getElementById('preloader');
-    var lastShowAt = performance.now(); // visible desde el inicio
+    var lastShowAt = performance.now(); // por defecto asume visible (se ajusta en DOMContentLoaded)
     var pendingHideTimer = null;
 
     function actuallyShow() {
@@ -81,10 +87,11 @@
       }, wait);
     };
 
-    // Si por alguna razón el overlay está visible al cargar el DOM, bloquea scroll
+    // Inicialización: si está visible al cargar el DOM, bloquea scroll y ajusta timer
     document.addEventListener('DOMContentLoaded', function () {
       if (preloader && preloader.classList.contains('is-visible')) {
         document.body && document.body.classList.add('no-scroll');
+        lastShowAt = performance.now();
       }
     });
 

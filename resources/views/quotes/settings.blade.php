@@ -30,6 +30,10 @@
               <input type="text" id="company-name" name="company_name" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
             </div>
             <div>
+              <label for="company-ruc" class="block text-sm font-medium text-[var(--c-text)] mb-1">RUC</label>
+              <input type="text" id="company-ruc" name="company_ruc" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+            </div>
+            <div>
               <label for="company-email" class="block text-sm font-medium text-[var(--c-text)] mb-1">Email</label>
               <input type="email" id="company-email" name="company_email" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
             </div>
@@ -209,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function populateForm(settings) {
     document.getElementById('company-name').value = settings.company_name || '';
+    document.getElementById('company-ruc').value = settings.company_ruc || '';
     document.getElementById('company-email').value = settings.company_email || '';
     document.getElementById('company-phone').value = settings.company_phone || '';
     document.getElementById('company-address').value = settings.company_address || '';
@@ -251,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const formData = {
       company_name: document.getElementById('company-name').value,
+      company_ruc: document.getElementById('company-ruc').value,
       company_email: document.getElementById('company-email').value,
       company_phone: document.getElementById('company-phone').value,
       company_address: document.getElementById('company-address').value,

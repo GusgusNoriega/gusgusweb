@@ -170,7 +170,7 @@
         }
 
         .quote-description-title {
-            font-size: 14px;
+            font-size: 18px;
             font-weight: bold;
             color: #1e40af;
             margin-bottom: 3px;
@@ -277,7 +277,7 @@
         }
 
         .task-item-title {
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
             color: #1e40af;
             margin-top: 8px;
@@ -477,6 +477,9 @@
                         @endif
                         <div class="company-name">{{ $settings->company_name ?? config('app.name') }}</div>
                         <div class="company-details">
+                            @if(!empty($settings->company_ruc))
+                                RUC: {{ $settings->company_ruc }}<br>
+                            @endif
                             @if($settings->company_address)
                                 {{ $settings->company_address }}<br>
                             @endif
@@ -516,6 +519,9 @@
             <div class="section-title">Información del Cliente</div>
             <div class="client-name">{{ $quote->client_display_name }}</div>
             <div class="client-details">
+                @if(!empty($quote->client_ruc))
+                    RUC: {{ $quote->client_ruc }}<br>
+                @endif
                 @if($quote->user)
                     Email: {{ $quote->user->email }}<br>
                 @elseif($quote->client_email)

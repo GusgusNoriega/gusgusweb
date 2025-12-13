@@ -42,6 +42,7 @@
           
           // Herramientas
           'funnel' => [['Inicio', route('dashboard')], ['Herramientas', '#'], ['Funnel', '#']],
+          'leads' => [['Inicio', route('dashboard')], ['Herramientas', '#'], ['Leads', '#']],
         ];
         $crumbs = $breadcrumbs[$currentRoute] ?? [['Inicio', '/'], ['Página', '#']];
       @endphp

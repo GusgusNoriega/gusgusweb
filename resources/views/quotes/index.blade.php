@@ -199,6 +199,10 @@
               <input type="text" id="quote-client-name" name="client_name" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
             </div>
             <div>
+              <label for="quote-client-ruc" class="block text-sm font-medium text-[var(--c-text)] mb-1">RUC del Cliente (opcional)</label>
+              <input type="text" id="quote-client-ruc" name="client_ruc" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+            </div>
+            <div>
               <label for="quote-client-email" class="block text-sm font-medium text-[var(--c-text)] mb-1">Email del Cliente</label>
               <input type="email" id="quote-client-email" name="client_email" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
             </div>
@@ -216,11 +220,21 @@
         <!-- Financial Info -->
         <div class="border-t border-[var(--c-border)] pt-4">
           <h4 class="text-sm font-semibold text-[var(--c-text)] mb-3">Información Financiera</h4>
-          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div>
               <label for="quote-currency-id" class="block text-sm font-medium text-[var(--c-text)] mb-1">Moneda</label>
               <select id="quote-currency-id" name="currency_id" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
                 <option value="">-- Seleccionar --</option>
+              </select>
+            </div>
+            <div>
+              <label for="quote-status" class="block text-sm font-medium text-[var(--c-text)] mb-1">Estado</label>
+              <select id="quote-status" name="status" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+                <option value="draft">Borrador</option>
+                <option value="sent">Enviada</option>
+                <option value="accepted">Aceptada</option>
+                <option value="rejected">Rechazada</option>
+                <option value="expired">Expirada</option>
               </select>
             </div>
             <div>
@@ -337,6 +351,42 @@
   </div>
 </div>
 
+<!-- Change Status Modal -->
+<div id="status-modal" class="fixed inset-0 z-50 hidden">
+  <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+  <div class="relative mx-auto mt-24 w-full max-w-md">
+    <div class="bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] overflow-hidden">
+      <div class="px-6 py-4 border-b border-[var(--c-border)] flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-[var(--c-text)]">Actualizar estado</h3>
+        <button id="btn-close-status-modal" class="p-2 hover:bg-[var(--c-elev)] rounded-lg transition" type="button">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <form id="status-form" class="p-6 space-y-4">
+        <input type="hidden" id="status-quote-id" />
+        <div>
+          <label for="status-select" class="block text-sm font-medium text-[var(--c-text)] mb-1">Estado</label>
+          <select id="status-select" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+            <option value="draft">Borrador</option>
+            <option value="sent">Enviada</option>
+            <option value="accepted">Aceptada</option>
+            <option value="rejected">Rechazada</option>
+            <option value="expired">Expirada</option>
+          </select>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" id="btn-cancel-status" class="px-4 py-2 text-[var(--c-muted)] hover:text-[var(--c-text)] transition">Cancelar</button>
+          <button type="submit" class="px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition">Guardar estado</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- Item Template (hidden) -->
 <template id="item-template">
   <div class="item-row bg-[var(--c-elev)] rounded-xl p-4 border border-[var(--c-border)]">
@@ -421,6 +471,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const API_TOKEN = document.querySelector('meta[name="api-token"]')?.getAttribute('content') || null;
 
+  const QUOTE_STATUSES = [
+    { value: 'draft', label: 'Borrador' },
+    { value: 'sent', label: 'Enviada' },
+    { value: 'accepted', label: 'Aceptada' },
+    { value: 'rejected', label: 'Rechazada' },
+    { value: 'expired', label: 'Expirada' },
+  ];
+
   let currentPage = 1;
   let usersCache = [];
   let currenciesCache = [];
@@ -450,6 +508,10 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('btn-cancel-quote').addEventListener('click', closeQuoteModal);
   document.getElementById('btn-close-modal').addEventListener('click', closeQuoteModal);
   document.getElementById('btn-add-item').addEventListener('click', addItem);
+
+  document.getElementById('btn-close-status-modal').addEventListener('click', closeStatusModal);
+  document.getElementById('btn-cancel-status').addEventListener('click', closeStatusModal);
+  document.getElementById('status-form').addEventListener('submit', saveQuoteStatus);
   
   // Recalculate on tax change
   document.getElementById('quote-tax-rate').addEventListener('input', calculateTotals);
@@ -629,6 +691,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
               </svg>
             </button>
+            <button class="btn-change-status p-2 hover:bg-[var(--c-elev)] rounded-lg transition" data-id="${quote.id}" data-status="${quote.status}" title="Cambiar estado">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </button>
             <button class="btn-download-pdf p-2 hover:bg-[var(--c-elev)] rounded-lg transition text-blue-500" data-id="${quote.id}" title="Descargar PDF">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -656,6 +723,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     container.querySelectorAll('.btn-edit-quote').forEach(btn => {
       btn.addEventListener('click', (e) => editQuote(e.currentTarget.dataset.id));
+    });
+    container.querySelectorAll('.btn-change-status').forEach(btn => {
+      btn.addEventListener('click', (e) => openStatusModal(e.currentTarget.dataset.id, e.currentTarget.dataset.status));
     });
     container.querySelectorAll('.btn-download-pdf').forEach(btn => {
       btn.addEventListener('click', (e) => downloadPdf(e.currentTarget.dataset.id));
@@ -729,10 +799,12 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('quote-description').value = quoteData.description || '';
       document.getElementById('quote-user-id').value = quoteData.user_id || '';
       document.getElementById('quote-client-name').value = quoteData.client_name || '';
+      document.getElementById('quote-client-ruc').value = quoteData.client_ruc || '';
       document.getElementById('quote-client-email').value = quoteData.client_email || '';
       document.getElementById('quote-client-phone').value = quoteData.client_phone || '';
       document.getElementById('quote-client-address').value = quoteData.client_address || '';
       document.getElementById('quote-currency-id').value = quoteData.currency_id || '';
+      document.getElementById('quote-status').value = quoteData.status || 'draft';
       document.getElementById('quote-tax-rate').value = quoteData.tax_rate || 0;
       document.getElementById('quote-valid-until').value = quoteData.valid_until ? quoteData.valid_until.split('T')[0] : '';
       document.getElementById('quote-estimated-start-date').value = quoteData.estimated_start_date ? quoteData.estimated_start_date.split('T')[0] : '';
@@ -751,6 +823,7 @@ document.addEventListener('DOMContentLoaded', function() {
       title.textContent = 'Nueva Cotización';
       document.getElementById('quote-id').value = '';
       document.getElementById('quote-estimated-start-date').value = '';
+      document.getElementById('quote-status').value = 'draft';
       calculateTimeline();
     }
 
@@ -1005,10 +1078,12 @@ document.addEventListener('DOMContentLoaded', function() {
       description: document.getElementById('quote-description').value,
       user_id: document.getElementById('quote-user-id').value || null,
       client_name: document.getElementById('quote-client-name').value,
+      client_ruc: document.getElementById('quote-client-ruc').value,
       client_email: document.getElementById('quote-client-email').value,
       client_phone: document.getElementById('quote-client-phone').value,
       client_address: document.getElementById('quote-client-address').value,
       currency_id: document.getElementById('quote-currency-id').value || null,
+      status: document.getElementById('quote-status').value || 'draft',
       tax_rate: parseFloat(document.getElementById('quote-tax-rate').value) || 0,
       valid_until: document.getElementById('quote-valid-until').value || null,
       estimated_start_date: document.getElementById('quote-estimated-start-date').value || null,
@@ -1126,6 +1201,59 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     } catch (error) {
       showError('Error de conexión', 'No se pudo eliminar la cotización.');
+    }
+  }
+
+  function openStatusModal(id, currentStatus = 'draft') {
+    const modal = document.getElementById('status-modal');
+    document.getElementById('status-quote-id').value = id;
+    document.getElementById('status-select').value = currentStatus || 'draft';
+    modal.classList.remove('hidden');
+  }
+
+  function closeStatusModal() {
+    document.getElementById('status-modal').classList.add('hidden');
+    document.getElementById('status-quote-id').value = '';
+    document.getElementById('status-select').value = 'draft';
+  }
+
+  async function saveQuoteStatus(e) {
+    e.preventDefault();
+    const id = document.getElementById('status-quote-id').value;
+    const status = document.getElementById('status-select').value;
+
+    if (!id) return;
+
+    // Validación simple en frontend
+    if (!QUOTE_STATUSES.some(s => s.value === status)) {
+      showError('Estado inválido', 'El estado seleccionado no es válido.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/quotes/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${API_TOKEN}`,
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': CSRF_TOKEN,
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ status })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        closeStatusModal();
+        loadQuotes(currentPage);
+        loadStats();
+        window.dispatchEvent(new CustomEvent('api:response', { detail: data }));
+      } else {
+        showApiError('Error al actualizar estado', data);
+      }
+    } catch (error) {
+      showError('Error de conexión', 'No se pudo actualizar el estado de la cotización.');
     }
   }
 
