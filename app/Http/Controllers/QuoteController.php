@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class QuoteController extends Controller
 {
@@ -87,7 +88,7 @@ class QuoteController extends Controller
             'currency_id' => 'nullable|exists:currencies,id',
             'tax_rate' => 'nullable|numeric|min:0|max:100',
             'discount_amount' => 'nullable|numeric|min:0',
-            'status' => 'nullable|in:draft,sent,accepted,rejected,expired',
+            'status' => ['nullable', Rule::in(Quote::STATUSES)],
             'valid_until' => 'nullable|date|after:today',
             'estimated_start_date' => 'nullable|date',
             'notes' => 'nullable|string',
@@ -253,7 +254,7 @@ class QuoteController extends Controller
             'currency_id' => 'nullable|exists:currencies,id',
             'tax_rate' => 'nullable|numeric|min:0|max:100',
             'discount_amount' => 'nullable|numeric|min:0',
-            'status' => 'nullable|in:draft,sent,accepted,rejected,expired',
+            'status' => ['nullable', Rule::in(Quote::STATUSES)],
             'valid_until' => 'nullable|date',
             'estimated_start_date' => 'nullable|date',
             'notes' => 'nullable|string',
@@ -510,7 +511,7 @@ class QuoteController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'status' => 'required|in:draft,sent,accepted,rejected,expired',
+            'status' => ['required', Rule::in(Quote::STATUSES)],
         ]);
 
         if ($validator->fails()) {

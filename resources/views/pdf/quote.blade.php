@@ -313,6 +313,10 @@
             margin-top: 8px;
             page-break-inside: avoid;
         }
+        
+        .detalle {
+            page-break-inside: avoid;
+        }
 
         .totals-table {
             width: 180px;
@@ -595,7 +599,7 @@
         @endif
 
         {{-- Items --}}
-        <div class="items-section">
+        <div class="items-section detalle">
             <div class="section-title">Detalle de la Cotización</div>
             <table class="items-table">
                 <thead>

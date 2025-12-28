@@ -11,6 +11,13 @@ class Quote extends Model
 {
     use SoftDeletes;
 
+    /**
+     * Estados permitidos para una cotización.
+     *
+     * Importante: debe mantenerse alineado con el enum en la migración.
+     */
+    public const STATUSES = ['draft', 'sent', 'accepted', 'rejected', 'expired'];
+
     protected $table = 'quotes';
 
     protected $fillable = [
