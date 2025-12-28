@@ -23,7 +23,7 @@
             <div class="size-14 rounded-2xl bg-[var(--c-elev)] ring-1 ring-[var(--c-border)] grid place-items-center overflow-hidden">
               <img src="{{ asset('img/logo.png') }}" alt="Systems GG" class="h-9 w-auto" />
             </div>
-            <h1 class="mt-4 text-2xl font-semibold tracking-tight">Iniciar sesiónnn</h1>
+            <h1 class="mt-4 text-2xl font-semibold tracking-tight">Iniciar sesión</h1>
             <p class="mt-1 text-sm text-[var(--c-muted)]">Ingresa tus credenciales para acceder</p>
           </div>
 
