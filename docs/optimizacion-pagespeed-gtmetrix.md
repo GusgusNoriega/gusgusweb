@@ -2,6 +2,42 @@
 
 Este documento describe las optimizaciones implementadas en el proyecto para lograr altos puntajes en PageSpeed Insights y GTmetrix.
 
+## ⚡ PROBLEMA CRÍTICO: TTFB Alto (Tiempo de Respuesta del Servidor)
+
+Si GTmetrix muestra **"Reduce initial server response time"** con más de 600ms, esto es lo que más impacta tu puntaje. Un TTFB de 3+ segundos es **muy alto**.
+
+### Solución Inmediata (Ejecutar en Producción)
+
+```bash
+# 1. Cambiar de 'database' a 'file' en .env (MÁS IMPORTANTE)
+CACHE_STORE=file
+SESSION_DRIVER=file
+
+# 2. Ejecutar script de optimización
+bash scripts/deploy-optimize.sh
+
+# O manualmente:
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
+php artisan optimize
+composer dump-autoload --optimize --no-dev --classmap-authoritative
+```
+
+### Causas del TTFB Alto
+
+| Causa | Impacto | Solución |
+|-------|---------|----------|
+| `CACHE_STORE=database` | ALTO | Cambiar a `file` o `redis` |
+| `SESSION_DRIVER=database` | ALTO | Cambiar a `file` o `redis` |
+| Sin config:cache | ALTO | `php artisan config:cache` |
+| Sin route:cache | MEDIO | `php artisan route:cache` |
+| Sin OPcache | ALTO | Habilitar en php.ini |
+| Hosting compartido lento | ALTO | Considerar VPS o mejorar plan |
+| Sin CDN | MEDIO | Usar Cloudflare (gratis) |
+
+
 ## Resumen de Optimizaciones Implementadas
 
 ### 1. Configuración de Vite (`vite.config.js`)
