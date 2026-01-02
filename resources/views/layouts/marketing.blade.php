@@ -38,41 +38,8 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#0a0f1f" />
 
-  <script>
-    // Tailwind config (debe definirse ANTES de cargar el CDN)
-    tailwind = window.tailwind || {};
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: [
-              "Inter var",
-              "Inter",
-              "system-ui",
-              "-apple-system",
-              "Segoe UI",
-              "Roboto",
-              "Ubuntu",
-              "Cantarell",
-              "Noto Sans",
-              "Helvetica Neue",
-              "Arial",
-              "Apple Color Emoji",
-              "Segoe UI Emoji",
-              "Segoe UI Symbol",
-            ],
-          },
-          boxShadow: {
-            soft: "0 1px 2px rgba(0,0,0,.10), 0 12px 40px rgba(0,0,0,.35)",
-          },
-        },
-      },
-    };
-  </script>
-
-  <!-- Tailwind CSS (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  {{-- Tailwind compilado (Vite) --}}
+  @vite(['resources/css/app.css'])
 
   <!-- Alpine.js (menú responsive) -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -89,6 +56,10 @@
       --c-primary: oklch(0.72 0.14 260);
       --c-primary-2: oklch(0.66 0.16 285);
       --c-accent: oklch(0.76 0.12 165);
+
+      /* Mantiene el look del `shadow-soft` que antes venía del config del CDN */
+      --shadow-soft: 0 1px 2px rgba(0,0,0,.10), 0 12px 40px rgba(0,0,0,.35);
+
       --radius: 18px;
       color-scheme: dark;
     }

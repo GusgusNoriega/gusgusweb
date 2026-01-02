@@ -16,23 +16,8 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <!-- Tailwind CSS (CDN) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // Tailwind config (opcional): habilita clases arbitrarias sin tema extra
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ["Inter var", "Inter", "system-ui", "-apple-system", "Segoe UI", "Roboto", "Ubuntu", "Cantarell", "Noto Sans", "Helvetica Neue", "Arial", "\"Apple Color Emoji\"", "\"Segoe UI Emoji\"", "\"Segoe UI Symbol\""]
-          },
-          boxShadow: {
-            soft: "0 1px 2px rgba(0,0,0,.04), 0 2px 12px rgba(0,0,0,.06)"
-          }
-        }
-      }
-    }
-  </script>
+  {{-- Tailwind compilado (Vite) --}}
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
   <!-- Alpine.js para tabs y pequeños estados en vistas -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -62,6 +47,10 @@
         --c-accent: oklch(0.75 0.13 170);
         --c-danger: oklch(0.68 0.21 25);
       @endif
+
+      /* Mantiene el look del `shadow-soft` que antes venía del config del CDN */
+      --shadow-soft: 0 1px 2px rgba(0,0,0,.04), 0 2px 12px rgba(0,0,0,.06);
+
       --radius: 14px;
       color-scheme: dark; /* hint al navegador */
     }
