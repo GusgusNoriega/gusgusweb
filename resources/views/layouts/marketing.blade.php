@@ -11,6 +11,12 @@
     $canonical = trim((string)($__env->yieldContent('canonical') ?: $siteUrl));
     $metaDescription = trim((string)($__env->yieldContent('meta_description') ?: 'Desarrollo de páginas web en Lima y desarrollo de software a medida. +11 años creando soluciones para empresas: web, APIs, automatización e integraciones.'));
     $ogImage = url(asset('img/logo-systems-gg.png'));
+
+    // Contacto (WhatsApp) reutilizado en footer + botón flotante
+    $waPhoneDisplay = '+51 949 421 023';
+    $waPhoneDigits = preg_replace('/\D+/', '', $waPhoneDisplay);
+    $waText = 'Hola, vengo desde la web de SystemsGG. Quisiera una cotización.';
+    $waUrl = 'https://wa.me/' . $waPhoneDigits . '?text=' . rawurlencode($waText);
   @endphp
 
   <meta name="description" content="{{ $metaDescription }}" />
