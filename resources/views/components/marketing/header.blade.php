@@ -17,15 +17,12 @@
         <a href="#inicio" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
         <a href="#servicios" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
         <a href="#proceso" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
-        <a href="#casos" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Casos</a>
+        <a href="#proyectos" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
         <a href="#contacto" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
       </nav>
 
       <!-- Desktop CTA -->
       <div class="hidden md:flex items-center gap-2">
-        @if (Route::has('login'))
-          <a href="{{ route('login') }}" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Acceder</a>
-        @endif
         <a href="#contacto" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
           Cotizar proyecto
         </a>
@@ -69,14 +66,10 @@
           <a href="#inicio" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
           <a href="#servicios" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
           <a href="#proceso" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
-          <a href="#casos" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Casos</a>
+          <a href="#proyectos" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
           <a href="#contacto" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
 
           <div class="my-2 h-px bg-white/10"></div>
-
-          @if (Route::has('login'))
-            <a href="{{ route('login') }}" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Acceder</a>
-          @endif
           <a href="#contacto" @click="open=false" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
             Cotizar proyecto
           </a>

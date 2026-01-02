@@ -42,10 +42,6 @@
   <!-- OPTIMIZACIONES PARA PAGESPEED / GTMETRIX -->
   <!-- ============================================================= -->
 
-  <!-- DNS Prefetch y Preconnect para recursos externos -->
-  <link rel="dns-prefetch" href="//unpkg.com" />
-  <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  
   <!-- Preload CSS crítico -->
   @production
   @php
@@ -67,8 +63,8 @@
   @endif
   @endproduction
 
-  {{-- Tailwind compilado (Vite) --}}
-  @vite(['resources/css/app.css'])
+  {{-- Assets (Vite) --}}
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
   <!-- CSS crítico inline para evitar FOUC y mejorar FCP -->
   <style>
@@ -134,9 +130,6 @@
       min-height: 64px;
     }
   </style>
-
-  <!-- Alpine.js (menú responsive) - Cargado con defer para no bloquear -->
-  <script defer src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
   <!-- Datos estructurados (SEO) -->
   @php

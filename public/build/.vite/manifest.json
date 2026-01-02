@@ -1,4 +1,8 @@
 {
+  "_vendor-alpine-BLrUkf4X.js": {
+    "file": "assets/vendor-alpine-BLrUkf4X.js",
+    "name": "vendor-alpine"
+  },
   "_vendor-axios-Dos3PyFQ.js": {
     "file": "assets/vendor-axios-Dos3PyFQ.js",
     "name": "vendor-axios"
@@ -13,12 +17,13 @@
     ]
   },
   "resources/js/app.js": {
-    "file": "assets/app-Br6bT7du.js",
+    "file": "assets/app-BX-ns9Mx.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "imports": [
-      "_vendor-axios-Dos3PyFQ.js"
+      "_vendor-axios-Dos3PyFQ.js",
+      "_vendor-alpine-BLrUkf4X.js"
     ]
   }
 }

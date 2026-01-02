@@ -36,10 +36,10 @@ ln -s /home/TU_USUARIO/laravel_apps/systemsgg/public /home/TU_USUARIO/public_htm
 ### Paso 3: Verificar permisos
 ```bash
 # Asegurar permisos correctos
-chmod 755 /home/TU_USUARIO/laravel_apps/systemsgg
-chmod -R 755 /home/TU_USUARIO/laravel_apps/systemsgg/public
-chmod -R 775 /home/TU_USUARIO/laravel_apps/systemsgg/storage
-chmod -R 775 /home/TU_USUARIO/laravel_apps/systemsgg/bootstrap/cache
+chmod 755 /home/gustavo/laravel_apps/systemsgg
+chmod -R 755 /home/gustavo/laravel_apps/systemsgg/public
+chmod -R 775 /home/gustavo/laravel_apps/systemsgg/storage
+chmod -R 775 /home/gustavo/laravel_apps/systemsgg/bootstrap/cache
 ```
 
 ### Paso 4: Ejecutar optimizaciones

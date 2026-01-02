@@ -59,7 +59,6 @@
               <li><a href="#proceso" class="hover:text-[var(--c-text)] transition">Cómo trabajamos</a></li>
               <li><a href="#casos" class="hover:text-[var(--c-text)] transition">Casos de éxito</a></li>
               <li><a href="#" class="hover:text-[var(--c-text)] transition">Blog</a></li>
-              <li><a href="#" class="hover:text-[var(--c-text)] transition">Trabaja con nosotros</a></li>
             </ul>
           </div>
 
@@ -67,8 +66,8 @@
             <p class="text-sm font-semibold">Contacto</p>
             <ul class="mt-4 space-y-2 text-sm text-[var(--c-muted)]">
               <li><span class="text-[var(--c-text)]">Email:</span> hola@systemsgg.com</li>
-              <li><span class="text-[var(--c-text)]">WhatsApp:</span> +57 300 000 0000</li>
-              <li><span class="text-[var(--c-text)]">Horario:</span> Lun–Vie 9:00–18:00</li>
+              <li><span class="text-[var(--c-text)]">WhatsApp:</span> +51 949 421 023</li>
+              <li><span class="text-[var(--c-text)]">Horario:</span> Lun–Vie 9:00am – 8:00pm</li>
               <li><a href="#contacto" class="hover:text-[var(--c-text)] transition">Formulario de contacto</a></li>
             </ul>
           </div>

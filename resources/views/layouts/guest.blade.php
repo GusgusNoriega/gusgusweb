@@ -12,12 +12,8 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#1a1f35" />
 
-  <!-- DNS Prefetch para recursos externos -->
-  <link rel="dns-prefetch" href="//unpkg.com" />
-  <link rel="preconnect" href="https://unpkg.com" crossorigin />
-
-  {{-- Tailwind compilado (Vite) --}}
-  @vite(['resources/css/app.css'])
+  {{-- Assets (Vite) --}}
+  @vite(['resources/css/app.css', 'resources/js/app.js'])
 
   <!-- CSS Crítico inline para evitar FOUC -->
   <style>
@@ -61,8 +57,6 @@
     }
   </style>
 
-  <!-- Alpine.js (para pequeños estados, e.g. mostrar/ocultar contraseña) -->
-  <script defer src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"></script>
 </head>
 <body class="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-sans">
   @yield('content')

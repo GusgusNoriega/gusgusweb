@@ -199,33 +199,53 @@
     </div>
   </section>
 
-  <!-- CASOS -->
-  <section id="casos" class="border-t border-white/10">
+  <!-- PROYECTOS RECIENTES -->
+  <section id="proyectos" class="border-t border-white/10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="py-14 lg:py-20">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div class="max-w-2xl">
-            <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Casos (ficticios)</h2>
-            <p class="mt-2 text-sm text-[var(--c-muted)]">Ejemplos de proyectos típicos que entregamos para distintas industrias.</p>
+            <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Proyectos Recientes</h2>
+            <p class="mt-2 text-sm text-[var(--c-muted)]">Algunos de los proyectos web que hemos desarrollado para distintas industrias.</p>
           </div>
           <a href="#contacto" class="text-sm font-semibold text-[var(--c-text)] hover:opacity-90">Hablemos →</a>
         </div>
 
-        <div class="mt-10 grid gap-4 lg:grid-cols-3">
-          <div class="rounded-3xl bg-[var(--c-surface)] p-6 ring-1 ring-[var(--c-border)]">
-            <p class="text-xs text-[var(--c-muted)]">Retail</p>
-            <p class="mt-1 text-base font-semibold">Sistema de inventario + POS</p>
-            <p class="mt-2 text-sm text-[var(--c-muted)]">Sincronización multi-sucursal, roles, reportes y alertas.</p>
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <!-- Proyecto 1: IBT -->
+          <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
+            <div class="aspect-video overflow-hidden bg-gradient-to-br from-blue-600 to-blue-400">
+              <img src="{{ asset('img/proyectos/ibt.png') }}" alt="IBT - Internet de fibra óptica" class="h-full w-full object-cover" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-[var(--c-muted)]">Telecomunicaciones · EE.UU.</p>
+              <p class="mt-1 text-base font-semibold">IBT - Internet de Fibra Óptica</p>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Sitio web corporativo para proveedor de fibra óptica con planes residenciales y empresariales, verificador de cobertura y portal de clientes.</p>
+            </div>
           </div>
-          <div class="rounded-3xl bg-[var(--c-surface)] p-6 ring-1 ring-[var(--c-border)]">
-            <p class="text-xs text-[var(--c-muted)]">Servicios</p>
-            <p class="mt-1 text-base font-semibold">Portal de clientes & tickets</p>
-            <p class="mt-2 text-sm text-[var(--c-muted)]">Autoservicio, SLA, notificaciones y panel de métricas.</p>
+
+          <!-- Proyecto 2: Catedral de Lima -->
+          <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
+            <div class="aspect-video overflow-hidden bg-gradient-to-br from-amber-700 to-amber-500">
+              <img src="{{ asset('img/proyectos/catedral.png') }}" alt="Basílica Catedral de Lima" class="h-full w-full object-cover" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-[var(--c-muted)]">Turismo & Cultura · Perú</p>
+              <p class="mt-1 text-base font-semibold">Basílica Catedral de Lima</p>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Sitio institucional del templo más importante del Perú: horarios de visita, venta de entradas al museo, información de misas y eventos culturales.</p>
+            </div>
           </div>
-          <div class="rounded-3xl bg-[var(--c-surface)] p-6 ring-1 ring-[var(--c-border)]">
-            <p class="text-xs text-[var(--c-muted)]">Logística</p>
-            <p class="mt-1 text-base font-semibold">Tracking + integraciones</p>
-            <p class="mt-2 text-sm text-[var(--c-muted)]">API con terceros, eventos y trazabilidad por estado.</p>
+
+          <!-- Proyecto 3: MTOP Vínculo -->
+          <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
+            <div class="aspect-video overflow-hidden bg-gradient-to-br from-indigo-700 to-indigo-500">
+              <img src="{{ asset('img/proyectos/mtvinculo.png') }}" alt="MTOP Vínculo Inmobiliario" class="h-full w-full object-cover" />
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-[var(--c-muted)]">Inmobiliaria · México</p>
+              <p class="mt-1 text-base font-semibold">MTOP Vínculo Inmobiliario</p>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Plataforma inmobiliaria con buscador avanzado de propiedades para compra y renta de casas, departamentos y oficinas.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -279,7 +299,7 @@
                   <input id="contact_company_ruc" name="company_ruc" type="text" inputmode="numeric" autocomplete="off" x-bind:required="isCompany" class="mt-1 w-full rounded-2xl bg-[var(--c-elev)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--c-border)] focus:ring-2 focus:ring-[var(--c-primary)]" placeholder="20123456789" />
                 </div>
 
-                <div class="sm:col-span-1">
+                <div class="sm:col-span-2">
                   <label for="contact_project_type" class="text-xs text-[var(--c-muted)]">Tipo de proyecto</label>
                   <select id="contact_project_type" name="project_type" class="mt-1 w-full rounded-2xl bg-[var(--c-elev)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--c-border)] focus:ring-2 focus:ring-[var(--c-primary)]">
                     <option value="" selected disabled>Selecciona una opción</option>
@@ -290,16 +310,6 @@
                     <option value="erp">ERP</option>
                     <option value="software_a_medida">Software a medida</option>
                     <option value="otros">Otros</option>
-                  </select>
-                </div>
-
-                <div class="sm:col-span-1">
-                  <label for="contact_budget" class="text-xs text-[var(--c-muted)]">Presupuesto (hasta) — S/</label>
-                  <select id="contact_budget" name="budget_up_to" class="mt-1 w-full rounded-2xl bg-[var(--c-elev)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--c-border)] focus:ring-2 focus:ring-[var(--c-primary)]">
-                    <option value="" selected disabled>Selecciona un rango</option>
-                    @for ($i = 1000; $i <= 10000; $i += 1000)
-                      <option value="{{ $i }}">Hasta S/ {{ number_format($i, 0, ',', '.') }}</option>
-                    @endfor
                   </select>
                 </div>
 
