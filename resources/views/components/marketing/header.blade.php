@@ -14,16 +14,16 @@
 
       <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-1">
-        <a href="#inicio" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
-        <a href="#servicios" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
-        <a href="#proceso" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
-        <a href="#proyectos" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
-        <a href="#contacto" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
+        <a href="{{ route('home') }}#inicio" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
+        <a href="{{ route('home') }}#servicios" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
+        <a href="{{ route('home') }}#proceso" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
+        <a href="{{ route('home') }}#proyectos" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
+        <a href="{{ route('home') }}#contacto" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
       </nav>
 
       <!-- Desktop CTA -->
       <div class="hidden md:flex items-center gap-2">
-        <a href="#contacto" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
+        <a href="{{ route('home') }}#contacto" class="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
           Cotizar proyecto
         </a>
       </div>
@@ -63,14 +63,14 @@
         class="md:hidden absolute left-4 right-4 top-[4.25rem] rounded-2xl bg-[var(--c-surface)] shadow-soft ring-1 ring-[var(--c-border)]"
       >
         <div class="p-2">
-          <a href="#inicio" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
-          <a href="#servicios" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
-          <a href="#proceso" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
-          <a href="#proyectos" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
-          <a href="#contacto" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
+          <a href="{{ route('home') }}#inicio" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
+          <a href="{{ route('home') }}#servicios" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
+          <a href="{{ route('home') }}#proceso" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
+          <a href="{{ route('home') }}#proyectos" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
+          <a href="{{ route('home') }}#contacto" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
 
           <div class="my-2 h-px bg-white/10"></div>
-          <a href="#contacto" @click="open=false" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
+          <a href="{{ route('home') }}#contacto" @click="open=false" class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-2 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
             Cotizar proyecto
           </a>
         </div>

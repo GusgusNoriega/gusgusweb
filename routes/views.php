@@ -25,21 +25,45 @@ Route::get('/gracias/{token}', [LeadController::class, 'thankYou'])
     ->name('leads.thankyou')
     ->middleware('guest');
 
-// Sitemap (por ahora, sólo la home pública)
+// Páginas legales (requeridas para Google Ads)
+Route::get('/privacidad', function () {
+    return view('marketing.privacidad');
+})->name('privacidad')->middleware('guest');
+
+Route::get('/terminos', function () {
+    return view('marketing.terminos');
+})->name('terminos')->middleware('guest');
+
+Route::get('/cookies', function () {
+    return view('marketing.cookies');
+})->name('cookies')->middleware('guest');
+
+// Sitemap (páginas públicas)
 Route::get('/sitemap.xml', function () {
-    $loc = url('/');
+    $baseUrl = url('/');
     $lastmod = now()->toDateString();
+
+    $urls = [
+        ['loc' => $baseUrl, 'changefreq' => 'weekly', 'priority' => '1.0'],
+        ['loc' => url('/privacidad'), 'changefreq' => 'monthly', 'priority' => '0.3'],
+        ['loc' => url('/terminos'), 'changefreq' => 'monthly', 'priority' => '0.3'],
+        ['loc' => url('/cookies'), 'changefreq' => 'monthly', 'priority' => '0.3'],
+    ];
+
+    $urlsXml = '';
+    foreach ($urls as $url) {
+        $urlsXml .= "  <url>\n";
+        $urlsXml .= "    <loc>{$url['loc']}</loc>\n";
+        $urlsXml .= "    <lastmod>{$lastmod}</lastmod>\n";
+        $urlsXml .= "    <changefreq>{$url['changefreq']}</changefreq>\n";
+        $urlsXml .= "    <priority>{$url['priority']}</priority>\n";
+        $urlsXml .= "  </url>\n";
+    }
 
     $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>{$loc}</loc>
-    <lastmod>{$lastmod}</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
+{$urlsXml}</urlset>
 XML;
 
     return response($xml, 200)

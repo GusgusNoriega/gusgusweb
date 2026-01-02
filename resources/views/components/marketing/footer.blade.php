@@ -46,18 +46,18 @@
           <div>
             <p class="text-sm font-semibold">Servicios</p>
             <ul class="mt-4 space-y-2 text-sm text-[var(--c-muted)]">
-              <li><a href="#servicios" class="hover:text-[var(--c-text)] transition">Desarrollo de software a medida</a></li>
-              <li><a href="#servicios" class="hover:text-[var(--c-text)] transition">Desarrollo web</a></li>
-              <li><a href="#servicios" class="hover:text-[var(--c-text)] transition">Integraciones & APIs</a></li>
-              <li><a href="#servicios" class="hover:text-[var(--c-text)] transition">Mantenimiento & soporte</a></li>
+              <li><a href="{{ route('home') }}#servicios" class="hover:text-[var(--c-text)] transition">Desarrollo de software a medida</a></li>
+              <li><a href="{{ route('home') }}#servicios" class="hover:text-[var(--c-text)] transition">Desarrollo web</a></li>
+              <li><a href="{{ route('home') }}#servicios" class="hover:text-[var(--c-text)] transition">Integraciones & APIs</a></li>
+              <li><a href="{{ route('home') }}#servicios" class="hover:text-[var(--c-text)] transition">Mantenimiento & soporte</a></li>
             </ul>
           </div>
 
           <div>
             <p class="text-sm font-semibold">Empresa</p>
             <ul class="mt-4 space-y-2 text-sm text-[var(--c-muted)]">
-              <li><a href="#proceso" class="hover:text-[var(--c-text)] transition">Cómo trabajamos</a></li>
-              <li><a href="#casos" class="hover:text-[var(--c-text)] transition">Casos de éxito</a></li>
+              <li><a href="{{ route('home') }}#proceso" class="hover:text-[var(--c-text)] transition">Cómo trabajamos</a></li>
+              <li><a href="{{ route('home') }}#proyectos" class="hover:text-[var(--c-text)] transition">Casos de éxito</a></li>
               <li><a href="#" class="hover:text-[var(--c-text)] transition">Blog</a></li>
             </ul>
           </div>
@@ -68,7 +68,7 @@
               <li><span class="text-[var(--c-text)]">Email:</span> hola@systemsgg.com</li>
               <li><span class="text-[var(--c-text)]">WhatsApp:</span> +51 949 421 023</li>
               <li><span class="text-[var(--c-text)]">Horario:</span> Lun–Vie 9:00am – 8:00pm</li>
-              <li><a href="#contacto" class="hover:text-[var(--c-text)] transition">Formulario de contacto</a></li>
+              <li><a href="{{ route('home') }}#contacto" class="hover:text-[var(--c-text)] transition">Formulario de contacto</a></li>
             </ul>
           </div>
         </div>
@@ -77,9 +77,9 @@
       <div class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p class="text-xs text-[var(--c-muted)]">© {{ date('Y') }} SystemsGG. Todos los derechos reservados.</p>
         <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[var(--c-muted)]">
-          <a href="#" class="hover:text-[var(--c-text)] transition">Privacidad</a>
-          <a href="#" class="hover:text-[var(--c-text)] transition">Términos</a>
-          <a href="#" class="hover:text-[var(--c-text)] transition">Cookies</a>
+          <a href="{{ route('privacidad') }}" class="hover:text-[var(--c-text)] transition">Privacidad</a>
+          <a href="{{ route('terminos') }}" class="hover:text-[var(--c-text)] transition">Términos</a>
+          <a href="{{ route('cookies') }}" class="hover:text-[var(--c-text)] transition">Cookies</a>
         </div>
       </div>
     </div>
