@@ -286,11 +286,48 @@ cd ~/laravel_apps/systemsgg
 
 ---
 
-## 12) Deploy en una sola línea (copia/pega)
+## 12) Assets de Vite (CSS/JS compilados) ⚠️ IMPORTANTE
+
+### Problema común: estilos no cargan en producción
+Si los estilos CSS no cargan después de hacer deploy, es porque la carpeta `build` en `public_html` no está sincronizada con la del proyecto.
+
+### Solución A: Enlace simbólico (RECOMENDADO - solo una vez)
+```bash
+# Eliminar carpeta build existente y crear enlace simbólico
+rm -rf ~/public_html/build
+ln -s ~/laravel_apps/systemsgg/public/build ~/public_html/build
+ls -la ~/public_html/build
+```
+> Con esto, cada vez que actualices el repo, los assets se actualizan automáticamente.
+
+### Solución B: Copiar manualmente (después de cada deploy)
+```bash
+cd ~/laravel_apps/systemsgg
+rm -rf ~/public_html/build
+cp -R public/build ~/public_html/
+```
+
+### Verificar que los assets existen
+```bash
+ls -la ~/laravel_apps/systemsgg/public/build/
+ls -la ~/laravel_apps/systemsgg/public/build/.vite/
+ls -la ~/public_html/build/
+```
+
+---
+
+## 13) Deploy en una sola línea (copia/pega)
 
 > **No borra cambios locales**. Si tienes cambios locales, primero usa `git stash -u` o el reset duro del punto 2.
+
+### Con copia de public (tradicional):
 ```bash
-cd ~/laravel_apps/systemsgg && git pull origin main && /opt/alt/php83/usr/bin/php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader && /opt/alt/php83/usr/bin/php artisan migrate --force && /opt/alt/php83/usr/bin/php artisan optimize:clear && /opt/alt/php83/usr/bin/php artisan config:cache && /opt/alt/php83/usr/bin/php artisan route:cache && /opt/alt/php83/usr/bin/php artisan view:cache && cp -R public/* ~/public_html/
+cd ~/laravel_apps/systemsgg && git pull origin main && /opt/alt/php83/usr/bin/php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader && /opt/alt/php83/usr/bin/php artisan migrate --force && /opt/alt/php83/usr/bin/php artisan optimize:clear && /opt/alt/php83/usr/bin/php artisan config:cache && /opt/alt/php83/usr/bin/php artisan route:cache && /opt/alt/php83/usr/bin/php artisan view:cache && rm -rf ~/public_html/build && cp -R public/* ~/public_html/
+```
+
+### Si ya configuraste el enlace simbólico para /build (más rápido):
+```bash
+cd ~/laravel_apps/systemsgg && git pull origin main && /opt/alt/php83/usr/bin/php /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader && /opt/alt/php83/usr/bin/php artisan migrate --force && /opt/alt/php83/usr/bin/php artisan optimize:clear && /opt/alt/php83/usr/bin/php artisan config:cache && /opt/alt/php83/usr/bin/php artisan route:cache && /opt/alt/php83/usr/bin/php artisan view:cache
 ```
 
 ---
