@@ -1,16 +1,67 @@
+# ===================================================================
+# OPTIMIZACIÓN ASSETS COMPILADOS - PAGESPEED / GTMETRIX
+# ===================================================================
+
 <IfModule mod_headers.c>
-    # Permite acceso a los assets de build
+    # CORS para assets
     Header set Access-Control-Allow-Origin "*"
+    
+    # Caché agresivo para assets con hash (1 año, inmutable)
+    Header set Cache-Control "public, max-age=31536000, immutable"
 </IfModule>
 
 <IfModule mod_mime.c>
     # Tipos MIME correctos
     AddType text/css .css
-    AddType application/javascript .js
+    AddType application/javascript .js .mjs
     AddType application/json .json
+    
+    # Fuentes
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType font/ttf .ttf
+    AddType font/otf .otf
+    
+    # Imágenes
+    AddType image/webp .webp
+    AddType image/avif .avif
+    AddType image/svg+xml .svg
 </IfModule>
 
-# Asegurar que los archivos se sirvan directamente
+# Compresión para assets
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+    AddOutputFilterByType DEFLATE font/woff font/woff2 font/ttf font/otf
+    
+    DeflateCompressionLevel 9
+</IfModule>
+
+<IfModule mod_brotli.c>
+    AddOutputFilterByType BROTLI_COMPRESS text/css
+    AddOutputFilterByType BROTLI_COMPRESS application/javascript
+    AddOutputFilterByType BROTLI_COMPRESS application/json
+    AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+    
+    BrotliCompressionQuality 9
+</IfModule>
+
+# Desactivar ETags (usar Cache-Control en su lugar)
+<IfModule mod_headers.c>
+    Header unset ETag
+</IfModule>
+FileETag None
+
+# No rewrite para archivos estáticos
 <IfModule mod_rewrite.c>
     RewriteEngine Off
 </IfModule>
+
+# Proteger el manifest contra caché
+<FilesMatch "manifest\.json$">
+    <IfModule mod_headers.c>
+        Header set Cache-Control "no-cache, must-revalidate"
+    </IfModule>
+</FilesMatch>

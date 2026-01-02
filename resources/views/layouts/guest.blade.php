@@ -10,14 +10,16 @@
   <meta name="googlebot" content="noindex, nofollow" />
 
   <meta name="color-scheme" content="dark" />
+  <meta name="theme-color" content="#1a1f35" />
+
+  <!-- DNS Prefetch para recursos externos -->
+  <link rel="dns-prefetch" href="//unpkg.com" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
 
   {{-- Tailwind compilado (Vite) --}}
   @vite(['resources/css/app.css'])
 
-  <!-- Alpine.js (para pequeños estados, e.g. mostrar/ocultar contraseña) -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <!-- Tema oscuro por defecto (guest) -->
+  <!-- CSS Crítico inline para evitar FOUC -->
   <style>
     :root {
       /* Fallback por defecto (oscuro) */
@@ -37,8 +39,30 @@
       --radius: 18px;
       color-scheme: dark;
     }
+    
     [x-cloak] { display: none !important; }
+    
+    /* Evitar CLS */
+    html { scrollbar-gutter: stable; }
+    
+    body {
+      background-color: var(--c-bg);
+      color: var(--c-text);
+      min-height: 100vh;
+    }
+    
+    /* Optimización de fuentes */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: local('Inter');
+    }
   </style>
+
+  <!-- Alpine.js (para pequeños estados, e.g. mostrar/ocultar contraseña) -->
+  <script defer src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"></script>
 </head>
 <body class="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-sans">
   @yield('content')

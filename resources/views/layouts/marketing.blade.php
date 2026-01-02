@@ -38,14 +38,41 @@
   <meta name="color-scheme" content="dark" />
   <meta name="theme-color" content="#0a0f1f" />
 
+  <!-- ============================================================= -->
+  <!-- OPTIMIZACIONES PARA PAGESPEED / GTMETRIX -->
+  <!-- ============================================================= -->
+
+  <!-- DNS Prefetch y Preconnect para recursos externos -->
+  <link rel="dns-prefetch" href="//unpkg.com" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
+  
+  <!-- Preload CSS crítico -->
+  @production
+  @php
+    $manifest = null;
+    $cssPath = null;
+    $manifestPath = public_path('build/.vite/manifest.json');
+    if (!file_exists($manifestPath)) {
+        $manifestPath = public_path('build/manifest.json');
+    }
+    if (file_exists($manifestPath)) {
+        $manifest = json_decode(file_get_contents($manifestPath), true);
+        if (isset($manifest['resources/css/app.css']['file'])) {
+            $cssPath = asset('build/' . $manifest['resources/css/app.css']['file']);
+        }
+    }
+  @endphp
+  @if($cssPath)
+  <link rel="preload" href="{{ $cssPath }}" as="style" />
+  @endif
+  @endproduction
+
   {{-- Tailwind compilado (Vite) --}}
   @vite(['resources/css/app.css'])
 
-  <!-- Alpine.js (menú responsive) -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
-  <!-- Variables base del modo oscuro (marketing) -->
+  <!-- CSS crítico inline para evitar FOUC y mejorar FCP -->
   <style>
+    /* CSS Crítico - Above the fold */
     :root {
       --c-bg: oklch(0.15 0.02 255);
       --c-surface: oklch(0.19 0.02 255);
@@ -56,16 +83,60 @@
       --c-primary: oklch(0.72 0.14 260);
       --c-primary-2: oklch(0.66 0.16 285);
       --c-accent: oklch(0.76 0.12 165);
-
-      /* Mantiene el look del `shadow-soft` que antes venía del config del CDN */
       --shadow-soft: 0 1px 2px rgba(0,0,0,.10), 0 12px 40px rgba(0,0,0,.35);
-
       --radius: 18px;
       color-scheme: dark;
     }
+    
+    /* Evitar CLS (Cumulative Layout Shift) */
+    html { 
+      scrollbar-gutter: stable; 
+    }
+    
+    body {
+      background-color: var(--c-bg);
+      color: var(--c-text);
+      min-height: 100vh;
+    }
+    
+    /* Alpine.js cloak */
     [x-cloak] { display: none !important; }
-    html { scrollbar-gutter: stable; }
+    
+    /* Optimización de fuentes - evitar FOIT */
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: local('Inter');
+    }
+    
+    /* Placeholder para contenido mientras carga */
+    .skeleton {
+      background: linear-gradient(90deg, var(--c-surface) 25%, var(--c-elev) 50%, var(--c-surface) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s infinite;
+    }
+    
+    @keyframes skeleton-loading {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    /* Reducir layout shifts en imágenes */
+    img, video {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    /* Contener tamaño del header para evitar CLS */
+    header {
+      min-height: 64px;
+    }
   </style>
+
+  <!-- Alpine.js (menú responsive) - Cargado con defer para no bloquear -->
+  <script defer src="https://unpkg.com/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
   <!-- Datos estructurados (SEO) -->
   @php
@@ -129,6 +200,9 @@
     ];
   @endphp
   <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+
+  <!-- Slot para recursos adicionales específicos de la página -->
+  @yield('head')
 </head>
 <body class="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-sans">
   {{-- Preloader reutilizable (en marketing inicia oculto; se usa al enviar el formulario) --}}
@@ -141,6 +215,8 @@
   </main>
 
   @include('components.marketing.footer')
+
+  <!-- Scripts no críticos cargados al final -->
+  @yield('scripts')
 </body>
 </html>
-
