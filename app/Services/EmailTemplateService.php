@@ -30,7 +30,9 @@ class EmailTemplateService
         ?string $fromAddress = null,
         ?string $fromName = null,
         ?int $userId = null,
-        string $notificationType = 'security'
+        string $notificationType = 'security',
+        ?string $replyTo = null,
+        ?string $replyToName = null
     ): void {
         // Verificar preferencias del usuario si se proporciona userId
         // NOTA: Descomenta el siguiente bloque si implementas UserNotificationPreference
@@ -120,11 +122,15 @@ class EmailTemplateService
 
         try {
             // Usar explícitamente el mailer SMTP
-            Mail::mailer($mailerName)->html($html, function ($message) use ($to, $subject, $fromAddress, $fromName) {
+            Mail::mailer($mailerName)->html($html, function ($message) use ($to, $subject, $fromAddress, $fromName, $replyTo, $replyToName) {
                 $message->to($to)->subject($subject);
 
                 if ($fromAddress) {
                     $message->from($fromAddress, $fromName ?? null);
+                }
+
+                if ($replyTo) {
+                    $message->replyTo($replyTo, $replyToName ?? null);
                 }
             });
 

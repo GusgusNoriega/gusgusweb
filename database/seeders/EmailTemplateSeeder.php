@@ -206,6 +206,112 @@ class EmailTemplateSeeder extends Seeder
                 'description' => 'Plantilla genérica para notificaciones personalizadas',
                 'is_active' => true,
             ],
+
+            // =====================================================================
+            // LEADS (FORMULARIO DE MARKETING)
+            // =====================================================================
+            [
+                'name' => 'Nuevo lead (notificación interna)',
+                'key' => 'lead_form_notification',
+                'subject' => 'Nuevo lead recibido - [app_name] #[lead_id]',
+                'content_html' => '<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo lead</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #111827; background: #f9fafb;">
+    <div style="max-width: 720px; margin: 0 auto; padding: 24px;">
+        <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px;">
+            <h1 style="margin: 0 0 12px 0; color: #111827;">Nuevo lead recibido</h1>
+            <p style="margin: 0 0 18px 0; color: #374151;">
+                Se registró un lead desde el formulario de marketing en <strong>[app_name]</strong>.
+            </p>
+
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; width: 30%; color: #6b7280;">Lead ID</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;"><strong>#[lead_id]</strong></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Nombre</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[name]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Email</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;"><a href="mailto:[email]" style="color: #2563eb;">[email]</a></td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Teléfono</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[phone]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">¿Empresa?</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[is_company]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Empresa</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[company_name]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">RUC</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[company_ruc]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Tipo de proyecto</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[project_type]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Presupuesto hasta</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[budget_up_to]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Fuente</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[source]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">IP</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[ip]</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb; color: #6b7280;">Fecha</td>
+                    <td style="padding: 10px; border-top: 1px solid #e5e7eb;">[created_at]</td>
+                </tr>
+            </table>
+
+            <h3 style="margin: 22px 0 10px 0; color: #111827;">Mensaje</h3>
+            <div style="background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; white-space: pre-wrap; color: #111827;">
+                [message]
+            </div>
+
+            <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 22px 0;">
+            <p style="font-size: 12px; color: #6b7280; margin: 0;">
+                User-Agent: [user_agent]
+            </p>
+        </div>
+    </div>
+</body>
+</html>',
+                'variables_schema' => [
+                    'app_name' => ['required' => true, 'description' => 'Nombre de la aplicación'],
+                    'lead_id' => ['required' => true, 'description' => 'ID del lead'],
+                    'name' => ['required' => false, 'description' => 'Nombre del lead'],
+                    'email' => ['required' => true, 'description' => 'Email del lead'],
+                    'phone' => ['required' => true, 'description' => 'Teléfono del lead'],
+                    'is_company' => ['required' => true, 'description' => 'Indicador si es empresa (Sí/No)'],
+                    'company_name' => ['required' => false, 'description' => 'Nombre de la empresa'],
+                    'company_ruc' => ['required' => false, 'description' => 'RUC de la empresa'],
+                    'project_type' => ['required' => false, 'description' => 'Tipo de proyecto'],
+                    'budget_up_to' => ['required' => false, 'description' => 'Presupuesto estimado'],
+                    'message' => ['required' => false, 'description' => 'Mensaje del lead'],
+                    'source' => ['required' => false, 'description' => 'Fuente del lead'],
+                    'ip' => ['required' => false, 'description' => 'IP del lead'],
+                    'user_agent' => ['required' => false, 'description' => 'User-Agent del lead'],
+                    'created_at' => ['required' => true, 'description' => 'Fecha/hora de creación del lead'],
+                ],
+                'description' => 'Notificación interna cuando entra un lead desde el formulario (destino configurable en smtp_settings: leads_notification_emails)',
+                'is_active' => true,
+            ],
         ];
 
         foreach ($templates as $template) {

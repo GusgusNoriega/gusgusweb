@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lead;
+use App\Models\SmtpSetting;
+use App\Services\EmailTemplateService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -125,7 +128,104 @@ class LeadController extends Controller
 
         $lead = Lead::create($data);
 
+        // Notificación por correo (no debe bloquear el guardado del lead)
+        $this->trySendLeadNotificationEmail($lead);
+
         return $this->apiCreated('Lead registrado', 'LEAD_CREATED', $lead);
+    }
+
+    /**
+     * Envía un correo interno con la información del lead usando la plantilla
+     * "lead_form_notification".
+     *
+     * Destinatarios:
+     * - Se leen desde smtp_settings.key = leads_notification_emails
+     * - Soporta múltiples correos separados por coma/punto y coma/espacios
+     */
+    protected function trySendLeadNotificationEmail(Lead $lead): void
+    {
+        try {
+            $to = $this->resolveLeadNotificationRecipients();
+
+            if (empty($to)) {
+                Log::warning('[LeadController] No se envió notificación de lead: no hay destinatarios configurados', [
+                    'lead_id' => $lead->id,
+                    'setting_key' => 'leads_notification_emails',
+                ]);
+
+                return;
+            }
+
+            $service = app(EmailTemplateService::class);
+
+            $service->send(
+                templateKey: 'lead_form_notification',
+                to: $to,
+                data: [
+                    'app_name' => config('app.name', 'Mi Aplicación'),
+                    'lead_id' => (string) $lead->id,
+                    'name' => (string) ($lead->name ?? ''),
+                    'email' => (string) ($lead->email ?? ''),
+                    'phone' => (string) ($lead->phone ?? ''),
+                    'is_company' => $lead->is_company ? 'Sí' : 'No',
+                    'company_name' => (string) ($lead->company_name ?? ''),
+                    'company_ruc' => (string) ($lead->company_ruc ?? ''),
+                    'project_type' => (string) ($lead->project_type ?? ''),
+                    'budget_up_to' => $lead->budget_up_to !== null ? (string) $lead->budget_up_to : '',
+                    'message' => (string) ($lead->message ?? ''),
+                    'source' => (string) ($lead->source ?? ''),
+                    'ip' => (string) ($lead->ip ?? ''),
+                    'user_agent' => (string) ($lead->user_agent ?? ''),
+                    'created_at' => $lead->created_at ? $lead->created_at->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s'),
+                ],
+                replyTo: (filter_var((string) ($lead->email ?? ''), FILTER_VALIDATE_EMAIL) ? (string) $lead->email : null),
+                replyToName: (string) ($lead->name ?? null)
+            );
+        } catch (\Throwable $e) {
+            Log::error('[LeadController] Error enviando notificación de lead', [
+                'lead_id' => $lead->id,
+                'exception_message' => $e->getMessage(),
+                'exception_class' => get_class($e),
+                'exception_file' => $e->getFile() . ':' . $e->getLine(),
+            ]);
+        }
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    protected function resolveLeadNotificationRecipients(): array
+    {
+        // 1) Preferir configuración en BD para permitir edición desde el panel
+        $raw = (string) (SmtpSetting::getValue('leads_notification_emails', '') ?? '');
+
+        // 2) Fallback a la configuración SMTP From (útil si aún no se configura el campo)
+        if (trim($raw) === '') {
+            $raw = (string) (SmtpSetting::getValue('smtp_from_address', '') ?? '');
+        }
+
+        // 3) Fallback final al .env / config mail
+        if (trim($raw) === '') {
+            $raw = (string) (config('mail.from.address') ?? '');
+        }
+
+        $parts = preg_split('/[;,\s]+/', $raw, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+
+        $emails = [];
+        foreach ($parts as $email) {
+            $email = trim((string) $email);
+            if ($email === '') {
+                continue;
+            }
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $emails[] = $email;
+            }
+        }
+
+        // unique + reindex
+        $emails = array_values(array_unique($emails));
+
+        return $emails;
     }
 
     /**
