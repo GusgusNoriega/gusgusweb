@@ -32,23 +32,23 @@ class SmtpSettingSeeder extends Seeder
         $smtpConfig = [
             // Servidor SMTP
             'smtp_host' => 'systemsgg.com',
-            
+
             // Puerto: 465 (SSL), 587 (TLS), 25 (sin cifrar)
             'smtp_port' => '465',
-            
+
             // Encriptación: 'ssl', 'tls', o '' (vacío para ninguna)
             'smtp_encryption' => 'ssl',
-            
+
             // Usuario/correo de autenticación
-            'smtp_username' => 'info@systemsgg.com',
-            
-            // Contraseña del correo
-            // IMPORTANTE: Cambia esta contraseña en producción
-            'smtp_password' => '2535570Panda',
-            
+            'smtp_username' => 'hola@systemsgg.com',
+
+            // Contraseña del correo (ficticia a propósito)
+            // IMPORTANTE: Cambia esta contraseña manualmente en producción
+            'smtp_password' => 'CAMBIAR_EN_PRODUCCION',
+
             // Email que aparecerá como remitente
-            'smtp_from_address' => 'info@systemsgg.com',
-            
+            'smtp_from_address' => 'hola@systemsgg.com',
+
             // Nombre que aparecerá como remitente
             'smtp_from_name' => config('app.name', 'Mi Aplicación'),
         ];
