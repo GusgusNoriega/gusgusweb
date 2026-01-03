@@ -77,3 +77,20 @@
   </section>
 @endsection
 
+@section('scripts')
+  @if(empty($expired) && !empty($lead))
+    <!-- Event snippet for Enviar formulario de clientes potenciales (1) conversion page -->
+    <script>
+      // Dispara la conversión SOLO cuando existe un lead válido (formulario enviado con éxito)
+      // y esta vista no está expirada.
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17511185603/158bCOyJ2NsbEMP5_Z1B',
+          'value': 1.0,
+          'currency': 'PEN'
+        });
+      }
+    </script>
+  @endif
+@endsection
+
