@@ -20,4 +20,4 @@ Allow: /img/
 Allow: /favicon.ico
 Allow: /sitemap.xml
 
-Sitemap: /sitemap.xml
+Sitemap: https://systemsgg.com/sitemap.xml
