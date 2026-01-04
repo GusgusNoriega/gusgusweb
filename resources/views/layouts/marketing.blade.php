@@ -12,6 +12,7 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="google-site-verification" content="Qgf4GhHVtZlm6Q0PDuc9p5ReOMWcv1x8GbVbkqbftYg" />
   <title>@yield('title', 'SystemsGG • Desarrollo de software a medida y páginas web en Lima')</title>
 
   @php
