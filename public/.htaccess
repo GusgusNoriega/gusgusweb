@@ -5,6 +5,15 @@
 
     RewriteEngine On
 
+    # =============================================================
+    # SEO: Unificar versión canónica (HTTPS + host)
+    # - Evita duplicados http/https, www/non-www, etc.
+    # - Ajusta el dominio si tu canónico es otro
+    # =============================================================
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP_HOST} !^systemsgg\.com$ [NC]
+    RewriteRule ^ https://systemsgg.com%{REQUEST_URI} [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -17,8 +17,32 @@
 
   @php
     $siteName = 'SystemsGG';
-    $siteUrl = url('/');
-    $canonical = trim((string)($__env->yieldContent('canonical') ?: $siteUrl));
+    // Canonical consistente (NO depende del host del request)
+    $siteUrl = rtrim(config('app.url'), '/');
+
+    // URL actual sin querystring (solo path) sobre el host canónico
+    $currentPath = (string) request()->getPathInfo();
+    $defaultCanonical = $siteUrl . rtrim($currentPath, '/');
+    if ($defaultCanonical === $siteUrl) {
+        // root: deja la URL base sin slash final
+        $defaultCanonical = $siteUrl;
+    }
+
+    // Permite sobreescribir canonical por página, pero normaliza para que siempre use el host canónico
+    $canonicalRaw = trim((string)($__env->yieldContent('canonical') ?: ''));
+    if ($canonicalRaw !== '') {
+        $parsed = @parse_url($canonicalRaw);
+        if (is_array($parsed) && isset($parsed['scheme'], $parsed['host'])) {
+            $canonical = $siteUrl . rtrim((string)($parsed['path'] ?? ''), '/');
+            if ($canonical === $siteUrl) $canonical = $siteUrl;
+        } else {
+            $canonical = $siteUrl . '/' . ltrim($canonicalRaw, '/');
+            $canonical = rtrim($canonical, '/');
+            if ($canonical === '') $canonical = $siteUrl;
+        }
+    } else {
+        $canonical = $defaultCanonical;
+    }
     $metaDescription = trim((string)($__env->yieldContent('meta_description') ?: 'Desarrollo de páginas web en Lima y desarrollo de software a medida. +11 años creando soluciones para empresas: web, APIs, automatización e integraciones.'));
     $ogImage = url(asset('img/logo-systems-gg.png'));
 

@@ -25,6 +25,10 @@ class DatabaseSeeder extends Seeder
             ColorThemeSeeder::class,
             TaskStatusSeeder::class,
             FileCategorySeeder::class,
+            // Cotización de ejemplo (web estándar) para DECORYGNACIO (PEN, IGV 18%)
+            DecorygnacioStandardWebsiteQuoteSeeder::class,
+            // Cotización de ejemplo (web profesional) para DECORYGNACIO (PEN, IGV 18%)
+            DecorygnacioProfessionalWebsiteQuoteSeeder::class,
         ]);
     }
 }
