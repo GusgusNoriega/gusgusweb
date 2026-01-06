@@ -2,6 +2,15 @@
 <html lang="es-PE" class="dark scroll-smooth">
 <head>
   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-QQL7KN3BHN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-QQL7KN3BHN');
+</script>
+  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17511185603"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
