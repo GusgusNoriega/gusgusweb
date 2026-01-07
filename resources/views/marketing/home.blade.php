@@ -180,6 +180,209 @@
     </div>
   </section>
 
+  <!-- PLANES DE DESARROLLO WEB -->
+  <section id="planes" class="border-t border-white/10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="py-14 lg:py-20">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Planes de Desarrollo Web</h2>
+          <p class="mt-3 text-sm text-[var(--c-muted)] leading-relaxed">
+            Elige el plan que mejor se adapte a las necesidades de tu negocio. Todos incluyen diseño profesional, código optimizado y soporte post-lanzamiento.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <!-- Plan Estándar -->
+          <div class="relative rounded-3xl bg-[var(--c-surface)] p-6 ring-1 ring-[var(--c-border)] shadow-soft flex flex-col">
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold">Estándar</h3>
+                <span class="rounded-full bg-white/5 px-3 py-1 text-xs text-[var(--c-muted)] ring-1 ring-white/10">Ideal para empezar</span>
+              </div>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Página web informativa perfecta para pequeños negocios y emprendedores que buscan presencia digital.</p>
+              
+              <div class="mt-4">
+                <p class="text-3xl font-bold">S/ 800</p>
+                <p class="text-xs text-[var(--c-muted)]">Sin IGV • Pago único</p>
+              </div>
+
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">4 vistas:</span> Inicio, Nosotros, Proyectos, Contacto</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Diseño responsive</span> (móvil/tablet/desktop)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Panel de administración</span> para editar contenido</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Hosting + Dominio</span> (configuración inicial)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Certificado SSL</span> gratuito</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Formulario de contacto</span> funcional</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Capacitación + Manual</span> de uso</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">SEO básico</span> (metatags, títulos, descripciones)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Entrega:</span> 2 semanas</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="#contacto" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
+              Solicitar cotización
+            </a>
+          </div>
+
+          <!-- Plan Empresarial -->
+          <div class="relative rounded-3xl bg-[var(--c-surface)] p-6 ring-2 ring-[var(--c-primary)] shadow-soft flex flex-col">
+            <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span class="rounded-full bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-4 py-1 text-xs font-semibold text-white">Más popular</span>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold">Empresarial</h3>
+                <span class="rounded-full bg-[var(--c-primary)]/10 px-3 py-1 text-xs text-[var(--c-primary)] ring-1 ring-[var(--c-primary)]/30">Recomendado</span>
+              </div>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Página web completa para empresas que necesitan mayor presencia digital y funcionalidades avanzadas.</p>
+              
+              <div class="mt-4">
+                <p class="text-3xl font-bold">S/ 1,400</p>
+                <p class="text-xs text-[var(--c-muted)]">Sin IGV • Pago único</p>
+              </div>
+
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Todo lo del plan Estándar</span></span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">6-8 vistas adicionales</span> (Servicios, Blog, FAQ, etc.)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Galería avanzada</span> de imágenes/proyectos</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Integración redes sociales</span></span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Formularios personalizados</span></span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">SEO avanzado</span> + Google Analytics</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Optimización de velocidad</span></span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Soporte prioritario</span> 30 días</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[var(--c-primary)]/20 text-xs text-[var(--c-primary)]">+</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Entrega:</span> 3-4 semanas</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="#contacto" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-5 py-3 text-sm font-semibold text-white shadow-soft ring-1 ring-white/10 hover:opacity-95 transition">
+              Solicitar cotización
+            </a>
+          </div>
+
+          <!-- Plan Premium -->
+          <div class="relative rounded-3xl bg-[var(--c-surface)] p-6 ring-1 ring-[var(--c-border)] shadow-soft flex flex-col">
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold">Premium</h3>
+                <span class="rounded-full bg-amber-500/10 px-3 py-1 text-xs text-amber-400 ring-1 ring-amber-500/30">Personalizado</span>
+              </div>
+              <p class="mt-2 text-sm text-[var(--c-muted)]">Solución web a medida para empresas que requieren funcionalidades específicas e integraciones avanzadas.</p>
+              
+              <div class="mt-4">
+                <p class="text-3xl font-bold">Desde S/ 2,000</p>
+                <p class="text-xs text-[var(--c-muted)]">Sin IGV • Precio según requerimientos</p>
+              </div>
+
+              <ul class="mt-6 space-y-3">
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/20 text-xs text-emerald-400">✓</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Todo lo del plan Empresarial</span></span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Vistas ilimitadas</span> según requerimiento</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Integraciones</span> (WhatsApp API, pagos, etc.)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Sistema de reservas/citas</span> o catálogo</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Multi-idioma</span> (si aplica)</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Chatbot básico</span> o WhatsApp widget</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Consultoría UX/UI</span> personalizada</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Soporte extendido</span> 60 días</span>
+                </li>
+                <li class="flex items-start gap-2 text-sm">
+                  <span class="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs text-amber-400">★</span>
+                  <span class="text-[var(--c-muted)]"><span class="text-[var(--c-text)]">Entrega:</span> según alcance</span>
+                </li>
+              </ul>
+            </div>
+
+            <a href="#contacto" class="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white/5 px-5 py-3 text-sm font-semibold text-[var(--c-text)] ring-1 ring-white/10 hover:bg-white/10 transition">
+              Solicitar cotización
+            </a>
+          </div>
+        </div>
+
+        <!-- Nota informativa -->
+        <div class="mt-8 rounded-2xl bg-gradient-to-r from-[var(--c-primary)]/10 to-[var(--c-primary-2)]/10 p-4 ring-1 ring-[var(--c-primary)]/20 text-center">
+          <p class="text-sm text-[var(--c-muted)]">
+            <span class="text-[var(--c-text)] font-medium">¿Necesitas algo diferente?</span> Todos los planes son personalizables. Contáctanos para una cotización a medida según tus necesidades específicas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- PROCESO -->
   <section id="proceso" class="border-t border-white/10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

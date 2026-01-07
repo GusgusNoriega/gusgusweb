@@ -16,6 +16,7 @@
       <nav class="hidden md:flex items-center gap-1">
         <a href="{{ route('home') }}#inicio" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
         <a href="{{ route('home') }}#servicios" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
+        <a href="{{ route('home') }}#planes" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Planes</a>
         <a href="{{ route('home') }}#proceso" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
         <a href="{{ route('home') }}#proyectos" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
         <a href="{{ route('home') }}#contacto" class="rounded-xl px-3 py-2 text-sm text-[var(--c-muted)] hover:text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
@@ -65,6 +66,7 @@
         <div class="p-2">
           <a href="{{ route('home') }}#inicio" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Inicio</a>
           <a href="{{ route('home') }}#servicios" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Servicios</a>
+          <a href="{{ route('home') }}#planes" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Planes</a>
           <a href="{{ route('home') }}#proceso" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proceso</a>
           <a href="{{ route('home') }}#proyectos" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Proyectos</a>
           <a href="{{ route('home') }}#contacto" @click="open=false" class="block rounded-xl px-3 py-2 text-sm text-[var(--c-text)] hover:bg-white/5 transition">Contacto</a>
