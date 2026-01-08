@@ -9,6 +9,7 @@
     # SEO: Unificar versión canónica (HTTPS + host)
     # - Evita duplicados http/https, www/non-www, etc.
     # - Ajusta el dominio si tu canónico es otro
+    # - ACTIVADO EN PRODUCCIÓN
     # =============================================================
     RewriteCond %{HTTPS} !=on [OR]
     RewriteCond %{HTTP_HOST} !^systemsgg\.com$ [NC]
