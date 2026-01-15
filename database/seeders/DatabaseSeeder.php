@@ -29,6 +29,8 @@ class DatabaseSeeder extends Seeder
             DecorygnacioStandardWebsiteQuoteSeeder::class,
             // Cotización de ejemplo (web profesional) para DECORYGNACIO (PEN, IGV 18%)
             DecorygnacioProfessionalWebsiteQuoteSeeder::class,
+            // Cotización de ejemplo: Sistema de Cotizaciones y Facturación con SUNAT (PEN, sin IGV) - Selmag SAC
+            SelmagSacQuoteSeeder::class,
         ]);
     }
 }
