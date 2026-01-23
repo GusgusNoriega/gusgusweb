@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             DecorygnacioProfessionalWebsiteQuoteSeeder::class,
             // Cotización de ejemplo: Sistema de Cotizaciones y Facturación con SUNAT (PEN, sin IGV) - Selmag SAC
             SelmagSacQuoteSeeder::class,
+            // Cotización de ejemplo: Página Web Corporativa (PEN, IGV 18%) - ALFEMESAC
+            AlfemesacQuoteSeeder::class,
         ]);
     }
 }
