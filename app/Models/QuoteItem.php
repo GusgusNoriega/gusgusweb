@@ -67,11 +67,18 @@ class QuoteItem extends Model
      */
     public function calculateTotals(): self
     {
-        $this->subtotal = $this->quantity * $this->unit_price;
+        // Asegurar valores numéricos para evitar errores de cálculo
+        $quantity = (float) ($this->quantity ?? 0);
+        $unitPrice = (float) ($this->unit_price ?? 0);
+        $discountPercent = (float) ($this->discount_percent ?? 0);
+
+        $this->subtotal = $quantity * $unitPrice;
         
         // Calcular descuento
-        if ($this->discount_percent > 0) {
-            $this->discount_amount = $this->subtotal * ($this->discount_percent / 100);
+        if ($discountPercent > 0) {
+            $this->discount_amount = $this->subtotal * ($discountPercent / 100);
+        } else {
+            $this->discount_amount = 0;
         }
         
         $this->total = $this->subtotal - $this->discount_amount;

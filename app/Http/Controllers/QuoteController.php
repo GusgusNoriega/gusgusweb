@@ -89,7 +89,7 @@ class QuoteController extends Controller
             'tax_rate' => 'nullable|numeric|min:0|max:100',
             'discount_amount' => 'nullable|numeric|min:0',
             'status' => ['nullable', Rule::in(Quote::STATUSES)],
-            'valid_until' => 'nullable|date|after:today',
+            'valid_until' => 'nullable|date|after_or_equal:today',
             'estimated_start_date' => 'nullable|date',
             'notes' => 'nullable|string',
             'terms_conditions' => 'nullable|string',
@@ -113,7 +113,7 @@ class QuoteController extends Controller
             'items.*.tasks' => 'nullable|array',
             'items.*.tasks.*.name' => 'required_with:items.*.tasks|string|max:255',
             'items.*.tasks.*.description' => 'nullable|string',
-            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|integer|min:1',
+            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|numeric|min:0',
             'items.*.tasks.*.duration_unit' => 'required_with:items.*.tasks|in:hours,days',
             'items.*.tasks.*.sort_order' => 'nullable|integer|min:0',
         ]);
@@ -122,6 +122,8 @@ class QuoteController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error de validación',
+                'code' => 'VALIDATION_ERROR',
+                'data' => null,
                 'errors' => $validator->errors(),
             ], 422);
         }
@@ -132,26 +134,30 @@ class QuoteController extends Controller
             // Obtener configuración por defecto
             $settings = QuoteSetting::getSettings();
 
+            // Sanitizar valores numéricos para evitar errores de cálculo
+            $taxRate = is_numeric($request->tax_rate) ? (float) $request->tax_rate : ($settings->default_tax_rate ?? 0);
+            $discountAmount = is_numeric($request->discount_amount) ? (float) $request->discount_amount : 0;
+
             // Crear cotización
             $quote = Quote::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'user_id' => $request->user_id,
+                'user_id' => $request->user_id ?: null,
                 'created_by' => auth()->id(),
-                'currency_id' => $request->currency_id,
-                'tax_rate' => $request->tax_rate ?? $settings->default_tax_rate ?? 0,
-                'discount_amount' => $request->discount_amount ?? 0,
-                'valid_until' => $request->valid_until,
-                'estimated_start_date' => $request->estimated_start_date,
+                'currency_id' => $request->currency_id ?: null,
+                'tax_rate' => $taxRate,
+                'discount_amount' => $discountAmount,
+                'valid_until' => $request->valid_until ?: null,
+                'estimated_start_date' => $request->estimated_start_date ?: null,
                 'notes' => $request->notes ?? $settings->default_notes,
                 'terms_conditions' => $request->terms_conditions ?? $settings->default_terms_conditions,
-                'client_name' => $request->client_name,
-                'client_ruc' => $request->client_ruc,
-                'client_email' => $request->client_email,
-                'client_phone' => $request->client_phone,
-                'client_address' => $request->client_address,
-                'custom_background_image_id' => $request->custom_background_image_id,
-                'custom_last_page_image_id' => $request->custom_last_page_image_id,
+                'client_name' => $request->client_name ?: null,
+                'client_ruc' => $request->client_ruc ?: null,
+                'client_email' => $request->client_email ?: null,
+                'client_phone' => $request->client_phone ?: null,
+                'client_address' => $request->client_address ?: null,
+                'custom_background_image_id' => $request->custom_background_image_id ?: null,
+                'custom_last_page_image_id' => $request->custom_last_page_image_id ?: null,
                 'status' => $request->status ?? 'draft',
             ]);
 
@@ -161,11 +167,11 @@ class QuoteController extends Controller
                     $item = $quote->items()->create([
                         'name' => $itemData['name'],
                         'description' => $itemData['description'] ?? null,
-                        'quantity' => $itemData['quantity'],
+                        'quantity' => (float) ($itemData['quantity'] ?? 1),
                         'unit' => $itemData['unit'] ?? null,
-                        'unit_price' => $itemData['unit_price'],
-                        'discount_percent' => $itemData['discount_percent'] ?? 0,
-                        'sort_order' => $itemData['sort_order'] ?? $index,
+                        'unit_price' => (float) ($itemData['unit_price'] ?? 0),
+                        'discount_percent' => (float) ($itemData['discount_percent'] ?? 0),
+                        'sort_order' => (int) ($itemData['sort_order'] ?? $index),
                     ]);
 
                     if (!empty($itemData['tasks']) && is_array($itemData['tasks'])) {
@@ -173,16 +179,17 @@ class QuoteController extends Controller
                             $item->tasks()->create([
                                 'name' => $taskData['name'],
                                 'description' => $taskData['description'] ?? null,
-                                'duration_value' => $taskData['duration_value'],
+                                'duration_value' => (float) ($taskData['duration_value'] ?? 0),
                                 'duration_unit' => $taskData['duration_unit'] ?? 'hours',
-                                'sort_order' => $taskData['sort_order'] ?? $tIndex,
+                                'sort_order' => (int) ($taskData['sort_order'] ?? $tIndex),
                             ]);
                         }
                     }
                 }
             }
 
-            // Recalcular totales
+            // Recargar items y recalcular totales
+            $quote->load('items');
             $quote->calculateTotals();
             $quote->save();
 
@@ -200,8 +207,10 @@ class QuoteController extends Controller
             DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Error al crear la cotización',
-                'error' => $e->getMessage(),
+                'message' => 'Error al crear la cotización: ' . $e->getMessage(),
+                'code' => 'CREATE_ERROR',
+                'data' => null,
+                'errors' => null,
             ], 500);
         }
     }
@@ -281,7 +290,7 @@ class QuoteController extends Controller
             'items.*.tasks' => 'nullable|array',
             'items.*.tasks.*.name' => 'required_with:items.*.tasks|string|max:255',
             'items.*.tasks.*.description' => 'nullable|string',
-            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|integer|min:1',
+            'items.*.tasks.*.duration_value' => 'required_with:items.*.tasks|numeric|min:0',
             'items.*.tasks.*.duration_unit' => 'required_with:items.*.tasks|in:hours,days',
             'items.*.tasks.*.sort_order' => 'nullable|integer|min:0',
         ]);
@@ -290,6 +299,8 @@ class QuoteController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Error de validación',
+                'code' => 'VALIDATION_ERROR',
+                'data' => null,
                 'errors' => $validator->errors(),
             ], 422);
         }
@@ -297,26 +308,65 @@ class QuoteController extends Controller
         try {
             DB::beginTransaction();
 
-            $quote->update($request->only([
-                'title',
-                'description',
-                'user_id',
-                'currency_id',
-                'tax_rate',
-                'discount_amount',
-                'status',
-                'valid_until',
-                'estimated_start_date',
-                'notes',
-                'terms_conditions',
-                'client_name',
-                'client_ruc',
-                'client_email',
-                'client_phone',
-                'client_address',
-                'custom_background_image_id',
-                'custom_last_page_image_id',
-            ]));
+            // Preparar datos para actualizar, sanitizando valores vacíos
+            $updateData = [];
+            
+            if ($request->has('title')) {
+                $updateData['title'] = $request->title;
+            }
+            if ($request->has('description')) {
+                $updateData['description'] = $request->description;
+            }
+            if ($request->has('user_id')) {
+                $updateData['user_id'] = $request->user_id ?: null;
+            }
+            if ($request->has('currency_id')) {
+                $updateData['currency_id'] = $request->currency_id ?: null;
+            }
+            if ($request->has('tax_rate')) {
+                $updateData['tax_rate'] = is_numeric($request->tax_rate) ? (float) $request->tax_rate : 0;
+            }
+            if ($request->has('discount_amount')) {
+                $updateData['discount_amount'] = is_numeric($request->discount_amount) ? (float) $request->discount_amount : 0;
+            }
+            if ($request->has('status')) {
+                $updateData['status'] = $request->status ?? 'draft';
+            }
+            if ($request->has('valid_until')) {
+                $updateData['valid_until'] = $request->valid_until ?: null;
+            }
+            if ($request->has('estimated_start_date')) {
+                $updateData['estimated_start_date'] = $request->estimated_start_date ?: null;
+            }
+            if ($request->has('notes')) {
+                $updateData['notes'] = $request->notes;
+            }
+            if ($request->has('terms_conditions')) {
+                $updateData['terms_conditions'] = $request->terms_conditions;
+            }
+            if ($request->has('client_name')) {
+                $updateData['client_name'] = $request->client_name ?: null;
+            }
+            if ($request->has('client_ruc')) {
+                $updateData['client_ruc'] = $request->client_ruc ?: null;
+            }
+            if ($request->has('client_email')) {
+                $updateData['client_email'] = $request->client_email ?: null;
+            }
+            if ($request->has('client_phone')) {
+                $updateData['client_phone'] = $request->client_phone ?: null;
+            }
+            if ($request->has('client_address')) {
+                $updateData['client_address'] = $request->client_address ?: null;
+            }
+            if ($request->has('custom_background_image_id')) {
+                $updateData['custom_background_image_id'] = $request->custom_background_image_id ?: null;
+            }
+            if ($request->has('custom_last_page_image_id')) {
+                $updateData['custom_last_page_image_id'] = $request->custom_last_page_image_id ?: null;
+            }
+
+            $quote->update($updateData);
 
             // Si llega "items" en el request, sincronizamos reemplazando todos los items.
             // Nota: el frontend actual NO envía id por item, por eso esta estrategia es la más segura.
@@ -328,11 +378,11 @@ class QuoteController extends Controller
                         $item = $quote->items()->create([
                             'name' => $itemData['name'],
                             'description' => $itemData['description'] ?? null,
-                            'quantity' => $itemData['quantity'],
+                            'quantity' => (float) ($itemData['quantity'] ?? 1),
                             'unit' => $itemData['unit'] ?? null,
-                            'unit_price' => $itemData['unit_price'],
-                            'discount_percent' => $itemData['discount_percent'] ?? 0,
-                            'sort_order' => $itemData['sort_order'] ?? $index,
+                            'unit_price' => (float) ($itemData['unit_price'] ?? 0),
+                            'discount_percent' => (float) ($itemData['discount_percent'] ?? 0),
+                            'sort_order' => (int) ($itemData['sort_order'] ?? $index),
                         ]);
 
                         if (!empty($itemData['tasks']) && is_array($itemData['tasks'])) {
@@ -340,9 +390,9 @@ class QuoteController extends Controller
                                 $item->tasks()->create([
                                     'name' => $taskData['name'],
                                     'description' => $taskData['description'] ?? null,
-                                    'duration_value' => $taskData['duration_value'],
+                                    'duration_value' => (float) ($taskData['duration_value'] ?? 0),
                                     'duration_unit' => $taskData['duration_unit'] ?? 'hours',
-                                    'sort_order' => $taskData['sort_order'] ?? $tIndex,
+                                    'sort_order' => (int) ($taskData['sort_order'] ?? $tIndex),
                                 ]);
                             }
                         }
@@ -370,8 +420,10 @@ class QuoteController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Error al actualizar la cotización',
-                'error' => $e->getMessage(),
+                'message' => 'Error al actualizar la cotización: ' . $e->getMessage(),
+                'code' => 'UPDATE_ERROR',
+                'data' => null,
+                'errors' => null,
             ], 500);
         }
     }

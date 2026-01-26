@@ -94,13 +94,22 @@ class Quote extends Model
      */
     public function calculateTotals(): self
     {
+        // Asegurar que items esté cargado
+        if (!$this->relationLoaded('items')) {
+            $this->load('items');
+        }
+
         $subtotal = $this->items->sum(function ($item) {
-            return $item->total;
+            return (float) ($item->total ?? 0);
         });
 
+        // Asegurar valores numéricos para evitar errores de cálculo
+        $discountAmount = (float) ($this->discount_amount ?? 0);
+        $taxRate = (float) ($this->tax_rate ?? 0);
+
         $this->subtotal = $subtotal;
-        $this->tax_amount = ($subtotal - $this->discount_amount) * ($this->tax_rate / 100);
-        $this->total = $subtotal - $this->discount_amount + $this->tax_amount;
+        $this->tax_amount = ($subtotal - $discountAmount) * ($taxRate / 100);
+        $this->total = $subtotal - $discountAmount + $this->tax_amount;
 
         return $this;
     }
