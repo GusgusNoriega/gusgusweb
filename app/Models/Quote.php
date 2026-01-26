@@ -78,15 +78,43 @@ class Quote extends Model
         $prefix = 'COT';
         $year = date('Y');
         $month = date('m');
+        $yearMonth = $year . $month;
         
+        // Buscar la última cotización del año/mes actual con el formato correcto
         $lastQuote = self::withTrashed()
-            ->whereYear('created_at', $year)
-            ->orderBy('id', 'desc')
+            ->where('quote_number', 'like', "{$prefix}-{$yearMonth}-%")
+            ->orderByRaw('CAST(SUBSTRING(quote_number, -5) AS UNSIGNED) DESC')
             ->first();
 
-        $sequence = $lastQuote ? ((int) substr($lastQuote->quote_number, -5)) + 1 : 1;
+        $sequence = 1;
         
-        return sprintf('%s-%s%s-%05d', $prefix, $year, $month, $sequence);
+        if ($lastQuote) {
+            // Extraer la secuencia del número de cotización
+            $parts = explode('-', $lastQuote->quote_number);
+            if (count($parts) >= 3) {
+                $lastSequence = (int) end($parts);
+                $sequence = $lastSequence + 1;
+            }
+        }
+        
+        // Asegurar unicidad con un bucle de reintento
+        $maxAttempts = 10;
+        $attempt = 0;
+        
+        do {
+            $quoteNumber = sprintf('%s-%s-%05d', $prefix, $yearMonth, $sequence);
+            $exists = self::withTrashed()->where('quote_number', $quoteNumber)->exists();
+            
+            if (!$exists) {
+                return $quoteNumber;
+            }
+            
+            $sequence++;
+            $attempt++;
+        } while ($attempt < $maxAttempts);
+        
+        // Si se agotan los intentos, usar timestamp como fallback para garantizar unicidad
+        return sprintf('%s-%s-%05d-%d', $prefix, $yearMonth, $sequence, time());
     }
 
     /**
