@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
             AlfemesacQuoteSeeder::class,
             // Cotización de ejemplo: Actualización Responsive - Sistema de Lubricación Maquinaria Pesada (PEN, IGV 18%)
             LubricacionMaquinariaPesadaQuoteSeeder::class,
+            // Cotización de ejemplo: App Móvil con Sincronización Offline - Sistema de Lubricación - BETKO PERU (PEN, IGV 18%)
+            BetkoPeruAppLubricacionQuoteSeeder::class,
         ]);
     }
 }
