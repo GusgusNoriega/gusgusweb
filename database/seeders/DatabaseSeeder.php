@@ -33,6 +33,8 @@ class DatabaseSeeder extends Seeder
             SelmagSacQuoteSeeder::class,
             // Cotización de ejemplo: Página Web Corporativa (PEN, IGV 18%) - ALFEMESAC
             AlfemesacQuoteSeeder::class,
+            // Cotización de ejemplo: Actualización Responsive - Sistema de Lubricación Maquinaria Pesada (PEN, IGV 18%)
+            LubricacionMaquinariaPesadaQuoteSeeder::class,
         ]);
     }
 }
