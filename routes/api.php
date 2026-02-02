@@ -26,6 +26,8 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\QuoteSettingController;
 
 use App\Http\Controllers\LeadController;
+use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\BlogCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -204,4 +206,32 @@ Route::middleware(['auth.api', 'admin.api'])->prefix('quote-settings')->group(fu
     // Términos y notas por defecto
     Route::put('/terms-conditions', [QuoteSettingController::class, 'updateTermsConditions']);
     Route::put('/notes', [QuoteSettingController::class, 'updateNotes']);
+});
+
+// =======================
+// BLOG
+// =======================
+// Rutas públicas del blog
+Route::prefix('blog')->group(function () {
+    // Categorías
+    Route::get('/categories', [BlogCategoryController::class, 'index']);
+    Route::get('/categories/{id}', [BlogCategoryController::class, 'show']);
+    Route::get('/categories/{id}/posts', [BlogCategoryController::class, 'getPosts']);
+    
+    // Posts
+    Route::get('/posts', [BlogPostController::class, 'index']);
+    Route::get('/posts/{id}', [BlogPostController::class, 'show']);
+    Route::post('/posts/{id}/increment-views', [BlogPostController::class, 'incrementViews']);
+});
+
+// Rutas protegidas del blog (admin)
+Route::middleware(['auth.api', 'admin.api'])->prefix('blog')->group(function () {
+    // Categorías CRUD
+    Route::apiResource('categories', BlogCategoryController::class)->except(['index', 'show']);
+    Route::post('/categories/{id}/restore', [BlogCategoryController::class, 'restore']);
+    
+    // Posts CRUD
+    Route::apiResource('posts', BlogPostController::class)->except(['index', 'show']);
+    Route::post('/posts/{id}/restore', [BlogPostController::class, 'restore']);
+    Route::post('/posts/{id}/categories', [BlogPostController::class, 'updateCategories']);
 });

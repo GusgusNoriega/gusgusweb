@@ -25,6 +25,32 @@ Route::get('/blog', function () {
     return view('marketing.blog');
 })->name('blog')->middleware('guest');
 
+// Ruta de post individual del blog
+Route::get('/blog/{slug}', function ($slug) {
+    $post = \App\Models\BlogPost::with(['categories', 'author', 'featuredImage'])
+        ->where('slug', $slug)
+        ->published()
+        ->first();
+    
+    if (!$post) {
+        abort(404);
+    }
+    
+    // Posts relacionados (mismas categorías, excluyendo el actual)
+    $categoryIds = $post->categories->pluck('id')->toArray();
+    $relatedPosts = \App\Models\BlogPost::with('featuredImage')
+        ->where('id', '!=', $post->id)
+        ->published()
+        ->whereHas('categories', function ($query) use ($categoryIds) {
+            $query->whereIn('blog_categories.id', $categoryIds);
+        })
+        ->latest()
+        ->take(3)
+        ->get();
+    
+    return view('marketing.blog-post', compact('post', 'relatedPosts'));
+})->name('blog.post')->middleware('guest');
+
 // Página de gracias (lectura única por token)
 Route::get('/gracias/{token}', [LeadController::class, 'thankYou'])
     ->name('leads.thankyou')
