@@ -20,6 +20,11 @@ Route::get('/', function () {
     return view('marketing.home');
 })->name('home')->middleware('guest');
 
+// Ruta del blog
+Route::get('/blog', function () {
+    return view('marketing.blog');
+})->name('blog')->middleware('guest');
+
 // Página de gracias (lectura única por token)
 Route::get('/gracias/{token}', [LeadController::class, 'thankYou'])
     ->name('leads.thankyou')
@@ -45,6 +50,7 @@ Route::get('/sitemap.xml', function () {
 
     $urls = [
         ['loc' => $baseUrl, 'changefreq' => 'weekly', 'priority' => '1.0'],
+        ['loc' => url('/blog'), 'changefreq' => 'weekly', 'priority' => '0.8'],
         ['loc' => url('/privacidad'), 'changefreq' => 'monthly', 'priority' => '0.3'],
         ['loc' => url('/terminos'), 'changefreq' => 'monthly', 'priority' => '0.3'],
         ['loc' => url('/cookies'), 'changefreq' => 'monthly', 'priority' => '0.3'],
