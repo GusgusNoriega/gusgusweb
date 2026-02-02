@@ -187,49 +187,6 @@
     </div>
   </section>
 
-  <!-- NEWSLETTER -->
-  <section class="border-t border-white/10">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="py-14 lg:py-20">
-        <div class="rounded-3xl bg-gradient-to-r from-[var(--c-primary)]/10 to-[var(--c-primary-2)]/10 p-8 ring-1 ring-[var(--c-primary)]/20 lg:p-12">
-          <div class="grid gap-8 lg:grid-cols-2 lg:items-center">
-            <div>
-              <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">
-                ¿Quieres recibir<span class="text-[var(--c-primary)]"> artículos exclusivos</span> en tu email?
-              </h2>
-              <p class="mt-3 text-sm text-[var(--c-muted)] leading-relaxed">
-                Suscríbete a nuestro newsletter y recibe las últimas noticias, tutoriales y consejos sobre desarrollo web directamente en tu bandeja de entrada.
-              </p>
-              <form class="mt-6 flex flex-col gap-3 sm:flex-row">
-                <input 
-                  type="email" 
-                  placeholder="Tu correo electrónico" 
-                  class="w-full rounded-2xl bg-[var(--c-elev)] px-4 py-3 text-sm outline-none ring-1 ring-[var(--c-border)] focus:ring-2 focus:ring-[var(--c-primary)] transition-all"
-                />
-                <button type="submit" class="rounded-2xl bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] px-6 py-3 text-sm font-semibold text-white shadow-soft hover:opacity-95 transition">
-                  Suscribirse
-                </button>
-              </form>
-              <p class="mt-3 text-xs text-[var(--c-muted)]">
-                Sin spam. Solo contenido valioso. Puedes darte de baja cuando quieras.
-              </p>
-            </div>
-            <div class="hidden lg:block">
-              <div class="flex items-center justify-center">
-                <div class="relative">
-                  <div class="absolute -inset-4 rounded-full bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] opacity-20 blur-2xl"></div>
-                  <svg class="relative size-32 text-[var(--c-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-9-2 2-2z1.1."/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <script>
     function blogManager() {
