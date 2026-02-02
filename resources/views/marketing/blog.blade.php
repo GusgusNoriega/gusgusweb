@@ -305,8 +305,8 @@
           return rangeWithDots;
         },
         
-        viewPost(id) {
-          window.location.href = `/blog/${id}`;
+        viewPost(post) {
+          window.location.href = `/blog/${post.slug}`;
         },
         
         formatDate(dateString) {
