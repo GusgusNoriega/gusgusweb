@@ -699,6 +699,15 @@ function blogPostsManager() {
       this.saving = true;
       this.errors = [];
       
+      // Obtener el valor del media-input directamente del DOM
+      const mediaInput = document.querySelector('input[name="featured_image_id"]');
+      const featuredImageId = mediaInput?.value || null;
+      
+      const postData = {
+        ...this.form,
+        featured_image_id: featuredImageId || null
+      };
+      
       try {
         const isUpdate = !!this.editingPost;
         const url = isUpdate ? `${API_BASE}/blog/posts/${this.editingPost.id}` : `${API_BASE}/blog/posts`;
@@ -712,7 +721,7 @@ function blogPostsManager() {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: JSON.stringify(this.form)
+          body: JSON.stringify(postData)
         });
         
         const data = await response.json();
