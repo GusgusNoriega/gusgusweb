@@ -475,6 +475,10 @@
 
 <script>
 function blogPostsManager() {
+  const API_BASE = '/api';
+  const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+  const API_TOKEN = document.querySelector('meta[name="api-token"]')?.getAttribute('content') || null;
+
   return {
     loading: true,
     saving: false,
@@ -523,13 +527,22 @@ function blogPostsManager() {
     },
     
     async init() {
+      if (!API_TOKEN) {
+        this.showToast('No se encontró token de autenticación', 'error');
+        return;
+      }
       await this.loadCategories();
       await this.loadPosts();
     },
     
     async loadCategories() {
       try {
-        const response = await fetch('/api/blog/categories');
+        const response = await fetch(`${API_BASE}/blog/categories`, {
+          headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'Accept': 'application/json'
+          }
+        });
         const data = await response.json();
         if (data.success) {
           this.allCategories = data.data.data || [];
@@ -542,7 +555,7 @@ function blogPostsManager() {
     async loadPosts(page = 1) {
       this.loading = true;
       try {
-        let url = `/api/blog/posts?page=${page}&per_page=${this.perPage}`;
+        let url = `${API_BASE}/blog/posts?page=${page}&per_page=${this.perPage}`;
         
         if (this.search) {
           url += `&search=${encodeURIComponent(this.search)}`;
@@ -554,7 +567,14 @@ function blogPostsManager() {
           url += '&published=0';
         }
         
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'X-CSRF-TOKEN': CSRF_TOKEN,
+            'Accept': 'application/json'
+          }
+        });
+        
         const data = await response.json();
         
         if (data.success) {
@@ -681,12 +701,14 @@ function blogPostsManager() {
       
       try {
         const isUpdate = !!this.editingPost;
-        const url = isUpdate ? `/api/blog/posts/${this.editingPost.id}` : '/api/blog/posts';
+        const url = isUpdate ? `${API_BASE}/blog/posts/${this.editingPost.id}` : `${API_BASE}/blog/posts`;
         const method = isUpdate ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
           method: method,
           headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'X-CSRF-TOKEN': CSRF_TOKEN,
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
@@ -715,9 +737,11 @@ function blogPostsManager() {
     },
     
     togglePublish(post) {
-      fetch(`/api/blog/posts/${post.id}`, {
+      fetch(`${API_BASE}/blog/posts/${post.id}`, {
         method: 'PUT',
         headers: {
+          'Authorization': `Bearer ${API_TOKEN}`,
+          'X-CSRF-TOKEN': CSRF_TOKEN,
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
@@ -747,9 +771,11 @@ function blogPostsManager() {
       this.deleting = true;
       
       try {
-        const response = await fetch(`/api/blog/posts/${this.deletingPost.id}`, {
+        const response = await fetch(`${API_BASE}/blog/posts/${this.deletingPost.id}`, {
           method: 'DELETE',
           headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'X-CSRF-TOKEN': CSRF_TOKEN,
             'Accept': 'application/json'
           }
         });
