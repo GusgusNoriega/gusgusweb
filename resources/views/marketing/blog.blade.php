@@ -66,7 +66,7 @@
         <div x-show="!loading">
           <!-- ARTÍCULO DESTACADO -->
           <div x-show="featuredPost" class="mt-10">
-            <article class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)] cursor-pointer" @click="viewPost(featuredPost.id)">
+            <article class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)] cursor-pointer" @click="viewPost(featuredPost)">
               <div class="grid lg:grid-cols-2">
                 <div class="aspect-video lg:aspect-auto lg:h-full overflow-hidden bg-gradient-to-br from-indigo-600 to-purple-500 relative">
                   <img 
@@ -107,7 +107,7 @@
           <!-- GRID DE ARTÍCULOS RECIENTES -->
           <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             <template x-for="post in posts" :key="post.id">
-              <article class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)] transition hover:ring-[var(--c-primary)]/50 cursor-pointer" @click="viewPost(post.id)">
+              <article class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)] transition hover:ring-[var(--c-primary)]/50 cursor-pointer" @click="viewPost(post)">
                 <div class="aspect-video overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-500 relative">
                   <img 
                     x-show="post.featured_image"
@@ -305,8 +305,8 @@
           return rangeWithDots;
         },
         
-        viewPost(id) {
-          window.location.href = `/blog/${id}`;
+        viewPost(post) {
+          window.location.href = `/blog/${post.slug}`;
         },
         
         formatDate(dateString) {
