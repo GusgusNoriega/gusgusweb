@@ -196,6 +196,7 @@
                 <a href="{{ route('catalogs.file-categories') }}" data-route="catalogs.file-categories" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📂</span>Categorías de Archivo</a>
                 <a href="{{ route('currencies') }}" data-route="currencies" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">💰</span>Monedas</a>
                 <a href="{{ route('color-themes') }}" data-route="color-themes" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">🎨</span>Temas de Color</a>
+                <a href="{{ route('blog.posts') }}" data-route="blog.posts" class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[var(--c-elev)] transition text-sm"><span class="size-6 grid place-items-center rounded-lg ring-1 ring-[var(--c-border)]">📝</span>Blog Posts</a>
               </div>
             </div>
           </section>
@@ -325,6 +326,7 @@
         'catalogs.file-categories': 4,
         'currencies': 4,
         'color-themes': 4,
+        'blog.posts': 4,
         'smtp-settings': 5,
         'email-templates': 5,
         'quotes': 6,

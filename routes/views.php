@@ -137,6 +137,11 @@ Route::middleware('auth')->group(function () {
             return view('color-themes.manage');
         })->name('color-themes');
 
+        // ========================= Blog (Vista) =========================
+        Route::get('/blog/posts', function () {
+            return view('admin.blog-posts');
+        })->name('blog.posts');
+
         // ========================= SMTP Settings (Vista) =========================
         Route::get('/smtp-settings', function () {
             return view('smtp.settings');
