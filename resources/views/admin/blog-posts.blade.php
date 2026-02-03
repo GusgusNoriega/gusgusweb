@@ -337,7 +337,6 @@
                   placeholder="Seleccionar imagen destacada"
                   button="Seleccionar Imagen"
                   preview="true"
-                  :value="form.featured_image_id"
                 />
               </div>
             </div>
