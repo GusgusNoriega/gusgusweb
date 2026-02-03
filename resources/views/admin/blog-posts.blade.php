@@ -328,34 +328,17 @@
               </div>
               
               <!-- Imagen destacada -->
-              <div>
+              <div class="lg:col-span-2">
                 <label class="block text-sm font-medium text-[var(--c-text)] mb-2">Imagen destacada</label>
-                <div class="flex items-center gap-3">
-                  <div class="size-20 rounded-xl overflow-hidden bg-[var(--c-elev)] flex-shrink-0">
-                    <img 
-                      x-show="featuredImagePreview"
-                      :src="featuredImagePreview" 
-                      class="w-full h-full object-cover"
-                    />
-                    <div x-show="!featuredImagePreview" class="w-full h-full flex items-center justify-center">
-                      <svg class="size-8 text-[var(--c-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                    </div>
-                  </div>
-                  <button 
-                    type="button"
-                    @click="openMediaPicker()"
-                    class="px-4 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-xl text-sm text-[var(--c-text)] hover:bg-[var(--c-border)] transition">
-                    Seleccionar imagen
-                  </button>
-                  <button 
-                    x-show="form.featured_image_id"
-                    type="button"
-                    @click="clearFeaturedImage()"
-                    class="p-2 text-[var(--c-danger)] hover:bg-[var(--c-elev)] rounded-lg transition">
-                    <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-                  </button>
-                </div>
-                <input type="hidden" x-model="form.featured_image_id" />
+                <x-media-input
+                  name="featured_image_id"
+                  mode="single"
+                  :max="1"
+                  placeholder="Seleccionar imagen destacada"
+                  button="Seleccionar Imagen"
+                  preview="true"
+                  :value="form.featured_image_id"
+                />
               </div>
             </div>
             
@@ -534,8 +517,6 @@ function blogPostsManager() {
       categories: []
     },
     
-    featuredImagePreview: null,
-    
     toast: {
       show: false,
       message: '',
@@ -659,7 +640,6 @@ function blogPostsManager() {
         no_index: false,
         categories: []
       };
-      this.featuredImagePreview = null;
     },
     
     editPost(post) {
@@ -680,7 +660,19 @@ function blogPostsManager() {
         no_index: post.no_index || false,
         categories: post.categories?.map(c => c.id) || []
       };
-      this.featuredImagePreview = post.featured_image?.url || null;
+      
+      // Establecer el valor del media-input después de mostrar el modal
+      this.$nextTick(() => {
+        const mediaInput = document.querySelector('input[name="featured_image_id"]');
+        if (mediaInput && post.featured_image?.id) {
+          mediaInput.value = post.featured_image.id;
+          // Trigger change event para actualizar el preview del media-input
+          setTimeout(() => {
+            mediaInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }, 100);
+        }
+      });
+      
       this.showModal = true;
     },
     
@@ -788,16 +780,6 @@ function blogPostsManager() {
       } else {
         this.form.categories.push(categoryId);
       }
-    },
-    
-    openMediaPicker() {
-      // Implementar según el Media Picker existente
-      this.showToast('Media picker no implementado aún', 'error');
-    },
-    
-    clearFeaturedImage() {
-      this.form.featured_image_id = null;
-      this.featuredImagePreview = null;
     },
     
     formatDate(dateString) {
