@@ -39,6 +39,8 @@ class DatabaseSeeder extends Seeder
             LubricacionMaquinariaPesadaQuoteSeeder::class,
             // Cotización de ejemplo: App Móvil con Sincronización Offline - Sistema de Lubricación - BETKO PERU (PEN, IGV 18%)
             BetkoPeruAppLubricacionQuoteSeeder::class,
+            // Cotización de ejemplo: Instalación y configuración de Tokko Broker + sincronización agencias/vendedores/propiedades (USD, IGV 18%) - César Varela
+            CesarVarelaTokkoBrokerQuoteSeeder::class,
         ]);
     }
 }
