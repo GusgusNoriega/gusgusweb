@@ -159,9 +159,9 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "   - Respaldo y alta disponibilidad\n\n" .
                         "DURACIÓN ESTIMADA:\n" .
                         "- Evaluación de procesos actuales: 1 semana (mínimo)\n" .
-                        "- Desarrollo: 4-6 semanas\n" .
-                        "- Pruebas y ajustes: 2 semanas\n" .
-                        "- Total estimado: 8-10 semanas",
+                        "- Desarrollo: 4-6 meses\n" .
+                        "- Pruebas y ajustes: incluido en desarrollo\n" .
+                        "- Total estimado: hasta 6 meses",
                     'currency_id' => $pen->id,
                     'tax_rate' => 18,
                     'discount_amount' => 0,
@@ -190,7 +190,7 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "- Soporte post-implementación (15 días)\n\n" .
                         "NOTAS IMPORTANTES:\n" .
                         "- El costo de VPS/Cloud NO está incluido en esta cotización.\n" .
-                        "- Costo estimado de VPS/Cloud: S/ 800 - S/ 1,000 soles por mes (cliente debe considerar este gasto adicional).\n" .
+                        "- Costo estimado de VPS/Cloud: S/ 800 - S/ 1,000 soles por año (cliente debe considerar este gasto adicional).\n" .
                         "- La integración con balanzas depende del modelo y protocolo de comunicación del equipo existente.\n" .
                         "- Se requiere una evaluación presencial o remota de los procesos actuales (mínimo 1 semana) para afinar los requerimientos.",
                     'terms_conditions' => "CONDICIONES COMERCIALES:\n" .
@@ -203,11 +203,11 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "- 50% al culminar el proyecto: S/ 6,000.00\n\n" .
                         "PLAZOS:\n" .
                         "- Semana 1: Evaluación de procesos actuales (mínimo 1 semana)\n" .
-                        "- Semanas 2-5: Desarrollo de módulos\n" .
-                        "- Semanas 6-7: Pruebas y ajustes\n" .
-                        "- Semana 8: Entrega y capacitación\n\n" .
+                        "- Meses 1-4: Desarrollo de módulos\n" .
+                        "- Meses 5-6: Pruebas, ajustes y entrega\n" .
+                        "- Total: hasta 6 meses\n\n" .
                         "CONSIDERACIONES:\n" .
-                        "- El costo de hosting/VPS/Cloud (S/ 800-1,000/mes) no está incluido.\n" .
+                        "- El costo de hosting/VPS/Cloud (S/ 800-1,000/año) no está incluido.\n" .
                         "- Cualquier funcionalidad adicional fuera del alcance se cotiza por separado.\n" .
                         "- La integración con balanzas puede requerir costos adicionales según el equipo.\n" .
                         "- Se incluye soporte post-implementación de 15 días para ajustes menores.\n" .
