@@ -27,6 +27,7 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
      *     - Interfaz touch para operación
      *     - Sistema en VPS/Cloud
      *   - Evaluación de procesos actuales: 1 semana mínimo
+     *   - Duración total del proyecto: hasta 6 meses
      *
      * Cliente: Diego Macavilca
      * Empresa: Sociedad Agropecuaria Diego Alberto
@@ -152,7 +153,7 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "7. Interfaz Touch para Operación:\n" .
                         "   - Pantallas táctiles para área operativa\n" .
                         "   - Diseño adaptado para touch\n" .
-                        "   - Flujos optimizados para操作的 rápida\n\n" .
+                        "   - Flujos optimizados para operación rápida\n\n" .
                         "8. Sistema en VPS/Cloud:\n" .
                         "   - Hospedaje en servidor cloud/VPS\n" .
                         "   - Acceso desde cualquier ubicación\n" .
@@ -161,7 +162,7 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "- Evaluación de procesos actuales: 1 semana (mínimo)\n" .
                         "- Desarrollo: 4-6 meses\n" .
                         "- Pruebas y ajustes: incluido en desarrollo\n" .
-                        "- Total estimado: hasta 6 meses",
+                        "- Total estimado: hasta 6 meses (aproximadamente 120 días laborales)",
                     'currency_id' => $pen->id,
                     'tax_rate' => 18,
                     'discount_amount' => 0,
@@ -205,7 +206,7 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
                         "- Semana 1: Evaluación de procesos actuales (mínimo 1 semana)\n" .
                         "- Meses 1-4: Desarrollo de módulos\n" .
                         "- Meses 5-6: Pruebas, ajustes y entrega\n" .
-                        "- Total: hasta 6 meses\n\n" .
+                        "- Total: hasta 6 meses (aproximadamente 120 días laborales)\n\n" .
                         "CONSIDERACIONES:\n" .
                         "- El costo de hosting/VPS/Cloud (S/ 800-1,000/año) no está incluido.\n" .
                         "- Cualquier funcionalidad adicional fuera del alcance se cotiza por separado.\n" .
@@ -230,216 +231,215 @@ class SociedadAgropecuariaDiegoAlbertoQuoteSeeder extends Seeder
             // Subtotal items = S/ 10,169.49
             // IGV (18%) = S/ 1,830.51
             // Total con IGV = S/ 12,000.00
+            // Duración total = ~120 días (6 meses)
             $items = [
                 // ==========================================
-                // FASE 1: EVALUACIÓN DE PROCESOS ACTUALES (Semana 1)
+                // FASE 1: EVALUACIÓN DE PROCESOS ACTUALES (Semana 1 - 5 días)
                 // ==========================================
                 [
                     'name' => 'Fase 1: Evaluación de Procesos Actuales',
-                    'description' => "Evaluación exhaustiva de todos los procesos actuales de la empresa avícola para entender el flujo operativo y definir los requerimientos del nuevo sistema.\n\nIncluye:\n- Visitas técnicas o reuniones remotas\n- Análisis de procesos de recepción de pollos\n- Evaluación del sistema de pesaje actual\n- Revisión de controles de inventario\n- Análisis del flujo de ventas\n- Evaluación de gestión de deudas\n- Documentación de hallazgos y recomendaciones\n- Taller de levantamiento de requerimientos\n\nDuración mínima: 1 semana",
+                    'description' => "Evaluación exhaustiva de todos los procesos actuales de la empresa avícola para entender el flujo operativo y definir los requerimientos del nuevo sistema.\n\nIncluye:\n- Visitas técnicas o reuniones remotas\n- Análisis de procesos de recepción de pollos\n- Evaluación del sistema de pesaje actual\n- Revisión de controles de inventario\n- Análisis del flujo de ventas\n- Evaluación de gestión de deudas\n- Documentación de hallazgos y recomendaciones\n- Taller de levantamiento de requerimientos\n\nDuración mínima: 1 semana (5 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 1000,
                     'tasks' => [
-                        ['name' => 'Reunión inicial con el cliente', 'description' => 'Presentación del equipo, definición de objetivos, cronograma de evaluación y puntos de contacto.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Evaluación del proceso de recepción de pollos', 'description' => 'Análisis del flujo actual: llegada de camiones, registro, descarga, conteo de cajas.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Evaluación del sistema de pesaje actual', 'description' => 'Revisión de balanzas existentes, protocolos de pesaje, registro de pesos.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Evaluación de control de inventario', 'description' => 'Análisis de métodos de control de stock, movimientos, registros.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Evaluación de proceso de ventas', 'description' => 'Revisión del flujo de ventas: pedidos, despacho, facturación, cobros.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Evaluación de gestión de deudas', 'description' => 'Análisis de clientes mayoristas, crédito, cobros, morosidad.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Análisis de infraestructura tecnológica', 'description' => 'Evaluación de equipos disponibles: balanzas, tablets/touch, conectividad.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Documentación de hallazgos y requerimientos', 'description' => 'Elaboración de documento de evaluación con procesos actuales, hallazgos y lista de requerimientos refinados.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Taller de validación de requerimientos', 'description' => 'Presentación de hallazgos al cliente y validación de alcances del sistema.', 'duration_value' => 4, 'duration_unit' => 'hours'],
+                        ['name' => 'Reunión inicial con el cliente', 'description' => 'Presentación del equipo, definición de objetivos, cronograma de evaluación y puntos de contacto.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Evaluación del proceso de recepción de pollos', 'description' => 'Análisis del flujo actual: llegada de camiones, registro, descarga, conteo de cajas.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Evaluación del sistema de pesaje actual', 'description' => 'Revisión de balanzas existentes, protocolos de pesaje, registro de pesos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Evaluación de control de inventario', 'description' => 'Análisis de métodos de control de stock, movimientos, registros.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Evaluación de proceso de ventas', 'description' => 'Revisión del flujo de ventas: pedidos, despacho, facturación, cobros.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Evaluación de gestión de deudas', 'description' => 'Análisis de clientes mayoristas, crédito, cobros, morosidad.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Análisis de infraestructura tecnológica', 'description' => 'Evaluación de equipos disponibles: balanzas, tablets/touch, conectividad.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Documentación de hallazgos y requerimientos', 'description' => 'Elaboración de documento de evaluación con procesos actuales, hallazgos y lista de requerimientos refinados.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Taller de validación de requerimientos', 'description' => 'Presentación de hallazgos al cliente y validación de alcances del sistema.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 2: DISEÑO Y ARQUITECTURA
+                // FASE 2: DISEÑO Y ARQUITECTURA (3 semanas - 15 días)
                 // ==========================================
                 [
                     'name' => 'Fase 2: Diseño y Arquitectura del Sistema',
-                    'description' => "Diseño técnico y arquitectural del sistema de gestión avícola.\n\nIncluye:\n- Diseño de arquitectura de la aplicación\n- Diseño de base de datos\n- Diseño de modelos de datos\n- Diseño de interfaces de usuario\n- Diseño de integración con balanzas\n- Diseño de interfaz touch\n- Plan de seguridad\n- Documentación técnica",
+                    'description' => "Diseño técnico y arquitectural del sistema de gestión avícola.\n\nIncluye:\n- Diseño de arquitectura de la aplicación\n- Diseño de base de datos\n- Diseño de modelos de datos\n- Diseño de interfaces de usuario\n- Diseño de integración con balanzas\n- Diseño de interfaz touch\n- Plan de seguridad\n- Documentación técnica\n\nDuración: 3 semanas (15 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 900,
                     'tasks' => [
-                        ['name' => 'Diseño de arquitectura de la aplicación', 'description' => 'Definición de estructura técnica: frontend, backend, base de datos, API, servicios.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Diseño de base de datos', 'description' => 'Modelado de datos: entidades, relaciones, índices, optimización.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Diseño de modelos de datos', 'description' => 'Definición de tablas: pollos, cajas, ingresos, ventas, clientes, deudas, usuarios.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Diseño de interfaces de usuario', 'description' => 'Creación de wireframes y prototipos para cada módulo del sistema.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Diseño de integración con balanzas', 'description' => 'Definición de protocolo de comunicación, API de integración, manejo de datos en tiempo real.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Diseño de interfaz touch', 'description' => 'Diseño de pantallas táctiles optimizadas para área operativa: recepción y pesaje.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Plan de seguridad y permisos', 'description' => 'Definición de roles, permisos, políticas de seguridad, auditoría.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Documentación técnica', 'description' => 'Elaboración de documentación técnica del diseño y arquitectura.', 'duration_value' => 4, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de arquitectura de la aplicación', 'description' => 'Definición de estructura técnica: frontend, backend, base de datos, API, servicios.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Diseño de base de datos', 'description' => 'Modelado de datos: entidades, relaciones, índices, optimización.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Diseño de modelos de datos', 'description' => 'Definición de tablas: pollos, cajas, ingresos, ventas, clientes, deudas, usuarios.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Diseño de interfaces de usuario', 'description' => 'Creación de wireframes y prototipos para cada módulo del sistema.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Diseño de integración con balanzas', 'description' => 'Definición de protocolo de comunicación, API de integración, manejo de datos en tiempo real.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Diseño de interfaz touch', 'description' => 'Diseño de pantallas táctiles optimizadas para área operativa: recepción y pesaje.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Plan de seguridad y permisos', 'description' => 'Definición de roles, permisos, políticas de seguridad, auditoría.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Documentación técnica', 'description' => 'Elaboración de documentación técnica del diseño y arquitectura.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 3: MÓDULO DE RECEPCIÓN DE POLLOS
+                // FASE 3: MÓDULO DE RECEPCIÓN DE POLLOS (3 semanas - 15 días)
                 // ==========================================
                 [
                     'name' => 'Fase 3: Módulo de Recepción de Pollos',
-                    'description' => "Desarrollo del módulo de recepción de pollos en cajas para el área operativa.\n\nIncluye:\n- Registro de llegada de camiones\n- Identificación de proveedores\n- Registro de cajas recibidas\n- Conteo de cajas por proveedor\n- Generación de tickets de recepción\n- Historial de recepciones\n- Interfaz touch optimizada",
+                    'description' => "Desarrollo del módulo de recepción de pollos en cajas para el área operativa.\n\nIncluye:\n- Registro de llegada de camiones\n- Identificación de proveedores\n- Registro de cajas recibidas\n- Conteo de cajas por proveedor\n- Generación de tickets de recepción\n- Historial de recepciones\n- Interfaz touch optimizada\n\nDuración: 3 semanas (15 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 900,
                     'tasks' => [
-                        ['name' => 'Diseño de flujo de recepción', 'description' => 'Definición del proceso: registro de camión, inicio de recepción, registro de cajas, cierre.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'CRUD de proveedores', 'description' => 'Gestión de catálogo de proveedores de pollos.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de llegada de camiones', 'description' => 'Pantalla para registrar: fecha, hora, proveedor, número de camión, conductor.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de cajas recibidas', 'description' => 'Interfaz para registro de cajas: cantidad, tipo, condiciones.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Conteo y resumen de recepción', 'description' => 'Pantalla de resumen: total cajas, verificación, diferencias.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Generación de tickets de recepción', 'description' => 'Creación de tickets/comprobantes de recepción en PDF.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Interfaz touch para recepción', 'description' => 'Diseño y desarrollo de pantalla touch optimizada para uso en área de recepción.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Historial de recepciones', 'description' => 'Consulta de recepciones históricas por fecha, proveedor.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'QA y pruebas', 'description' => 'Pruebas funcionales del módulo de recepción.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de flujo de recepción', 'description' => 'Definición del proceso: registro de camión, inicio de recepción, registro de cajas, cierre.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de proveedores', 'description' => 'Gestión de catálogo de proveedores de pollos.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de llegada de camiones', 'description' => 'Pantalla para registrar: fecha, hora, proveedor, número de camión, conductor.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de cajas recibidas', 'description' => 'Interfaz para registro de cajas: cantidad, tipo, condiciones.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Conteo y resumen de recepción', 'description' => 'Pantalla de resumen: total cajas, verificación, diferencias.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Generación de tickets de recepción', 'description' => 'Creación de tickets/comprobantes de recepción en PDF.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Interfaz touch para recepción', 'description' => 'Diseño y desarrollo de pantalla touch optimizada para uso en área de recepción.', 'duration_value' => 3, 'duration_unit' => 'days'],
+                        ['name' => 'Historial de recepciones', 'description' => 'Consulta de recepciones históricas por fecha, proveedor.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA y pruebas', 'description' => 'Pruebas funcionales del módulo de recepción.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 4: MÓDULO DE PESAJE CON BALANZAS
+                // FASE 4: MÓDULO DE PESAJE CON BALANZAS (3 semanas - 15 días)
                 // ==========================================
                 [
                     'name' => 'Fase 4: Módulo de Pesaje con Integración de Balanzas',
-                    'description' => "Desarrollo del módulo de pesaje con sincronización en tiempo real con balanzas.\n\nIncluye:\n- Integración con balanzas electrónicas\n- Lectura de peso en tiempo real\n- Registro de peso por caja\n- Suma total de pollos por camión\n- Historial de pesajes\n- Alertas de peso anomalía\n- Reportes de pesaje",
+                    'description' => "Desarrollo del módulo de pesaje con sincronización en tiempo real con balanzas.\n\nIncluye:\n- Integración con balanzas electrónicas\n- Lectura de peso en tiempo real\n- Registro de peso por caja\n- Suma total de pollos por camión\n- Historial de pesajes\n- Alertas de peso anomalía\n- Reportes de pesaje\n\nDuración: 3 semanas (15 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 2369.49,
                     'tasks' => [
-                        ['name' => 'Análisis de balanzas existentes', 'description' => 'Revisión de modelo, marca, protocolo de comunicación de balanzas a integrar.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Desarrollo de driver de integración', 'description' => 'Creación de módulo de comunicación con balanzas (serial, USB, red).', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Lectura de peso en tiempo real', 'description' => 'Implementación de lectura continua de peso desde balanza.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de peso por caja', 'description' => 'Interfaz para registrar peso individual de cada caja.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Cálculo de suma total por camión', 'description' => 'Sistema de acumulación de pesos y suma total por camión.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Pantalla de pesaje touch', 'description' => 'Interfaz touch para operativo de pesaje: peso actual, acumulado, siguiente caja.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Alertas de peso anomalía', 'description' => 'Sistema de alertas para pesos fuera de rango esperado.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Historial y reportes de pesaje', 'description' => 'Consultas y reportes de pesajes por fecha, proveedor, camión.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Pruebas de integración con balanzas', 'description' => 'Pruebas reales de comunicación y lectura de peso.', 'duration_value' => 8, 'duration_unit' => 'hours'],
+                        ['name' => 'Análisis de balanzas existentes', 'description' => 'Revisión de modelo, marca, protocolo de comunicación de balanzas a integrar.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Desarrollo de driver de integración', 'description' => 'Creación de módulo de comunicación con balanzas (serial, USB, red).', 'duration_value' => 3, 'duration_unit' => 'days'],
+                        ['name' => 'Lectura de peso en tiempo real', 'description' => 'Implementación de lectura continua de peso desde balanza.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de peso por caja', 'description' => 'Interfaz para registrar peso individual de cada caja.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Cálculo de suma total por camión', 'description' => 'Sistema de acumulación de pesos y suma total por camión.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Pantalla de pesaje touch', 'description' => 'Interfaz touch para operativo de pesaje: peso actual, acumulado, siguiente caja.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Alertas de peso anomalía', 'description' => 'Sistema de alertas para pesos fuera de rango esperado.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Historial y reportes de pesaje', 'description' => 'Consultas y reportes de pesajes por fecha, proveedor, camión.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 5: MÓDULO DE CONTROL DE INVENTARIO
+                // FASE 5: MÓDULO DE CONTROL DE INVENTARIO (3 semanas - 15 días)
                 // ==========================================
                 [
                     'name' => 'Fase 5: Módulo de Control de Inventario',
-                    'description' => "Desarrollo del módulo de control de inventario de pollos.\n\nIncluye:\n- Registro de stock actual\n- Movimientos de ingreso (recepciones)\n- Movimientos de salida (ventas)\n- Control de inventario por ubicación\n- Alertas de stock mínimo\n- Reportes de inventario\n- Kárdex de productos",
+                    'description' => "Desarrollo del módulo de control de inventario de pollos.\n\nIncluye:\n- Registro de stock actual\n- Movimientos de ingreso (recepciones)\n- Movimientos de salida (ventas)\n- Control de inventario por ubicación\n- Alertas de stock mínimo\n- Reportes de inventario\n- Kárdex de productos\n\nDuración: 3 semanas (15 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 850,
                     'tasks' => [
-                        ['name' => 'Diseño de estructura de inventario', 'description' => 'Definición de productos, unidades de medida, categorías.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'CRUD de productos', 'description' => 'Gestión del catálogo de productos avícolas.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de stock inicial', 'description' => 'Carga de inventario inicial.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Movimientos de ingreso', 'description' => 'Registro automático de ingresos desde recepciones.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Movimientos de salida', 'description' => 'Registro automático de salidas desde ventas.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Consulta de stock en tiempo real', 'description' => 'Dashboard de stock actual por producto.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Alertas de stock mínimo', 'description' => 'Configuración y alertas de niveles mínimos de inventario.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Kárdex de productos', 'description' => 'Historial detallado de movimientos por producto.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Reportes de inventario', 'description' => 'Reportes: rotación, valoración, envejecido.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'QA y pruebas', 'description' => 'Pruebas del módulo de inventario.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de estructura de inventario', 'description' => 'Definición de productos, unidades de medida, categorías.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de productos', 'description' => 'Gestión del catálogo de productos avícolas.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de stock inicial', 'description' => 'Carga de inventario inicial.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Movimientos de ingreso', 'description' => 'Registro automático de ingresos desde recepciones.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Movimientos de salida', 'description' => 'Registro automático de salidas desde ventas.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Consulta de stock en tiempo real', 'description' => 'Dashboard de stock actual por producto.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Alertas de stock mínimo', 'description' => 'Configuración y alertas de niveles mínimos de inventario.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Kárdex de productos', 'description' => 'Historial detallado de movimientos por producto.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Reportes de inventario', 'description' => 'Reportes: rotación, valoración, envejecido.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA y pruebas', 'description' => 'Pruebas del módulo de inventario.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 6: MÓDULO DE VENTAS
+                // FASE 6: MÓDULO DE VENTAS (3 semanas - 15 días)
                 // ==========================================
                 [
                     'name' => 'Fase 6: Módulo de Control de Ventas',
-                    'description' => "Desarrollo del módulo de control de ventas.\n\nIncluye:\n- Registro de pedidos de clientes\n- Gestión de precios y tarifas\n- Procesamiento de ventas\n- Generación de comprobantes\n- Historial de ventas\n- Reportes de ventas\n- Dashboard de ventas",
+                    'description' => "Desarrollo del módulo de control de ventas.\n\nIncluye:\n- Registro de pedidos de clientes\n- Gestión de precios y tarifas\n- Procesamiento de ventas\n- Generación de comprobantes\n- Historial de ventas\n- Reportes de ventas\n- Dashboard de ventas\n\nDuración: 3 semanas (15 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 1000,
                     'tasks' => [
-                        ['name' => 'Diseño de proceso de ventas', 'description' => 'Definición del flujo: pedido, aprobación, despacho, facturación.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'CRUD de clientes', 'description' => 'Gestión del catálogo de clientes.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Gestión de precios y tarifas', 'description' => 'Catálogo de precios por cliente, producto, cantidad.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de pedidos', 'description' => 'Pantalla de registro de pedidos de clientes.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Procesamiento de ventas', 'description' => 'Flujo de confirmación, despacho, cierre de venta.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Generación de comprobantes', 'description' => 'Creación de facturas, boletas, notas.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Historial de ventas', 'description' => 'Consulta de ventas por fecha, cliente, producto.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Reportes de ventas', 'description' => 'Reportes: diarias, mensuales, por cliente, por producto.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Dashboard de ventas', 'description' => 'Panel con indicadores de ventas en tiempo real.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'QA y pruebas', 'description' => 'Pruebas del módulo de ventas.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de proceso de ventas', 'description' => 'Definición del flujo: pedido, aprobación, despacho, facturación.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de clientes', 'description' => 'Gestión del catálogo de clientes.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Gestión de precios y tarifas', 'description' => 'Catálogo de precios por cliente, producto, cantidad.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de pedidos', 'description' => 'Pantalla de registro de pedidos de clientes.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Procesamiento de ventas', 'description' => 'Flujo de confirmación, despacho, cierre de venta.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Generación de comprobantes', 'description' => 'Creación de facturas, boletas, notas.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Historial de ventas', 'description' => 'Consulta de ventas por fecha, cliente, producto.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Reportes de ventas', 'description' => 'Reportes: diarias, mensuales, por cliente, por producto.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Dashboard de ventas', 'description' => 'Panel con indicadores de ventas en tiempo real.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA y pruebas', 'description' => 'Pruebas del módulo de ventas.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 7: MÓDULO DE GESTIÓN DE DEUDAS
+                // FASE 7: MÓDULO DE GESTIÓN DE DEUDAS (2 semanas - 10 días)
                 // ==========================================
                 [
                     'name' => 'Fase 7: Módulo de Gestión de Deudas de Clientes',
-                    'description' => "Desarrollo del módulo de gestión de deudas para clientes mayoristas.\n\nIncluye:\n- Control de crédito por cliente\n- Registro de deudas pendientes\n- Registro de pagos y abonos\n- Estados de cuenta por cliente\n- Alertas de morosidad\n- Historial de cobranzas\n- Reportes de cartera",
+                    'description' => "Desarrollo del módulo de gestión de deudas para clientes mayoristas.\n\nIncluye:\n- Control de crédito por cliente\n- Registro de deudas pendientes\n- Registro de pagos y abonos\n- Estados de cuenta por cliente\n- Alertas de morosidad\n- Historial de cobranzas\n- Reportes de cartera\n\nDuración: 2 semanas (10 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 900,
                     'tasks' => [
-                        ['name' => 'Diseño de gestión de crédito', 'description' => 'Definición de límites de crédito por cliente, condiciones.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Configuración de clientes mayoristas', 'description' => 'Definición de clientes con crédito, límites, condiciones.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro automático de deudas', 'description' => 'Creación de cuentas por cobrar desde ventas a crédito.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Registro de pagos y abonos', 'description' => 'Gestión de pagos parciales y totales.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Estados de cuenta por cliente', 'description' => 'Consulta de deuda actual, historial, vencimientos.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Alertas de morosidad', 'description' => 'Notificaciones de clientes con deuda vencida.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Historial de cobranzas', 'description' => 'Registro de acciones de cobranza, notas.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Reportes de cartera', 'description' => 'Reportes: antigüedad de deuda, morosidad, recuperación.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'QA y pruebas', 'description' => 'Pruebas del módulo de deudas.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de gestión de crédito', 'description' => 'Definición de límites de crédito por cliente, condiciones.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuración de clientes mayoristas', 'description' => 'Definición de clientes con crédito, límites, condiciones.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Registro automático de deudas', 'description' => 'Creación de cuentas por cobrar desde ventas a crédito.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Registro de pagos y abonos', 'description' => 'Gestión de pagos parciales y totales.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Estados de cuenta por cliente', 'description' => 'Consulta de deuda actual, historial, vencimientos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Alertas de morosidad', 'description' => 'Notificaciones de clientes con deuda vencida.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Historial de cobranzas', 'description' => 'Registro de acciones de cobranza, notas.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Reportes de cartera', 'description' => 'Reportes: antigüedad de deuda, morosidad, recuperación.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 8: MÓDULO DE USUARIOS Y ROLES (RBAC)
+                // FASE 8: MÓDULO DE USUARIOS Y ROLES (RBAC) (2 semanas - 10 días)
                 // ==========================================
                 [
                     'name' => 'Fase 8: Módulo de Usuarios y Roles (RBAC)',
-                    'description' => "Desarrollo del módulo de gestión de usuarios y control de acceso.\n\nIncluye:\n- Administración de usuarios\n- Gestión de roles\n- Permisos por módulo/acción\n- Asignación de roles a usuarios\n- Logs de auditoría\n- Restricciones de acceso\n- Recuperación de contraseñas",
+                    'description' => "Desarrollo del módulo de gestión de usuarios y control de acceso.\n\nIncluye:\n- Administración de usuarios\n- Gestión de roles\n- Permisos por módulo/acción\n- Asignación de roles a usuarios\n- Logs de auditoría\n- Restricciones de acceso\n- Recuperación de contraseñas\n\nDuración: 2 semanas (10 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 650,
                     'tasks' => [
-                        ['name' => 'Diseño de estructura de roles', 'description' => 'Definición de roles: administrador, recepcionista, vendedor, contador.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'CRUD de usuarios', 'description' => 'Gestión de usuarios del sistema.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'CRUD de roles', 'description' => 'Creación y edición de roles del sistema.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Sistema de permisos', 'description' => 'Matriz de permisos por módulo y acción.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Asignación de roles', 'description' => 'Asignación de roles a usuarios.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Protección de rutas', 'description' => 'Restricción de acceso a pantallas según rol.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Logs de auditoría', 'description' => 'Registro de acciones de usuarios.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Recuperación de contraseñas', 'description' => 'Sistema de reset de contraseña.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'QA y pruebas de seguridad', 'description' => 'Pruebas de acceso y permisos.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Diseño de estructura de roles', 'description' => 'Definición de roles: administrador, recepcionista, vendedor, contador.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de usuarios', 'description' => 'Gestión de usuarios del sistema.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de roles', 'description' => 'Creación y edición de roles del sistema.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Sistema de permisos', 'description' => 'Matriz de permisos por módulo y acción.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Asignación de roles', 'description' => 'Asignación de roles a usuarios.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Protección de rutas', 'description' => 'Restricción de acceso a pantallas según rol.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Logs de auditoría', 'description' => 'Registro de acciones de usuarios.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Recuperación de contraseñas', 'description' => 'Sistema de reset de contraseña.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 9: INTEGRACIÓN Y CONFIGURACIÓN EN VPS/CLOUD
+                // FASE 9: INTEGRACIÓN Y CONFIGURACIÓN EN VPS/CLOUD (1 semana - 5 días)
                 // ==========================================
                 [
                     'name' => 'Fase 9: Despliegue en VPS/Cloud e Integración',
-                    'description' => "Despliegue del sistema en servidor VPS/Cloud y configuración final.\n\nIncluye:\n- Preparación del servidor\n- Despliegue de la aplicación\n- Configuración de base de datos\n- Configuración de SSL\n- Integración con balanzas en producción\n- Configuración de respaldos\n- Pruebas en ambiente de producción",
+                    'description' => "Despliegue del sistema en servidor VPS/Cloud y configuración final.\n\nIncluye:\n- Preparación del servidor\n- Despliegue de la aplicación\n- Configuración de base de datos\n- Configuración de SSL\n- Integración con balanzas en producción\n- Configuración de respaldos\n- Pruebas en ambiente de producción\n\nDuración: 1 semana (5 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 650,
                     'tasks' => [
-                        ['name' => 'Preparación del servidor', 'description' => 'Configuración de servidor VPS: SO, LAMP/LEMP, dependencias.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Despliegue de la aplicación', 'description' => 'Deploy del código al servidor.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Configuración de base de datos', 'description' => 'Setup de MySQL, migraciones, seeds iniciales.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Configuración de SSL', 'description' => 'Certificado SSL (Lets Encrypt).', 'duration_value' => 2, 'duration_unit' => 'hours'],
-                        ['name' => 'Integración con balanzas', 'description' => 'Configuración de conexión con balanzas en producción.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Configuración de respaldos', 'description' => 'Setup de backups automáticos.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Pruebas en producción', 'description' => 'Verificación de funcionamiento en ambiente real.', 'duration_value' => 6, 'duration_unit' => 'hours'],
+                        ['name' => 'Preparación del servidor', 'description' => 'Configuración de servidor VPS: SO, LAMP/LEMP, dependencias.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Despliegue de la aplicación', 'description' => 'Deploy del código al servidor.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuración de base de datos', 'description' => 'Setup de MySQL, migraciones, seeds iniciales.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuración de SSL', 'description' => 'Certificado SSL (Lets Encrypt).', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Integración con balanzas', 'description' => 'Configuración de conexión con balanzas en producción.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuración de respaldos', 'description' => 'Setup de backups automáticos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Pruebas en producción', 'description' => 'Verificación de funcionamiento en ambiente real.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 // ==========================================
-                // FASE 10: PRUEBAS, CAPACITACIÓN Y ENTREGA
+                // FASE 10: PRUEBAS, CAPACITACIÓN Y ENTREGA (4 semanas - 20 días)
                 // ==========================================
                 [
                     'name' => 'Fase 10: Pruebas, Capacitación y Entrega Final',
-                    'description' => "Fase final de pruebas, capacitación y entrega del sistema.\n\nIncluye:\n- Pruebas integrales del sistema\n- Corrección de bugs\n- Documentación de usuario\n- Capacitación al personal\n- Entrega y soporte post-implementación",
+                    'description' => "Fase final de pruebas, capacitación y entrega del sistema.\n\nIncluye:\n- Pruebas integrales del sistema\n- Corrección de bugs\n- Documentación de usuario\n- Capacitación al personal\n- Entrega y soporte post-implementación\n\nDuración: 4 semanas (20 días laborales)",
                     'quantity' => 1,
                     'unit' => 'fase',
                     'unit_price' => 950,
                     'tasks' => [
-                        ['name' => 'Pruebas integrales', 'description' => 'Pruebas de todos los módulos juntos.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Pruebas de integración touch', 'description' => 'Verificación de funcionamiento en pantallas táctiles.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Pruebas de rendimiento', 'description' => 'Verificación de tiempos de respuesta.', 'duration_value' => 4, 'duration_unit' => 'hours'],
-                        ['name' => 'Corrección de bugs', 'description' => 'Resolución de errores encontrados.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Documentación de usuario', 'description' => 'Manual de usuario del sistema.', 'duration_value' => 6, 'duration_unit' => 'hours'],
-                        ['name' => 'Capacitación al personal', 'description' => 'Sesiones de capacitación por módulo.', 'duration_value' => 8, 'duration_unit' => 'hours'],
-                        ['name' => 'Entrega formal', 'description' => 'Acta de entrega del sistema.', 'duration_value' => 2, 'duration_unit' => 'hours'],
-                        ['name' => 'Soporte post-implementación', 'description' => 'Soporte de 15 días para ajustes.', 'duration_value' => 16, 'duration_unit' => 'hours'],
+                        ['name' => 'Pruebas integrales', 'description' => 'Pruebas de todos los módulos juntos.', 'duration_value' => 4, 'duration_unit' => 'days'],
+                        ['name' => 'Pruebas de integración touch', 'description' => 'Verificación de funcionamiento en pantallas táctiles.', 'duration_value' => 3, 'duration_unit' => 'days'],
+                        ['name' => 'Pruebas de rendimiento', 'description' => 'Verificación de tiempos de respuesta.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Corrección de bugs', 'description' => 'Resolución de errores encontrados.', 'duration_value' => 4, 'duration_unit' => 'days'],
+                        ['name' => 'Documentación de usuario', 'description' => 'Manual de usuario del sistema.', 'duration_value' => 3, 'duration_unit' => 'days'],
+                        ['name' => 'Capacitación al personal', 'description' => 'Sesiones de capacitación por módulo.', 'duration_value' => 3, 'duration_unit' => 'days'],
+                        ['name' => 'Entrega formal', 'description' => 'Acta de entrega del sistema.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
             ];
+
+            // Total de días: 5 + 15 + 15 + 20 + 15 + 15 + 10 + 10 + 5 + 20 = 130 días (aproximadamente 6 meses)
 
             foreach ($items as $index => $itemData) {
                 $tasks = $itemData['tasks'] ?? [];
