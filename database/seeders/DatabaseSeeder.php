@@ -41,6 +41,8 @@ class DatabaseSeeder extends Seeder
             BetkoPeruAppLubricacionQuoteSeeder::class,
             // Cotización de ejemplo: Instalación y configuración de Tokko Broker + sincronización agencias/vendedores/propiedades (USD, IGV 18%) - César Varela
             CesarVarelaTokkoBrokerQuoteSeeder::class,
+            // Cotización: Plataforma de Aprendizaje Virtual E-Learning (PEN, IGV 18%) - Flavia Jimena
+            FlaviaJimenaElearningQuoteSeeder::class,
         ]);
     }
 }
