@@ -67,7 +67,7 @@
             placeholder="Seleccionar imagen de perfil"
             button="Seleccionar Imagen"
             preview="true"
-            value="{{ old('profile_image_id', $user->profile_image_id ?? '') }}"
+            value="{{ old('profile_image_id', '') }}"
           />
         </div>
 
@@ -81,6 +81,16 @@
         <div>
           <label for="user-email" class="block text-sm font-medium text-[var(--c-text)] mb-1">Correo Electrónico</label>
           <input type="email" id="user-email" name="email" class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent" required>
+        </div>
+
+        <!-- Roles -->
+        <div>
+          <label for="user-roles" class="block text-sm font-medium text-[var(--c-text)] mb-1">Roles</label>
+          <select id="user-roles" name="roles" multiple
+            class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg focus:ring-2 focus:ring-[var(--c-primary)] focus:border-transparent">
+            <!-- options cargadas por JS -->
+          </select>
+          <p class="text-xs text-[var(--c-muted)] mt-1">Puedes seleccionar múltiples roles (Ctrl/⌘ + click)</p>
         </div>
 
         <!-- Password -->
@@ -112,6 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const API_TOKEN = document.querySelector('meta[name="api-token"]')?.getAttribute('content') || null;
 
+  // Roles cache
+  let rolesCache = [];
+  let rolesLoaded = false;
+  let rolesLoadingPromise = null;
+  let rolesLoadSucceeded = false;
+
   // Verificar token antes de cargar datos
   if (!API_TOKEN) {
     showError('Autenticación requerida', 'No se encontró un token de acceso válido. Por favor, inicia sesión nuevamente.');
@@ -119,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Load initial data
+  loadRoles();
   loadUsers();
 
   // Event listeners
@@ -180,16 +197,20 @@ document.addEventListener('DOMContentLoaded', function() {
         profileImageHtml = `<div class="w-10 h-10 rounded-full bg-[var(--c-primary)] flex items-center justify-center text-white font-bold text-lg">${user.name.charAt(0).toUpperCase()}</div>`;
       }
 
+      const roleNames = Array.isArray(user.roles) ? user.roles.map(r => r?.name).filter(Boolean) : [];
+      const roleIds = Array.isArray(user.roles) ? user.roles.map(r => r?.id).filter(Boolean) : [];
+
       userEl.innerHTML = `
         <div class="flex items-center gap-4">
           ${profileImageHtml}
           <div>
             <h3 class="font-medium text-[var(--c-text)]">${user.name}</h3>
             <p class="text-sm text-[var(--c-muted)]">${user.email}</p>
+            ${roleNames.length ? `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: ${roleNames.join(', ')}</p>` : `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: (sin roles)</p>`}
           </div>
         </div>
         <div class="flex gap-2">
-          <button class="edit-user-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${user.id}" data-name="${user.name}" data-email="${user.email}" data-profile-image-id="${user.profile_image_id || ''}">Editar</button>
+          <button class="edit-user-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${user.id}" data-name="${user.name}" data-email="${user.email}" data-profile-image-id="${user.profile_image_id || ''}" data-role-ids="${roleIds.join(',')}">Editar</button>
           <button class="delete-user-btn px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${user.id}">Eliminar</button>
         </div>
       `;
@@ -203,7 +224,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = e.target.dataset.name;
         const email = e.target.dataset.email;
         const profileImageId = e.target.dataset.profileImageId;
-        openUserModal(id, name, email, profileImageId);
+        const roleIds = (e.target.dataset.roleIds || '')
+          .split(',')
+          .map(s => parseInt(s, 10))
+          .filter(n => Number.isFinite(n));
+        openUserModal(id, name, email, profileImageId, roleIds);
       });
     });
 
@@ -242,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
     container.appendChild(nextBtn);
   }
 
-  function openUserModal(id = null, name = '', email = '', profileImageId = '') {
+  async function openUserModal(id = null, name = '', email = '', profileImageId = '', roleIds = []) {
     const modal = document.getElementById('user-modal');
     const title = document.getElementById('user-modal-title');
     const idField = document.getElementById('user-id');
@@ -250,6 +275,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailField = document.getElementById('user-email');
     const passwordField = document.getElementById('user-password');
     const passwordConfirmContainer = document.getElementById('password-confirm-container');
+    const rolesSelect = document.getElementById('user-roles');
+
+    // Asegurar que el select tenga roles cargados antes de setear selección
+    await loadRoles();
 
     if (id) {
       title.textContent = 'Editar Usuario';
@@ -269,6 +298,15 @@ document.addEventListener('DOMContentLoaded', function() {
       passwordField.placeholder = '';
       passwordConfirmContainer.style.display = 'block';
       document.getElementById('user-password-confirm').required = true;
+    }
+
+    // Selección de roles
+    if (rolesSelect && rolesLoadSucceeded) {
+      const selected = new Set((roleIds || []).map(n => parseInt(n, 10)).filter(Number.isFinite));
+      Array.from(rolesSelect.options).forEach(opt => {
+        const id = parseInt(opt.value, 10);
+        opt.selected = selected.has(id);
+      });
     }
 
     // Set profile image value
@@ -296,6 +334,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const email = document.getElementById('user-email').value;
     const password = document.getElementById('user-password').value;
     const profileImageId = document.querySelector('input[name="profile_image_id"]').value;
+    const roles = Array.from(document.getElementById('user-roles')?.selectedOptions || [])
+      .map(o => parseInt(o.value, 10))
+      .filter(n => Number.isFinite(n));
 
     const method = id ? 'PUT' : 'POST';
     const url = id ? `${API_BASE}/users/${id}` : `${API_BASE}/users`;
@@ -305,6 +346,12 @@ document.addEventListener('DOMContentLoaded', function() {
       email,
       profile_image_id: profileImageId || null
     };
+
+    // Sólo enviar roles si se pudieron cargar correctamente.
+    // Esto evita limpiar roles accidentalmente si falla loadRoles().
+    if (rolesLoadSucceeded) {
+      formData.roles = roles;
+    }
 
     if (password) {
       formData.password = password;
@@ -337,6 +384,75 @@ document.addEventListener('DOMContentLoaded', function() {
     } catch (error) {
       showError('Error de conexión', 'No se pudo guardar el usuario. Verifica tu conexión a internet.');
     }
+  }
+
+  async function loadRoles() {
+    if (rolesLoaded) return rolesCache;
+    if (rolesLoadingPromise) return rolesLoadingPromise;
+
+    const url = `${API_BASE}/rbac/roles?guard=web&per_page=100&sort=name&order=asc`;
+    rolesLoadingPromise = (async () => {
+      try {
+        const response = await fetch(url, {
+          headers: {
+            'Authorization': `Bearer ${API_TOKEN}`,
+            'X-CSRF-TOKEN': CSRF_TOKEN,
+            'Accept': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+        if (response.ok && data.success) {
+          rolesCache = Array.isArray(data.data) ? data.data : [];
+          rolesLoaded = true;
+          rolesLoadSucceeded = true;
+          renderRolesSelect(rolesCache);
+          return rolesCache;
+        }
+
+        showApiError('Error al cargar roles', data);
+        rolesCache = [];
+        rolesLoaded = true; // evita loop infinito; el usuario puede refrescar
+        rolesLoadSucceeded = false;
+        renderRolesSelect(rolesCache);
+        return rolesCache;
+      } catch (error) {
+        showError('Error de conexión', 'No se pudieron cargar los roles.');
+        rolesCache = [];
+        rolesLoaded = true;
+        rolesLoadSucceeded = false;
+        renderRolesSelect(rolesCache);
+        return rolesCache;
+      } finally {
+        rolesLoadingPromise = null;
+      }
+    })();
+
+    return rolesLoadingPromise;
+  }
+
+  function renderRolesSelect(roles) {
+    const select = document.getElementById('user-roles');
+    if (!select) return;
+
+    select.innerHTML = '';
+
+    if (!Array.isArray(roles) || roles.length === 0) {
+      const opt = document.createElement('option');
+      opt.value = '';
+      opt.textContent = 'No hay roles disponibles';
+      opt.disabled = true;
+      opt.selected = true;
+      select.appendChild(opt);
+      return;
+    }
+
+    roles.forEach(role => {
+      const opt = document.createElement('option');
+      opt.value = String(role.id);
+      opt.textContent = role.name;
+      select.appendChild(opt);
+    });
   }
 
   async function deleteUser(id) {

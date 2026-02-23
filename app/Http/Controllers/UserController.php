@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -16,7 +17,7 @@ class UserController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = User::with('profileImage');
+        $query = User::with(['profileImage', 'roles']);
 
         if ($request->filled('search')) {
             $search = trim((string)$request->input('search'));
@@ -52,6 +53,9 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'profile_image_id' => 'nullable|exists:media_assets,id',
+            // roles: IDs de roles (guard web por defecto)
+            'roles' => 'sometimes|array',
+            'roles.*' => 'integer|exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -67,8 +71,28 @@ class UserController extends Controller
 
         $user = User::create($userData);
 
+        // Asignación de roles (opcional)
+        if ($request->has('roles')) {
+            $roleIds = (array) $request->input('roles', []);
+            $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
+
+            $guard = $user->getDefaultGuardName();
+            $roles = Role::query()
+                ->where('guard_name', $guard)
+                ->whereIn('id', $roleIds)
+                ->get();
+
+            if (count($roleIds) !== $roles->count()) {
+                return $this->apiValidationError([
+                    'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
+                ]);
+            }
+
+            $user->syncRoles($roles);
+        }
+
         // Cargar la relación de imagen de perfil
-        $user->load('profileImage');
+        $user->load(['profileImage', 'roles']);
 
         return $this->apiCreated('Usuario creado exitosamente', 'USER_CREATED', $user);
     }
@@ -78,7 +102,7 @@ class UserController extends Controller
      */
     public function show(Request $request, $id): JsonResponse
     {
-        $user = User::with('profileImage')->find($id);
+        $user = User::with(['profileImage', 'roles'])->find($id);
 
         if (!$user) {
             return $this->apiNotFound('Usuario no encontrado', 'USER_NOT_FOUND');
@@ -103,6 +127,9 @@ class UserController extends Controller
             'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'password' => 'sometimes|nullable|string|min:8',
             'profile_image_id' => 'nullable|exists:media_assets,id',
+            // roles: IDs de roles (si viene, se sincroniza)
+            'roles' => 'sometimes|array',
+            'roles.*' => 'integer|exists:roles,id',
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +137,11 @@ class UserController extends Controller
         }
 
         $updateData = $validator->validated();
+        $rolesToSync = null;
+        if (array_key_exists('roles', $updateData)) {
+            $rolesToSync = (array) ($updateData['roles'] ?? []);
+            unset($updateData['roles']);
+        }
 
         // Hash password if provided
         if (isset($updateData['password']) && !empty($updateData['password'])) {
@@ -120,8 +152,26 @@ class UserController extends Controller
 
         $user->update($updateData);
 
+        // Sincronizar roles sólo si vinieron en el payload
+        if (is_array($rolesToSync)) {
+            $roleIds = array_values(array_unique(array_map('intval', $rolesToSync)));
+            $guard = $user->getDefaultGuardName();
+            $roles = Role::query()
+                ->where('guard_name', $guard)
+                ->whereIn('id', $roleIds)
+                ->get();
+
+            if (count($roleIds) !== $roles->count()) {
+                return $this->apiValidationError([
+                    'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
+                ]);
+            }
+
+            $user->syncRoles($roles);
+        }
+
         // Cargar la relación de imagen de perfil
-        $user->load('profileImage');
+        $user->load(['profileImage', 'roles']);
 
         return $this->apiSuccess('Usuario actualizado', 'USER_UPDATED', $user);
     }
@@ -199,8 +249,23 @@ class UserController extends Controller
             return $this->apiValidationError($validator->errors()->toArray());
         }
 
-        $roleIds = $request->input('roles');
-        $user->roles()->sync($roleIds);
+        $roleIds = (array) $request->input('roles', []);
+        $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
+
+        $guard = $user->getDefaultGuardName();
+        $roles = Role::query()
+            ->where('guard_name', $guard)
+            ->whereIn('id', $roleIds)
+            ->get();
+
+        if (count($roleIds) !== $roles->count()) {
+            return $this->apiValidationError([
+                'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
+            ]);
+        }
+
+        $user->syncRoles($roles);
+        $user->load('roles');
 
         return $this->apiSuccess('Roles asignados al usuario', 'USER_ROLES_ASSIGNED', $user->roles);
     }
@@ -225,8 +290,26 @@ class UserController extends Controller
             return $this->apiValidationError($validator->errors()->toArray());
         }
 
-        $roleIds = $request->input('roles');
-        $user->roles()->detach($roleIds);
+        $roleIds = (array) $request->input('roles', []);
+        $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
+
+        $guard = $user->getDefaultGuardName();
+        $roles = Role::query()
+            ->where('guard_name', $guard)
+            ->whereIn('id', $roleIds)
+            ->get();
+
+        if (count($roleIds) !== $roles->count()) {
+            return $this->apiValidationError([
+                'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
+            ]);
+        }
+
+        foreach ($roles as $role) {
+            $user->removeRole($role);
+        }
+
+        $user->load('roles');
 
         return $this->apiSuccess('Roles revocados del usuario', 'USER_ROLES_REVOKED', $user->roles);
     }
