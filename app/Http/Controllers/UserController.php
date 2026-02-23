@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
@@ -51,7 +51,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'profile_image_id' => 'nullable|exists:media_assets,id',
             // roles: IDs de roles (guard web por defecto)
             'roles' => 'sometimes|array',
@@ -62,39 +62,48 @@ class UserController extends Controller
             return $this->apiValidationError($validator->errors()->toArray());
         }
 
-        $userData = [
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'profile_image_id' => $request->input('profile_image_id'),
-        ];
+        try {
+            return DB::transaction(function () use ($request) {
+                $userData = [
+                    'name' => $request->input('name'),
+                    'email' => $request->input('email'),
+                    'password' => $request->input('password'),
+                    'profile_image_id' => $request->input('profile_image_id'),
+                ];
 
-        $user = User::create($userData);
+                $user = User::create($userData);
 
-        // Asignación de roles (opcional)
-        if ($request->has('roles')) {
-            $roleIds = (array) $request->input('roles', []);
-            $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
+                // Asignación de roles (opcional)
+                if ($request->has('roles')) {
+                    $roleIds = (array) $request->input('roles', []);
+                    $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
 
-            $guard = $user->getDefaultGuardName();
-            $roles = Role::query()
-                ->where('guard_name', $guard)
-                ->whereIn('id', $roleIds)
-                ->get();
+                    $guard = $user->getDefaultGuardName();
+                    $roles = Role::query()
+                        ->where('guard_name', $guard)
+                        ->whereIn('id', $roleIds)
+                        ->get();
 
-            if (count($roleIds) !== $roles->count()) {
+                    if (count($roleIds) !== $roles->count()) {
+                        throw new \RuntimeException('INVALID_ROLES');
+                    }
+
+                    $user->syncRoles($roles);
+                }
+
+                // Cargar la relación de imagen de perfil
+                $user->load(['profileImage', 'roles']);
+
+                return $this->apiCreated('Usuario creado exitosamente', 'USER_CREATED', $user);
+            });
+        } catch (\RuntimeException $e) {
+            if ($e->getMessage() === 'INVALID_ROLES') {
                 return $this->apiValidationError([
                     'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
                 ]);
             }
-
-            $user->syncRoles($roles);
+            throw $e;
         }
-
-        // Cargar la relación de imagen de perfil
-        $user->load(['profileImage', 'roles']);
-
-        return $this->apiCreated('Usuario creado exitosamente', 'USER_CREATED', $user);
     }
 
     /**
@@ -143,37 +152,59 @@ class UserController extends Controller
             unset($updateData['roles']);
         }
 
-        // Hash password if provided
-        if (isset($updateData['password']) && !empty($updateData['password'])) {
-            $updateData['password'] = Hash::make($updateData['password']);
-        } elseif (isset($updateData['password']) && empty($updateData['password'])) {
-            unset($updateData['password']); // Don't update if empty
+        // Remove empty password from update data (don't update if empty)
+        if (isset($updateData['password']) && empty($updateData['password'])) {
+            unset($updateData['password']);
         }
 
-        $user->update($updateData);
+        try {
+            return DB::transaction(function () use ($user, $updateData, $rolesToSync) {
+                $user->update($updateData);
 
-        // Sincronizar roles sólo si vinieron en el payload
-        if (is_array($rolesToSync)) {
-            $roleIds = array_values(array_unique(array_map('intval', $rolesToSync)));
-            $guard = $user->getDefaultGuardName();
-            $roles = Role::query()
-                ->where('guard_name', $guard)
-                ->whereIn('id', $roleIds)
-                ->get();
+                // Sincronizar roles sólo si vinieron en el payload
+                if (is_array($rolesToSync)) {
+                    $roleIds = array_values(array_unique(array_map('intval', $rolesToSync)));
+                    $guard = $user->getDefaultGuardName();
+                    $roles = Role::query()
+                        ->where('guard_name', $guard)
+                        ->whereIn('id', $roleIds)
+                        ->get();
 
-            if (count($roleIds) !== $roles->count()) {
+                    if (count($roleIds) !== $roles->count()) {
+                        throw new \RuntimeException('INVALID_ROLES');
+                    }
+
+                    // Protección contra auto-eliminación de rol admin
+                    if (auth()->check() && auth()->id() === $user->id) {
+                        $hasAdminRole = $user->hasRole('admin');
+                        $newRolesHaveAdmin = $roles->contains(function ($role) {
+                            return $role->name === 'admin';
+                        });
+
+                        if ($hasAdminRole && !$newRolesHaveAdmin) {
+                            throw new \RuntimeException('SELF_ROLE_REMOVAL');
+                        }
+                    }
+
+                    $user->syncRoles($roles);
+                }
+
+                // Cargar la relación de imagen de perfil
+                $user->load(['profileImage', 'roles']);
+
+                return $this->apiSuccess('Usuario actualizado', 'USER_UPDATED', $user);
+            });
+        } catch (\RuntimeException $e) {
+            if ($e->getMessage() === 'INVALID_ROLES') {
                 return $this->apiValidationError([
                     'roles' => ['Uno o más roles no existen o no pertenecen al guard requerido.'],
                 ]);
             }
-
-            $user->syncRoles($roles);
+            if ($e->getMessage() === 'SELF_ROLE_REMOVAL') {
+                return $this->apiForbidden('No puedes removerte el rol de administrador', 'SELF_ROLE_REMOVAL');
+            }
+            throw $e;
         }
-
-        // Cargar la relación de imagen de perfil
-        $user->load(['profileImage', 'roles']);
-
-        return $this->apiSuccess('Usuario actualizado', 'USER_UPDATED', $user);
     }
 
     /**

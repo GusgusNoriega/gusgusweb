@@ -128,6 +128,13 @@ document.addEventListener('DOMContentLoaded', function() {
   let rolesLoadingPromise = null;
   let rolesLoadSucceeded = false;
 
+  function escapeHtml(str) {
+    if (str == null) return '';
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(String(str)));
+    return div.innerHTML;
+  }
+
   // Verificar token antes de cargar datos
   if (!API_TOKEN) {
     showError('Autenticación requerida', 'No se encontró un token de acceso válido. Por favor, inicia sesión nuevamente.');
@@ -141,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Event listeners
   document.getElementById('btn-create-user').addEventListener('click', () => openUserModal());
   document.getElementById('btn-refresh-users').addEventListener('click', loadUsers);
-  document.getElementById('search-users').addEventListener('input', debounce(loadUsers, 300));
+  document.getElementById('search-users').addEventListener('input', debounce(() => loadUsers(1), 300));
 
   // Form submissions
   document.getElementById('user-form').addEventListener('submit', saveUser);
@@ -192,9 +199,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Profile image
       let profileImageHtml = '';
       if (user.profile_image) {
-        profileImageHtml = `<img src="${user.profile_image.url}" alt="${user.profile_image.alt || user.name}" class="w-10 h-10 rounded-full object-cover">`;
+        profileImageHtml = `<img src="${escapeHtml(user.profile_image.url)}" alt="${escapeHtml(user.profile_image.alt || user.name)}" class="w-10 h-10 rounded-full object-cover">`;
       } else {
-        profileImageHtml = `<div class="w-10 h-10 rounded-full bg-[var(--c-primary)] flex items-center justify-center text-white font-bold text-lg">${user.name.charAt(0).toUpperCase()}</div>`;
+        profileImageHtml = `<div class="w-10 h-10 rounded-full bg-[var(--c-primary)] flex items-center justify-center text-white font-bold text-lg">${escapeHtml(user.name.charAt(0).toUpperCase())}</div>`;
       }
 
       const roleNames = Array.isArray(user.roles) ? user.roles.map(r => r?.name).filter(Boolean) : [];
@@ -204,16 +211,25 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="flex items-center gap-4">
           ${profileImageHtml}
           <div>
-            <h3 class="font-medium text-[var(--c-text)]">${user.name}</h3>
-            <p class="text-sm text-[var(--c-muted)]">${user.email}</p>
-            ${roleNames.length ? `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: ${roleNames.join(', ')}</p>` : `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: (sin roles)</p>`}
+            <h3 class="font-medium text-[var(--c-text)]">${escapeHtml(user.name)}</h3>
+            <p class="text-sm text-[var(--c-muted)]">${escapeHtml(user.email)}</p>
+            ${roleNames.length ? `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: ${escapeHtml(roleNames.join(', '))}</p>` : `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: (sin roles)</p>`}
           </div>
         </div>
         <div class="flex gap-2">
-          <button class="edit-user-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${user.id}" data-name="${user.name}" data-email="${user.email}" data-profile-image-id="${user.profile_image_id || ''}" data-role-ids="${roleIds.join(',')}">Editar</button>
+          <button class="edit-user-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${user.id}">Editar</button>
           <button class="delete-user-btn px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${user.id}">Eliminar</button>
         </div>
       `;
+
+      const editBtn = userEl.querySelector('.edit-user-btn');
+      if (editBtn) {
+        editBtn.dataset.name = user.name;
+        editBtn.dataset.email = user.email;
+        editBtn.dataset.profileImageId = user.profile_image_id || '';
+        editBtn.dataset.roleIds = roleIds.join(',');
+      }
+
       container.appendChild(userEl);
     });
 
@@ -355,6 +371,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (password) {
       formData.password = password;
+      // Si estamos creando (no hay id), enviar confirmación
+      if (!id) {
+        formData.password_confirmation = document.getElementById('user-password-confirm').value;
+      }
     }
 
     try {
