@@ -202,7 +202,7 @@
               <p class="mt-2 text-sm text-[var(--c-muted)]">Página web informativa perfecta para pequeños negocios y emprendedores que buscan presencia digital.</p>
               
               <div class="mt-4">
-                <p class="text-3xl font-bold">S/ 800</p>
+                <p class="text-3xl font-bold">S/ 1,150</p>
                 <p class="text-xs text-[var(--c-muted)]">Sin IGV • Pago único</p>
               </div>
 
@@ -264,7 +264,7 @@
               <p class="mt-2 text-sm text-[var(--c-muted)]">Página web completa para empresas que necesitan mayor presencia digital y funcionalidades avanzadas.</p>
               
               <div class="mt-4">
-                <p class="text-3xl font-bold">S/ 1,400</p>
+                <p class="text-3xl font-bold">S/ 1,750</p>
                 <p class="text-xs text-[var(--c-muted)]">Sin IGV • Pago único</p>
               </div>
 
@@ -323,7 +323,7 @@
               <p class="mt-2 text-sm text-[var(--c-muted)]">Solución web a medida para empresas que requieren funcionalidades específicas e integraciones avanzadas.</p>
               
               <div class="mt-4">
-                <p class="text-3xl font-bold">Desde S/ 2,000</p>
+                <p class="text-3xl font-bold">Desde S/ 2,350</p>
                 <p class="text-xs text-[var(--c-muted)]">Sin IGV • Precio según requerimientos</p>
               </div>
 
