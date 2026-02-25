@@ -1,9 +1,14 @@
 @extends('layouts.marketing')
 
-@section('title', 'Desarrollo de páginas web en Lima | Desarrollo de software a medida - SystemsGG')
-@section('og_title', 'Desarrollo de páginas web en Lima y software a medida | SystemsGG')
-@section('canonical', url('/'))
-@section('meta_description', 'Empresa de desarrollo de páginas web en Lima y desarrollo de software a medida. +11 años de experiencia creando soluciones para empresas: web, APIs, automatización e integraciones.')
+@section('title', 'systemsgg | Desarrollo de páginas web en Lima y software a medida - SystemsGG')
+@section('og_title', 'systemsgg (SystemsGG) | Desarrollo web y software a medida para empresas')
+@section('og_image_alt', 'systemsgg - Desarrollo de páginas web profesionales y software a medida en Lima, Perú')
+@section('canonical', config('app.url'))
+@section('meta_description', 'systemsgg (SystemsGG) desarrolla páginas web en Lima y software a medida. +11 años creando sistemas, APIs, automatización e integraciones para empresas.')
+@section('keywords', 'systemsgg, SystemsGG, systems gg, desarrollo web Lima, páginas web profesionales, software a medida, desarrollo de páginas web, diseño web Lima, empresa de desarrollo de software, agencia digital Lima, desarrollo web Perú, CRM a medida, ERP personalizado, integraciones API, sistemas web empresariales')
+@section('author', 'SystemsGG')
+@section('robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
+@section('googlebot', 'index, follow')
 
 @section('content')
   <!-- HERO -->
@@ -23,16 +28,17 @@
             </div>
 
             <h1 class="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-              <span class="bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] bg-clip-text text-transparent">Desarrollo de páginas web profesionales</span>
+              <span class="bg-gradient-to-r from-[var(--c-primary)] to-[var(--c-primary-2)] bg-clip-text text-transparent">systemsgg</span>:
+              <span class="text-white">desarrollo de páginas web profesionales</span>
               y <span class="text-white">software a medida</span> que impulsa resultados
             </h1>
 
             <p class="mt-4 text-base text-[var(--c-muted)] leading-relaxed sm:text-lg">
-              Transformamos tus ideas en soluciones digitales rentables. Creamos páginas web, sistemas personalizados, APIs e integraciones con tecnología moderna, diseño atractivo y código optimizado para posicionamiento en Google.
+              En <span class="text-[var(--c-text)] font-medium">systemsgg (SystemsGG)</span> transformamos tus ideas en soluciones digitales rentables. Creamos páginas web, sistemas personalizados, APIs e integraciones con tecnología moderna, diseño atractivo y código optimizado para posicionamiento en Google.
             </p>
 
             <p class="mt-3 text-base text-[var(--c-muted)] leading-relaxed sm:text-lg">
-              Trabajamos con empresas en <span class="text-[var(--c-text)] font-medium">Lima, Perú</span> y de forma 100% remota. Comunicación directa, entregas puntuales y soporte continuo. <span class="text-[var(--c-text)]">Sin sorpresas, sin letra pequeña.</span>
+              Trabajamos con empresas en <span class="text-[var(--c-text)] font-medium">Lima, Perú</span> y de forma 100% remota. Te acompañamos desde la estrategia hasta el despliegue, con foco en rendimiento, seguridad y conversión. <span class="text-[var(--c-text)]">Sin sorpresas, sin letra pequeña.</span>
             </p>
 
             <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -120,7 +126,7 @@
         <div class="max-w-2xl">
           <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Soluciones que generan resultados</h2>
           <p class="mt-3 text-sm text-[var(--c-muted)] leading-relaxed">
-            No solo desarrollamos software, creamos herramientas que optimizan tu operación, aumentan tus ventas y reducen costos. Cada proyecto incluye análisis, diseño, desarrollo, pruebas y acompañamiento post-lanzamiento.
+            El equipo de systemsgg no solo desarrolla software, creamos herramientas que optimizan tu operación, aumentan tus ventas y reducen costos. Cada proyecto incluye análisis, diseño, desarrollo, pruebas y acompañamiento post-lanzamiento.
           </p>
         </div>
 
@@ -391,7 +397,7 @@
           <div class="lg:col-span-5">
             <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">Trabajamos contigo, no solo para ti</h2>
             <p class="mt-3 text-sm text-[var(--c-muted)] leading-relaxed">
-              Nuestro proceso está diseñado para que siempre sepas cómo avanza tu proyecto. Reuniones de seguimiento, avances verificables cada semana y acceso directo al equipo de desarrollo. Sin intermediarios, sin sorpresas en la factura final.
+              En systemsgg, nuestro proceso está diseñado para que siempre sepas cómo avanza tu proyecto. Reuniones de seguimiento, avances verificables cada semana y acceso directo al equipo de desarrollo. Sin intermediarios, sin sorpresas en la factura final.
             </p>
             <div class="mt-6 rounded-2xl bg-gradient-to-r from-[var(--c-primary)]/10 to-[var(--c-primary-2)]/10 p-4 ring-1 ring-[var(--c-primary)]/20">
               <p class="text-sm font-medium text-[var(--c-text)]">💬 Comunicación directa</p>
@@ -439,7 +445,7 @@
           <!-- Proyecto 1: IBT -->
           <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
             <div class="aspect-video overflow-hidden bg-gradient-to-br from-blue-600 to-blue-400">
-              <img src="{{ asset('img/proyectos/ibt.png') }}" alt="IBT - Internet de fibra óptica" class="h-full w-full object-cover" />
+              <img src="{{ asset('img/proyectos/ibt.png') }}" alt="IBT - Internet de fibra óptica (proyecto web desarrollado por SystemsGG)" class="h-full w-full object-cover" />
             </div>
             <div class="p-6">
               <p class="text-xs text-[var(--c-muted)]">Telecomunicaciones · EE.UU.</p>
@@ -451,7 +457,7 @@
           <!-- Proyecto 2: Catedral de Lima -->
           <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
             <div class="aspect-video overflow-hidden bg-gradient-to-br from-amber-700 to-amber-500">
-              <img src="{{ asset('img/proyectos/catedral.png') }}" alt="Basílica Catedral de Lima" class="h-full w-full object-cover" />
+              <img src="{{ asset('img/proyectos/catedral.png') }}" alt="Basílica Catedral de Lima (sitio web desarrollado por SystemsGG)" class="h-full w-full object-cover" />
             </div>
             <div class="p-6">
               <p class="text-xs text-[var(--c-muted)]">Turismo & Cultura · Perú</p>
@@ -463,7 +469,7 @@
           <!-- Proyecto 3: MTOP Vínculo -->
           <div class="overflow-hidden rounded-3xl bg-[var(--c-surface)] ring-1 ring-[var(--c-border)]">
             <div class="aspect-video overflow-hidden bg-gradient-to-br from-indigo-700 to-indigo-500">
-              <img src="{{ asset('img/proyectos/mtvinculo.png') }}" alt="MTOP Vínculo Inmobiliario" class="h-full w-full object-cover" />
+              <img src="{{ asset('img/proyectos/mtvinculo.png') }}" alt="MTOP Vínculo Inmobiliario (plataforma desarrollada por SystemsGG)" class="h-full w-full object-cover" />
             </div>
             <div class="p-6">
               <p class="text-xs text-[var(--c-muted)]">Inmobiliaria · México</p>

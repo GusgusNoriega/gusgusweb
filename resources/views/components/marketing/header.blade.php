@@ -2,9 +2,9 @@
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div x-data="{ open: false }" class="flex h-16 items-center justify-between">
       <!-- Brand -->
-      <a href="{{ route('home') }}" class="group inline-flex items-center gap-3">
+      <a href="{{ route('home') }}" title="systemsgg - Inicio" class="group inline-flex items-center gap-3">
         <span class="inline-flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-primary-2)] shadow-soft ring-1 ring-white/10">
-          <img src="{{ asset('img/logo-systems-gg.png') }}" alt="SystemsGG" width="28" height="28" decoding="async" class="size-7 object-contain" />
+          <img src="{{ asset('img/logo-systems-gg.png') }}" alt="systemsgg - Desarrollo de páginas web y software a medida en Lima" width="28" height="28" decoding="async" class="size-7 object-contain" />
         </span>
         <span class="leading-tight">
           <span class="block text-sm font-semibold tracking-tight">SystemsGG</span>

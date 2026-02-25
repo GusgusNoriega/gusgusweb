@@ -29,6 +29,10 @@
     // Canonical consistente (NO depende del host del request)
     $siteUrl = rtrim(config('app.url'), '/');
 
+    $defaultTitle = 'SystemsGG • Desarrollo de software a medida y páginas web en Lima';
+    $pageTitle = trim((string)($__env->yieldContent('title') ?: $defaultTitle));
+    $ogTitle = trim((string)($__env->yieldContent('og_title') ?: $pageTitle));
+
     // URL actual sin querystring (solo path) sobre el host canónico
     $currentPath = (string) request()->getPathInfo();
     $defaultCanonical = $siteUrl . rtrim($currentPath, '/');
@@ -53,7 +57,8 @@
         $canonical = $defaultCanonical;
     }
     $metaDescription = trim((string)($__env->yieldContent('meta_description') ?: 'Desarrollo de páginas web en Lima y desarrollo de software a medida. +11 años creando soluciones para empresas: web, APIs, automatización e integraciones.'));
-    $ogImage = url(asset('img/logo-systems-gg.png'));
+    // Imagen social sobre el host canónico
+    $ogImage = $siteUrl . '/img/logo-systems-gg.png';
 
     // Contacto (WhatsApp) reutilizado en footer + botón flotante
     $waPhoneDisplay = '+51 949 421 023';
@@ -63,6 +68,10 @@
   @endphp
 
   <meta name="description" content="{{ $metaDescription }}" />
+  @hasSection('keywords')
+  <meta name="keywords" content="@yield('keywords')">
+  @endif
+  <meta name="author" content="@yield('author', 'SystemsGG')">
   <link rel="canonical" href="{{ $canonical }}" />
   <link rel="alternate" hreflang="es-PE" href="{{ $siteUrl }}" />
 
@@ -73,14 +82,18 @@
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="{{ $siteName }}" />
-  <meta property="og:title" content="@yield('og_title', $__env->yieldContent('title', 'SystemsGG'))" />
+  <meta property="og:title" content="{{ $ogTitle }}" />
   <meta property="og:description" content="{{ $metaDescription }}" />
   <meta property="og:url" content="{{ $canonical }}" />
   <meta property="og:locale" content="es_PE" />
   <meta property="og:image" content="{{ $ogImage }}" />
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="@yield('og_image_alt', 'SystemsGG - Desarrollo web y software a medida')">
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="@yield('og_title', $__env->yieldContent('title', 'SystemsGG'))" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="{{ $ogTitle }}" />
   <meta name="twitter:description" content="{{ $metaDescription }}" />
   <meta name="twitter:image" content="{{ $ogImage }}" />
 
@@ -182,66 +195,126 @@
 
   <!-- Datos estructurados (SEO) -->
   @php
+    $logoUrl = $siteUrl . '/img/logo-systems-gg.png';
+
     $jsonLd = [
       '@context' => 'https://schema.org',
       '@graph' => [
         [
-          '@type' => 'Organization',
-          '@id' => $siteUrl.'#organization',
-          'name' => $siteName,
+          '@type' => ['Organization', 'LocalBusiness', 'ProfessionalService'],
+          '@id' => $siteUrl . '#organization',
+          'name' => 'SystemsGG',
+          'alternateName' => ['systemsgg', 'systems gg', 'Systems GG'],
           'url' => $siteUrl,
-          'logo' => $ogImage,
-          'sameAs' => [],
-        ],
-        [
-          '@type' => 'WebSite',
-          '@id' => $siteUrl.'#website',
-          'url' => $siteUrl,
-          'name' => $siteName,
-          'publisher' => ['@id' => $siteUrl.'#organization'],
-          'inLanguage' => 'es-PE',
-        ],
-        [
-          '@type' => 'LocalBusiness',
-          '@id' => $siteUrl.'#localbusiness',
-          'name' => $siteName,
-          'image' => $ogImage,
-          'url' => $siteUrl,
-          'telephone' => '+57 300 000 0000',
+          'logo' => [
+            '@type' => 'ImageObject',
+            'url' => $logoUrl,
+            'width' => 512,
+            'height' => 512,
+          ],
+          'image' => $logoUrl,
+          'description' => 'systemsgg (SystemsGG) desarrolla páginas web profesionales y software a medida en Lima, Perú. +11 años creando sistemas, APIs, automatización e integraciones para empresas.',
+          'foundingDate' => '2015',
           'address' => [
             '@type' => 'PostalAddress',
             'addressLocality' => 'Lima',
+            'addressRegion' => 'Lima',
             'addressCountry' => 'PE',
           ],
+          'geo' => [
+            '@type' => 'GeoCoordinates',
+            'latitude' => -12.0464,
+            'longitude' => -77.0428,
+          ],
+          'contactPoint' => [
+            [
+              '@type' => 'ContactPoint',
+              'telephone' => '+51-949-421-023',
+              'contactType' => 'sales',
+              'email' => 'hola@systemsgg.com',
+              'availableLanguage' => ['Spanish', 'English'],
+              'areaServed' => ['PE', 'US', 'MX'],
+            ],
+          ],
           'areaServed' => [
-            ['@type' => 'City', 'name' => 'Lima'],
             ['@type' => 'Country', 'name' => 'Perú'],
+            ['@type' => 'Country', 'name' => 'Estados Unidos'],
+            ['@type' => 'Country', 'name' => 'México'],
           ],
-          'knowsAbout' => [
-            'desarrollo de páginas web en Lima',
-            'desarrollo web',
-            'desarrollo de software a medida',
-            'integraciones y APIs',
+          'priceRange' => '$$',
+          'currenciesAccepted' => 'PEN, USD',
+          'paymentAccepted' => 'Transferencia bancaria, PayPal',
+          'openingHoursSpecification' => [
+            '@type' => 'OpeningHoursSpecification',
+            'dayOfWeek' => ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            'opens' => '09:00',
+            'closes' => '20:00',
+          ],
+          'knowsAbout' => ['Desarrollo web', 'Software a medida', 'APIs', 'CRM', 'ERP', 'Integraciones', 'SEO', 'Laravel', 'Vue.js', 'React'],
+          'hasOfferCatalog' => [
+            '@type' => 'OfferCatalog',
+            'name' => 'Servicios de desarrollo web y software',
+            'itemListElement' => [
+              [
+                '@type' => 'Offer',
+                'itemOffered' => [
+                  '@type' => 'Service',
+                  'name' => 'Desarrollo de páginas web profesionales',
+                  'description' => 'Diseño y desarrollo de páginas web profesionales, landing pages y sitios corporativos optimizados para SEO y conversión.',
+                  'provider' => ['@id' => $siteUrl . '#organization'],
+                  'areaServed' => ['PE', 'US', 'MX'],
+                  'serviceType' => 'Desarrollo web',
+                ],
+              ],
+              [
+                '@type' => 'Offer',
+                'itemOffered' => [
+                  '@type' => 'Service',
+                  'name' => 'Software a medida',
+                  'description' => 'Desarrollo de sistemas empresariales personalizados: CRM, ERP, plataformas de gestión, facturación electrónica y automatización de procesos.',
+                  'provider' => ['@id' => $siteUrl . '#organization'],
+                  'areaServed' => ['PE', 'US', 'MX'],
+                  'serviceType' => 'Desarrollo de software',
+                ],
+              ],
+              [
+                '@type' => 'Offer',
+                'itemOffered' => [
+                  '@type' => 'Service',
+                  'name' => 'Integraciones y APIs',
+                  'description' => 'Integración de sistemas, desarrollo de APIs REST, conexión con pasarelas de pago, WhatsApp Business y servicios de terceros.',
+                  'provider' => ['@id' => $siteUrl . '#organization'],
+                  'areaServed' => ['PE', 'US', 'MX'],
+                  'serviceType' => 'Integración de sistemas',
+                ],
+              ],
+            ],
           ],
         ],
         [
-          '@type' => 'Service',
-          '@id' => $siteUrl.'#service-web',
-          'serviceType' => 'Desarrollo de páginas web en Lima',
-          'provider' => ['@id' => $siteUrl.'#localbusiness'],
-          'areaServed' => ['@type' => 'City', 'name' => 'Lima'],
+          '@type' => 'WebSite',
+          '@id' => $siteUrl . '#website',
+          'url' => $siteUrl,
+          'name' => 'SystemsGG',
+          'alternateName' => 'systemsgg',
+          'publisher' => ['@id' => $siteUrl . '#organization'],
+          'inLanguage' => 'es-PE',
         ],
         [
-          '@type' => 'Service',
-          '@id' => $siteUrl.'#service-software',
-          'serviceType' => 'Desarrollo de software a medida',
-          'provider' => ['@id' => $siteUrl.'#localbusiness'],
-          'areaServed' => ['@type' => 'Country', 'name' => 'Perú'],
+          '@type' => 'WebPage',
+          '@id' => $canonical . '#webpage',
+          'url' => $canonical,
+          'name' => $pageTitle,
+          'description' => $metaDescription,
+          'isPartOf' => ['@id' => $siteUrl . '#website'],
+          'about' => ['@id' => $siteUrl . '#organization'],
+          'inLanguage' => 'es-PE',
+          'dateModified' => trim((string)($__env->yieldContent('date_modified') ?: '2025-02-25T00:00:00-05:00')),
         ],
       ],
     ];
   @endphp
-  <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+  <script type="application/ld+json">{!! json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}</script>
 
   <!-- Slot para recursos adicionales específicos de la página -->
   @yield('head')

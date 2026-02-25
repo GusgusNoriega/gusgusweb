@@ -6,7 +6,7 @@
         <div class="lg:col-span-4">
           <div class="flex items-center gap-3">
             <span class="inline-flex size-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[var(--c-primary)] to-[var(--c-primary-2)] shadow-soft ring-1 ring-white/10">
-              <img src="{{ asset('img/logo-systems-gg.png') }}" alt="SystemsGG" width="28" height="28" decoding="async" loading="lazy" class="size-7 object-contain" />
+              <img src="{{ asset('img/logo-systems-gg.png') }}" alt="systemsgg - Empresa de desarrollo web y software a medida" width="28" height="28" decoding="async" loading="lazy" class="size-7 object-contain" />
             </span>
             <div>
               <p class="text-sm font-semibold">SystemsGG</p>
