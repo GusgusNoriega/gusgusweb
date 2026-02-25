@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\RbacMirror;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -73,14 +74,13 @@ class UserController extends Controller
 
                 $user = User::create($userData);
 
-                // Asignación de roles (opcional)
+                // Asignación de roles en ambos guards (opcional)
                 if ($request->has('roles')) {
                     $roleIds = (array) $request->input('roles', []);
                     $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
 
-                    $guard = $user->getDefaultGuardName();
                     $roles = Role::query()
-                        ->where('guard_name', $guard)
+                        ->where('guard_name', 'web')
                         ->whereIn('id', $roleIds)
                         ->get();
 
@@ -88,7 +88,8 @@ class UserController extends Controller
                         throw new \RuntimeException('INVALID_ROLES');
                     }
 
-                    $user->syncRoles($roles);
+                    $roleNames = $roles->pluck('name')->toArray();
+                    app(RbacMirror::class)->syncUserRolesBothGuardsByNames($user, $roleNames);
                 }
 
                 // Cargar la relación de imagen de perfil
@@ -161,12 +162,11 @@ class UserController extends Controller
             return DB::transaction(function () use ($user, $updateData, $rolesToSync) {
                 $user->update($updateData);
 
-                // Sincronizar roles sólo si vinieron en el payload
+                // Sincronizar roles en ambos guards sólo si vinieron en el payload
                 if (is_array($rolesToSync)) {
                     $roleIds = array_values(array_unique(array_map('intval', $rolesToSync)));
-                    $guard = $user->getDefaultGuardName();
                     $roles = Role::query()
-                        ->where('guard_name', $guard)
+                        ->where('guard_name', 'web')
                         ->whereIn('id', $roleIds)
                         ->get();
 
@@ -186,7 +186,8 @@ class UserController extends Controller
                         }
                     }
 
-                    $user->syncRoles($roles);
+                    $roleNames = $roles->pluck('name')->toArray();
+                    app(RbacMirror::class)->syncUserRolesBothGuardsByNames($user, $roleNames);
                 }
 
                 // Cargar la relación de imagen de perfil
@@ -283,9 +284,8 @@ class UserController extends Controller
         $roleIds = (array) $request->input('roles', []);
         $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
 
-        $guard = $user->getDefaultGuardName();
         $roles = Role::query()
-            ->where('guard_name', $guard)
+            ->where('guard_name', 'web')
             ->whereIn('id', $roleIds)
             ->get();
 
@@ -295,7 +295,8 @@ class UserController extends Controller
             ]);
         }
 
-        $user->syncRoles($roles);
+        $roleNames = $roles->pluck('name')->toArray();
+        app(RbacMirror::class)->syncUserRolesBothGuardsByNames($user, $roleNames);
         $user->load('roles');
 
         return $this->apiSuccess('Roles asignados al usuario', 'USER_ROLES_ASSIGNED', $user->roles);
@@ -324,9 +325,8 @@ class UserController extends Controller
         $roleIds = (array) $request->input('roles', []);
         $roleIds = array_values(array_unique(array_map('intval', $roleIds)));
 
-        $guard = $user->getDefaultGuardName();
         $roles = Role::query()
-            ->where('guard_name', $guard)
+            ->where('guard_name', 'web')
             ->whereIn('id', $roleIds)
             ->get();
 
@@ -336,9 +336,11 @@ class UserController extends Controller
             ]);
         }
 
-        foreach ($roles as $role) {
-            $user->removeRole($role);
-        }
+        // Obtener roles actuales del usuario (guard web), quitar los indicados y sincronizar ambos guards
+        $currentRoleNames = $user->roles->where('guard_name', 'web')->pluck('name')->toArray();
+        $revokeRoleNames = $roles->pluck('name')->toArray();
+        $remainingRoleNames = array_values(array_diff($currentRoleNames, $revokeRoleNames));
+        app(RbacMirror::class)->syncUserRolesBothGuardsByNames($user, $remainingRoleNames);
 
         $user->load('roles');
 

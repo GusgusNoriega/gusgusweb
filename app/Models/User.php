@@ -16,9 +16,9 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable, HasRoles;
 
     /**
-     * For Spatie\Permission: allow roles for both 'web' and 'api' guards.
+     * For Spatie\Permission: define the default guard for roles/permissions.
      */
-    // protected $guard_name = 'web';
+    protected $guard_name = 'web';
 
     /**
      * The attributes that are mass assignable.
