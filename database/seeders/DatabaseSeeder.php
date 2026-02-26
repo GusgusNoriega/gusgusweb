@@ -43,6 +43,8 @@ class DatabaseSeeder extends Seeder
             CesarVarelaTokkoBrokerQuoteSeeder::class,
             // Cotización: Plataforma de Aprendizaje Virtual E-Learning (PEN, IGV 18%) - Flavia Jimena
             FlaviaJimenaElearningQuoteSeeder::class,
+            // Cotización: Web Agencia de Viajes y Turismo (PEN, IGV 18%) - Waldir Mendez Huaman
+            WaldirMendezHuamanQuoteSeeder::class,
         ]);
     }
 }
