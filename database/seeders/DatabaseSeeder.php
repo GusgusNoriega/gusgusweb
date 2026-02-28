@@ -45,6 +45,8 @@ class DatabaseSeeder extends Seeder
             FlaviaJimenaElearningQuoteSeeder::class,
             // Cotización: Web Agencia de Viajes y Turismo (PEN, IGV 18%) - Waldir Mendez Huaman
             WaldirMendezHuamanQuoteSeeder::class,
+            // Cotización: Web SEO Optimizada + Catálogo con Sistema de Cotización + Blog WordPress (PEN, IGV 18%) - Fernando Rodríguez
+            FernandoRodriguezPatronajeWebQuoteSeeder::class,
         ]);
     }
 }
