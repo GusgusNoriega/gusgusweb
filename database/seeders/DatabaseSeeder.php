@@ -51,6 +51,8 @@ class DatabaseSeeder extends Seeder
             CentroNeurologicoIntegralQuoteSeeder::class,
             // Cotización: Rediseño de Tienda Online D'gusto y sabor (PEN, IGV 18%) - D'gusto y sabor srl
             DGustoYSaborRediseñoQuoteSeeder::class,
+            // Cotización: Nueva Tienda Online D'gusto y sabor - Productos Personalizados (PEN, IGV 18%) - D'gusto y sabor srl
+            DGustoYSaborTiendaPersonalizadosQuoteSeeder::class,
         ]);
     }
 }
