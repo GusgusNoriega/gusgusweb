@@ -53,6 +53,8 @@ class DatabaseSeeder extends Seeder
             DGustoYSaborRediseñoQuoteSeeder::class,
             // Cotización: Nueva Tienda Online D'gusto y sabor - Productos Personalizados (PEN, IGV 18%) - D'gusto y sabor srl
             DGustoYSaborTiendaPersonalizadosQuoteSeeder::class,
+            // Cotización: Página Web para INNOVA PERU TOURS - Agencia de Turismo (PEN, IGV 18%)
+            InnovaPeruToursQuoteSeeder::class,
         ]);
     }
 }
