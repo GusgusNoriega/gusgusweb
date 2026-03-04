@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
             FernandoRodriguezPatronajeWebQuoteSeeder::class,
             // Cotización: Página Web Estándar para Centro Neurológico Integral (PEN, IGV 18%) - Centro Neurológico Integral
             CentroNeurologicoIntegralQuoteSeeder::class,
+            // Cotización: Rediseño de Tienda Online D'gusto y sabor (PEN, IGV 18%) - D'gusto y sabor srl
+            DGustoYSaborRediseñoQuoteSeeder::class,
         ]);
     }
 }
