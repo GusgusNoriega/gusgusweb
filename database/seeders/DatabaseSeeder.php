@@ -47,6 +47,8 @@ class DatabaseSeeder extends Seeder
             WaldirMendezHuamanQuoteSeeder::class,
             // Cotización: Web SEO Optimizada + Catálogo con Sistema de Cotización + Blog WordPress (PEN, IGV 18%) - Fernando Rodríguez
             FernandoRodriguezPatronajeWebQuoteSeeder::class,
+            // Cotización: Página Web Estándar para Centro Neurológico Integral (PEN, IGV 18%) - Centro Neurológico Integral
+            CentroNeurologicoIntegralQuoteSeeder::class,
         ]);
     }
 }
