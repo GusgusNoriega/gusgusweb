@@ -55,6 +55,8 @@ class DatabaseSeeder extends Seeder
             DGustoYSaborTiendaPersonalizadosQuoteSeeder::class,
             // Cotización: Página Web para INNOVA PERU TOURS - Agencia de Turismo (PEN, IGV 18%)
             InnovaPeruToursQuoteSeeder::class,
+            // Cotización: Tienda Virtual de Tecnología - Corporación Tecnológica Romax (PEN, IGV 18%) - 10,000 productos
+            RomaxTecnologiaStoreQuoteSeeder::class,
         ]);
     }
 }
