@@ -57,6 +57,8 @@ class DatabaseSeeder extends Seeder
             InnovaPeruToursQuoteSeeder::class,
             // Cotización: Tienda Virtual de Tecnología - Corporación Tecnológica Romax (PEN, IGV 18%) - 10,000 productos
             RomaxTecnologiaStoreQuoteSeeder::class,
+            // Cotización: Dashboard Educativo + API + Web App - Universidad Católica Los Ángeles de Chimbote (PEN, IGV 18%)
+            UladechEducativoDashboardQuoteSeeder::class,
         ]);
     }
 }
