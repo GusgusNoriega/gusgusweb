@@ -59,6 +59,8 @@ class DatabaseSeeder extends Seeder
             RomaxTecnologiaStoreQuoteSeeder::class,
             // Cotización: Dashboard Educativo + API + Web App - Universidad Católica Los Ángeles de Chimbote (PEN, IGV 18%)
             UladechEducativoDashboardQuoteSeeder::class,
+            // Cotización: Landing Page + Google Ads + Panel de Leads - CVG Corredores de Seguros (PEN, IGV 18%)
+            CVGCorredoresSegurosQuoteSeeder::class,
         ]);
     }
 }
