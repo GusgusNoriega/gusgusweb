@@ -61,6 +61,8 @@ class DatabaseSeeder extends Seeder
             UladechEducativoDashboardQuoteSeeder::class,
             // Cotización: Landing Page + Google Ads + Panel de Leads - CVG Corredores de Seguros (PEN, IGV 18%)
             CVGCorredoresSegurosQuoteSeeder::class,
+            // Cotización: Página Web Empresarial para EMR GRUPO CONSTRUCTOR SAC (PEN, IGV 18%)
+            EMRGrupoConstructorQuoteSeeder::class,
         ]);
     }
 }
