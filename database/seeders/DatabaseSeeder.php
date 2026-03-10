@@ -63,6 +63,8 @@ class DatabaseSeeder extends Seeder
             CVGCorredoresSegurosQuoteSeeder::class,
             // Cotización: Página Web Empresarial para EMR GRUPO CONSTRUCTOR SAC (PEN, IGV 18%)
             EMRGrupoConstructorQuoteSeeder::class,
+            // Cotización: Landing Page + Campaña Google Ads - Nexus Energía (PEN, IGV 18%)
+            NexusEnergiaLandingPageQuoteSeeder::class,
         ]);
     }
 }
