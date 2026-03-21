@@ -4,7 +4,50 @@
 @section('og_title', 'Blog de SystemsGG | Artículos sobre desarrollo web y software')
 @section('canonical', url('/blog'))
 @section('meta_description', 'Explora nuestro blog sobre desarrollo de páginas web, software a medida, SEO, tecnología y consejos para impulsar tu negocio digital.')
+@section('keywords', 'blog de desarrollo web, software a medida, SEO técnico, Laravel, tecnología')
+@if(!empty($blogLastModified))
+@section('date_modified', $blogLastModified)
+@endif
 
+@section('head')
+  @php
+    $indexablePosts = ($seoPosts ?? collect())->take(20)->values();
+
+    $blogSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'Blog',
+      '@id' => url('/blog') . '#blog',
+      'name' => 'Blog de SystemsGG',
+      'description' => 'Artículos sobre desarrollo de software, páginas web, SEO y tecnología para negocios digitales.',
+      'url' => url('/blog'),
+      'inLanguage' => 'es-PE',
+      'publisher' => [
+        '@type' => 'Organization',
+        'name' => 'SystemsGG',
+        'url' => url('/'),
+      ],
+    ];
+
+    $itemListSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'ItemList',
+      'itemListElement' => $indexablePosts->map(function ($post, $index) {
+        return [
+          '@type' => 'ListItem',
+          'position' => $index + 1,
+          'url' => route('blog.post', ['slug' => $post->slug]),
+          'name' => $post->title,
+        ];
+      })->all(),
+    ];
+  @endphp
+
+  <meta property="og:type" content="blog" />
+  <script type="application/ld+json">{!! json_encode($blogSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+  @if(!empty($itemListSchema['itemListElement']))
+  <script type="application/ld+json">{!! json_encode($itemListSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+  @endif
+@endsection
 @section('content')
   <!-- HERO DEL BLOG -->
   <section class="relative overflow-hidden">
@@ -187,6 +230,30 @@
     </div>
   </section>
 
+  <noscript>
+    <section class="border-t border-white/10">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12">
+        <h2 class="text-2xl font-semibold">Índice de artículos</h2>
+        <p class="mt-2 text-sm text-[var(--c-muted)]">
+          Si tu navegador no ejecuta JavaScript, aquí puedes ver enlaces directos a las publicaciones más recientes.
+        </p>
+        <ul class="mt-6 space-y-3">
+          @forelse(($seoPosts ?? collect()) as $seoPost)
+          <li class="rounded-xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+            <a href="{{ route('blog.post', ['slug' => $seoPost->slug]) }}" class="font-medium hover:text-[var(--c-primary)]">
+              {{ $seoPost->title }}
+            </a>
+            @if($seoPost->published_at)
+            <div class="mt-1 text-xs text-[var(--c-muted)]">{{ $seoPost->published_at->format('d M Y') }}</div>
+            @endif
+          </li>
+          @empty
+          <li class="text-sm text-[var(--c-muted)]">Aún no hay publicaciones indexables.</li>
+          @endforelse
+        </ul>
+      </div>
+    </section>
+  </noscript>
 
   <script>
     function blogManager() {

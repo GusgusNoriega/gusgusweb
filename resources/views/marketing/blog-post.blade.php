@@ -2,18 +2,99 @@
 
 @section('title', $post->meta_title ?: $post->title . ' | Blog SystemsGG')
 @section('og_title', $post->meta_title ?: $post->title)
-@if($post->meta_description)
-@section('meta_description', $post->meta_description)
-@endif
-@section('canonical', url('/blog/' . $post->slug))
+@section('meta_description', $post->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->content), 160))
+@section('canonical', $post->canonical_url ?: url('/blog/' . $post->slug))
+@section('robots', $post->no_index ? 'noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1')
+@section('googlebot', $post->no_index ? 'noindex, follow' : 'index, follow')
+@section('date_modified', optional($post->updated_at ?? $post->published_at)->toIso8601String())
+@section('keywords', collect($post->categories)->pluck('name')->implode(', '))
 
-@if($post->featuredImage)
 @section('head')
-  <meta property="og:image" content="{{ $post->featuredImage->url }}" />
-  <meta name="twitter:image" content="{{ $post->featuredImage->url }}" />
-@endsection
-@endif
+  @php
+    $canonicalUrl = $post->canonical_url ?: url('/blog/' . $post->slug);
+    $publishedIso = optional($post->published_at)->toIso8601String();
+    $modifiedIso = optional($post->updated_at ?? $post->published_at)->toIso8601String();
+    $authorName = $post->author?->name ?: 'SystemsGG';
+    $socialImage = $post->featuredImage?->url ?: url('/img/logo-systems-gg.png');
+    $articleDescription = $post->meta_description ?: \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->content), 160);
 
+    $articleSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'BlogPosting',
+      '@id' => $canonicalUrl . '#blogposting',
+      'headline' => $post->meta_title ?: $post->title,
+      'description' => $articleDescription,
+      'datePublished' => $publishedIso,
+      'dateModified' => $modifiedIso,
+      'mainEntityOfPage' => [
+        '@type' => 'WebPage',
+        '@id' => $canonicalUrl,
+      ],
+      'author' => [
+        '@type' => 'Person',
+        'name' => $authorName,
+      ],
+      'publisher' => [
+        '@type' => 'Organization',
+        'name' => 'SystemsGG',
+        'logo' => [
+          '@type' => 'ImageObject',
+          'url' => url('/img/logo-systems-gg.png'),
+        ],
+      ],
+      'image' => [$socialImage],
+      'articleSection' => $post->categories->pluck('name')->first(),
+      'keywords' => $post->categories->pluck('name')->implode(', '),
+      'inLanguage' => 'es-PE',
+    ];
+
+    if ($post->reading_time) {
+      $articleSchema['timeRequired'] = 'PT' . (int) $post->reading_time . 'M';
+    }
+
+    $breadcrumbSchema = [
+      '@context' => 'https://schema.org',
+      '@type' => 'BreadcrumbList',
+      'itemListElement' => [
+        [
+          '@type' => 'ListItem',
+          'position' => 1,
+          'name' => 'Inicio',
+          'item' => url('/'),
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 2,
+          'name' => 'Blog',
+          'item' => url('/blog'),
+        ],
+        [
+          '@type' => 'ListItem',
+          'position' => 3,
+          'name' => $post->title,
+          'item' => $canonicalUrl,
+        ],
+      ],
+    ];
+  @endphp
+
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="{{ $socialImage }}" />
+  <meta name="twitter:image" content="{{ $socialImage }}" />
+  @if($publishedIso)
+  <meta property="article:published_time" content="{{ $publishedIso }}" />
+  @endif
+  @if($modifiedIso)
+  <meta property="article:modified_time" content="{{ $modifiedIso }}" />
+  @endif
+  <meta property="article:author" content="{{ $authorName }}" />
+  @foreach($post->categories as $category)
+  <meta property="article:tag" content="{{ $category->name }}" />
+  @endforeach
+
+  <script type="application/ld+json">{!! json_encode($articleSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+  <script type="application/ld+json">{!! json_encode($breadcrumbSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}</script>
+@endsection
 @section('content')
   <!-- ARTÍCULO COMPLETO -->
   <article>

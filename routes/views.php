@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\BlogPost;
 use App\Models\Project;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\QuoteWebController;
 use App\Http\Controllers\LeadController;
 
@@ -22,7 +24,22 @@ Route::get('/', function () {
 
 // Ruta del blog
 Route::get('/blog', function () {
-    return view('marketing.blog');
+    $seoPosts = BlogPost::query()
+        ->indexable()
+        ->select(['id', 'title', 'slug', 'excerpt', 'meta_description', 'published_at', 'updated_at'])
+        ->latest()
+        ->take(30)
+        ->get();
+
+    $blogLastModified = $seoPosts
+        ->map(fn (BlogPost $post) => $post->updated_at ?? $post->published_at)
+        ->filter()
+        ->max();
+
+    return view('marketing.blog', [
+        'seoPosts' => $seoPosts,
+        'blogLastModified' => $blogLastModified?->toIso8601String(),
+    ]);
 })->name('blog')->middleware('guest');
 
 // Ruta de post individual del blog
@@ -69,39 +86,12 @@ Route::get('/cookies', function () {
     return view('marketing.cookies');
 })->name('cookies')->middleware('guest');
 
-// Sitemap (páginas públicas)
-Route::get('/sitemap.xml', function () {
-    $baseUrl = url('/');
-    $lastmod = now()->toDateString();
-
-    $urls = [
-        ['loc' => $baseUrl, 'changefreq' => 'weekly', 'priority' => '1.0'],
-        ['loc' => url('/blog'), 'changefreq' => 'weekly', 'priority' => '0.8'],
-        ['loc' => url('/privacidad'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-        ['loc' => url('/terminos'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-        ['loc' => url('/cookies'), 'changefreq' => 'monthly', 'priority' => '0.3'],
-    ];
-
-    $urlsXml = '';
-    foreach ($urls as $url) {
-        $urlsXml .= "  <url>\n";
-        $urlsXml .= "    <loc>{$url['loc']}</loc>\n";
-        $urlsXml .= "    <lastmod>{$lastmod}</lastmod>\n";
-        $urlsXml .= "    <changefreq>{$url['changefreq']}</changefreq>\n";
-        $urlsXml .= "    <priority>{$url['priority']}</priority>\n";
-        $urlsXml .= "  </url>\n";
-    }
-
-    $xml = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{$urlsXml}</urlset>
-XML;
-
-    return response($xml, 200)
-        ->header('Content-Type', 'application/xml; charset=UTF-8')
-        ->header('X-Robots-Tag', 'noindex, follow');
-})->name('sitemap');
+// Sitemaps
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/sitemaps/static.xml', [SitemapController::class, 'staticPages'])->name('sitemap.static');
+Route::get('/sitemaps/blog-posts/{chunk}.xml', [SitemapController::class, 'blogPosts'])
+    ->whereNumber('chunk')
+    ->name('sitemap.blog-posts');
 
 // Rutas de autenticación (vistas)
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLogin'])->name('login')->middleware('guest');

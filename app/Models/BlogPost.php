@@ -6,10 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class BlogPost extends Model
 {
     use SoftDeletes;
+
+    public const SITEMAP_CHUNKS_CACHE_KEY = 'seo:sitemap:blog-post-chunks:v1';
 
     protected $fillable = [
         'title',
@@ -38,6 +41,18 @@ class BlogPost extends Model
         'view_count' => 'integer',
         'reading_time' => 'integer',
     ];
+
+    protected static function booted(): void
+    {
+        $forgetSitemapCache = static function (): void {
+            Cache::forget(self::SITEMAP_CHUNKS_CACHE_KEY);
+        };
+
+        static::saved($forgetSitemapCache);
+        static::deleted($forgetSitemapCache);
+        static::restored($forgetSitemapCache);
+        static::forceDeleted($forgetSitemapCache);
+    }
 
     /**
      * Relación con la imagen destacada (1:1 con media_assets)
@@ -80,6 +95,15 @@ class BlogPost extends Model
     public function scopeFeatured($query)
     {
         return $query->where('is_featured', true);
+    }
+
+    /**
+     * Scope para posts que se pueden indexar
+     */
+    public function scopeIndexable($query)
+    {
+        return $query->published()
+            ->where('no_index', false);
     }
 
     /**

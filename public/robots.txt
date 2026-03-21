@@ -19,5 +19,6 @@ Disallow: /funnel
 Allow: /img/
 Allow: /favicon.ico
 Allow: /sitemap.xml
+Allow: /sitemaps/
 
 Sitemap: https://systemsgg.com/sitemap.xml
