@@ -65,6 +65,7 @@ class DatabaseSeeder extends Seeder
             EMRGrupoConstructorQuoteSeeder::class,
             // Cotización: Landing Page + Campaña Google Ads - Nexus Energía (PEN, IGV 18%)
             NexusEnergiaLandingPageQuoteSeeder::class,
+            EchosPeruSacCrmQuoteSeeder::class,
         ]);
     }
 }
