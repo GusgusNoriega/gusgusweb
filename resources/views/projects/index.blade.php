@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto space-y-6">
-  <div class="flex items-center justify-between gap-3">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <h2 class="text-xl font-semibold">Proyectos</h2>
-    <div class="flex items-center gap-2">
+    <div class="flex flex-wrap items-center gap-2">
       <button id="btn-new-project" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl bg-[var(--c-primary)] text-[var(--c-primary-ink)] hover:opacity-95 shadow-soft">
         <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
         Nuevo
@@ -37,10 +37,10 @@
         <input id="f-to" type="date" class="w-full text-sm rounded-xl bg-[var(--c-elev)] border border-[var(--c-border)] px-3 py-2 outline-none focus:border-[var(--c-primary)]"/>
       </div>
 
-      <div class="md:col-span-5 flex items-center gap-2">
+      <div class="md:col-span-5 flex flex-col gap-3 sm:flex-row sm:items-center">
         <button type="button" id="btn-apply" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)]">Aplicar</button>
         <button type="button" id="btn-clear" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)]">Limpiar</button>
-        <div class="ml-auto flex items-center gap-2">
+        <div class="flex items-center gap-2 sm:ml-auto">
           <label class="text-xs text-[var(--c-muted)]">Por página</label>
           <select id="f-per-page" class="text-sm rounded-xl bg-[var(--c-elev)] border border-[var(--c-border)] px-2 py-1 outline-none focus:border-[var(--c-primary)]">
             <option>10</option>
@@ -82,7 +82,7 @@
     </div>
 
     <!-- Paginación -->
-    <div id="pagination" class="flex items-center justify-between gap-3 px-4 py-3 bg-[var(--c-surface)]">
+    <div id="pagination" class="flex flex-col gap-3 px-4 py-3 bg-[var(--c-surface)] sm:flex-row sm:items-center sm:justify-between">
       <div class="text-xs text-[var(--c-muted)]" id="pg-info"></div>
       <div class="flex items-center gap-2">
         <button id="pg-prev" class="px-3 py-1 rounded-lg ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)] text-xs">Anterior</button>
@@ -96,7 +96,7 @@
 <!-- Modal Crear/Editar Proyecto -->
 <div id="project-modal" class="fixed inset-0 z-[12000] hidden" aria-modal="true" role="dialog">
   <div data-js="overlay" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-  <div class="relative mx-auto mt-10 w-[95%] max-w-2xl">
+  <div class="relative mx-auto mt-4 w-[calc(100%-1.5rem)] max-h-[calc(100vh-2rem)] max-w-2xl overflow-y-auto sm:mt-10">
     <div class="rounded-2xl overflow-hidden border border-[var(--c-border)] bg-[var(--c-surface)] shadow-soft">
       <div class="flex items-center justify-between gap-3 px-5 py-4 border-b border-[var(--c-border)]">
         <h3 id="pm-title" class="text-lg font-semibold">Nuevo proyecto</h3>

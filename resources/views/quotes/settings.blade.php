@@ -5,7 +5,7 @@
 @section('content')
 <div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Configuración de Cotizaciones</h1>
       <p class="text-[var(--c-muted)] mt-1">Configura los valores y apariencia por defecto de las cotizaciones</p>

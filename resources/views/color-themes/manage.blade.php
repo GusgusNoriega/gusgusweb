@@ -3,14 +3,14 @@
 @section('title', 'Administrar Temas de Color')
 
 @section('content')
-<div class="">
+<div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Administrar Temas de Color</h1>
       <p class="text-[var(--c-muted)] mt-1">Gestiona los temas de colores del sistema</p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3">
       <button id="btn-create-theme" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-xl hover:opacity-95 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -22,10 +22,10 @@
 
   <!-- Search and Filters -->
   <div class="bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] p-6">
-    <div class="flex items-center justify-between mb-4">
+    <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
       <h2 class="text-lg font-semibold text-[var(--c-text)]">Temas de Color del Sistema</h2>
-      <div class="flex items-center gap-2">
-        <input type="text" id="search-themes" placeholder="Buscar temas..." class="px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+      <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+        <input type="text" id="search-themes" placeholder="Buscar temas..." class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm sm:w-72">
         <button id="btn-refresh-themes" class="p-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg hover:bg-[var(--c-surface)] transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Pagination -->
-    <div id="themes-pagination" class="flex justify-between items-center mt-6">
+    <div id="themes-pagination" class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <!-- Pagination will be loaded here -->
     </div>
   </div>

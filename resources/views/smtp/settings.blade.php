@@ -3,14 +3,14 @@
 @section('title', 'Configuración SMTP')
 
 @section('content')
-<div class="">
+<div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between mb-6">
+  <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Configuración SMTP</h1>
       <p class="text-[var(--c-muted)] mt-1">Configura el servidor de correo para el envío de emails</p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3">
       <button id="btn-test-smtp" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--c-accent)] text-white rounded-xl hover:opacity-95 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>

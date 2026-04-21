@@ -3,14 +3,14 @@
 @section('title', 'Administrar Usuarios')
 
 @section('content')
-<div class="">
+<div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Administrar Usuarios</h1>
       <p class="text-[var(--c-muted)] mt-1">Gestiona los usuarios del sistema</p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3">
       <button id="btn-create-user" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-xl hover:opacity-95 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -22,10 +22,10 @@
 
   <!-- Search and Filters -->
   <div class="bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] p-6">
-    <div class="flex items-center justify-between mb-4">
+    <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
       <h2 class="text-lg font-semibold text-[var(--c-text)]">Usuarios del Sistema</h2>
-      <div class="flex items-center gap-2">
-        <input type="text" id="search-users" placeholder="Buscar usuarios..." class="px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+      <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+        <input type="text" id="search-users" placeholder="Buscar usuarios..." class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm sm:w-72">
         <button id="btn-refresh-users" class="p-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg hover:bg-[var(--c-surface)] transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Pagination -->
-    <div id="users-pagination" class="flex justify-between items-center mt-6">
+    <div id="users-pagination" class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <!-- Pagination will be loaded here -->
     </div>
   </div>
@@ -49,7 +49,7 @@
 <!-- Create/Edit User Modal -->
 <div id="user-modal" class="fixed inset-0 z-50 hidden">
   <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
-  <div class="relative mx-auto mt-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+  <div class="relative mx-auto mt-4 w-[calc(100%-1.5rem)] max-h-[calc(100vh-2rem)] max-w-2xl overflow-y-auto sm:mt-8">
     <div class="bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] overflow-hidden">
       <div class="px-6 py-4 border-b border-[var(--c-border)]">
         <h3 id="user-modal-title" class="text-lg font-semibold text-[var(--c-text)]">Crear Usuario</h3>
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     usersData.data.forEach(user => {
       const userEl = document.createElement('div');
-      userEl.className = 'flex items-center justify-between p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)]';
+      userEl.className = 'flex flex-col gap-3 p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)] lg:flex-row lg:items-center lg:justify-between';
 
       // Profile image
       let profileImageHtml = '';
@@ -208,15 +208,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const roleIds = Array.isArray(user.roles) ? user.roles.map(r => r?.id).filter(Boolean) : [];
 
       userEl.innerHTML = `
-        <div class="flex items-center gap-4">
+        <div class="flex min-w-0 items-center gap-4">
           ${profileImageHtml}
-          <div>
+          <div class="min-w-0">
             <h3 class="font-medium text-[var(--c-text)]">${escapeHtml(user.name)}</h3>
-            <p class="text-sm text-[var(--c-muted)]">${escapeHtml(user.email)}</p>
+            <p class="text-sm text-[var(--c-muted)] break-all">${escapeHtml(user.email)}</p>
             ${roleNames.length ? `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: ${escapeHtml(roleNames.join(', '))}</p>` : `<p class="text-xs text-[var(--c-muted)] mt-1">Roles: (sin roles)</p>`}
           </div>
         </div>
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2 sm:justify-end">
           <button class="edit-user-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${user.id}">Editar</button>
           <button class="delete-user-btn px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${user.id}">Eliminar</button>
         </div>

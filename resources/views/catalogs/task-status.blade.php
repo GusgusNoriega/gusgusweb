@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto space-y-6">
-  <div class="flex items-center justify-between gap-3">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <h2 class="text-xl font-semibold">Estados de Tarea</h2>
-    <div class="flex items-center gap-2">
+    <div class="flex flex-wrap items-center gap-2">
       <a href="{{ route('projects') }}" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)]">
         Ir a Proyectos
       </a>
@@ -20,7 +20,7 @@
         <label class="block text-xs text-[var(--c-muted)] mb-1">Buscar</label>
         <input id="f-search" type="search" placeholder="Nombre o código..." class="w-full text-sm rounded-xl bg-[var(--c-elev)] border border-[var(--c-border)] px-3 py-2 outline-none focus:border-[var(--c-primary)]"/>
       </div>
-      <div class="md:col-span-2 flex items-end gap-2">
+      <div class="md:col-span-2 flex flex-col gap-2 sm:flex-row sm:items-end">
         <button type="button" id="btn-apply" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)]">Aplicar</button>
         <button type="button" id="btn-clear" class="inline-flex items-center gap-2 text-sm px-3 py-2 rounded-xl ring-1 ring-[var(--c-border)] hover:ring-[var(--c-primary)]">Limpiar</button>
       </div>

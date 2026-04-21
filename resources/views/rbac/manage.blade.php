@@ -5,12 +5,12 @@
 @section('content')
 <div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Administrar Roles y Permisos</h1>
       <p class="text-[var(--c-muted)] mt-1">Gestiona roles y permisos del sistema</p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3">
       <button id="btn-create-role" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-xl hover:opacity-95 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
@@ -29,20 +29,20 @@
   <!-- Tabs -->
   <div class="bg-[var(--c-surface)] rounded-2xl border border-[var(--c-border)] overflow-hidden">
     <div class="border-b border-[var(--c-border)]">
-      <nav class="flex">
-        <button id="tab-roles" class="tab-btn active px-6 py-4 text-sm font-medium border-b-2 border-[var(--c-primary)] text-[var(--c-primary)]">Roles</button>
-        <button id="tab-permissions" class="tab-btn px-6 py-4 text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-text)]">Permisos</button>
-        <button id="tab-assignments" class="tab-btn px-6 py-4 text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-text)]">Asignaciones</button>
+      <nav class="flex gap-1 overflow-x-auto px-2">
+        <button id="tab-roles" class="tab-btn active shrink-0 px-4 py-4 text-sm font-medium border-b-2 border-[var(--c-primary)] text-[var(--c-primary)]">Roles</button>
+        <button id="tab-permissions" class="tab-btn shrink-0 px-4 py-4 text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-text)]">Permisos</button>
+        <button id="tab-assignments" class="tab-btn shrink-0 px-4 py-4 text-sm font-medium text-[var(--c-muted)] hover:text-[var(--c-text)]">Asignaciones</button>
       </nav>
     </div>
 
     <div class="p-6">
       <!-- Roles Tab -->
       <div id="roles-content" class="tab-content">
-        <div class="flex items-center justify-between mb-4">
+        <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <h2 class="text-lg font-semibold text-[var(--c-text)]">Roles del Sistema</h2>
-          <div class="flex items-center gap-2">
-            <input type="text" id="search-roles" placeholder="Buscar roles..." class="px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+          <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <input type="text" id="search-roles" placeholder="Buscar roles..." class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm sm:w-72">
             <button id="btn-refresh-roles" class="p-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg hover:bg-[var(--c-surface)] transition">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -57,10 +57,10 @@
 
       <!-- Permissions Tab -->
       <div id="permissions-content" class="tab-content hidden">
-        <div class="flex items-center justify-between mb-4">
+        <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <h2 class="text-lg font-semibold text-[var(--c-text)]">Permisos del Sistema</h2>
-          <div class="flex items-center gap-2">
-            <input type="text" id="search-permissions" placeholder="Buscar permisos..." class="px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm">
+          <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+            <input type="text" id="search-permissions" placeholder="Buscar permisos..." class="w-full px-3 py-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg text-sm sm:w-72">
             <button id="btn-refresh-permissions" class="p-2 bg-[var(--c-elev)] border border-[var(--c-border)] rounded-lg hover:bg-[var(--c-surface)] transition">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
@@ -75,7 +75,7 @@
 
       <!-- Assignments Tab -->
       <div id="assignments-content" class="tab-content hidden">
-        <div class="flex items-center justify-between mb-4">
+        <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <h2 class="text-lg font-semibold text-[var(--c-text)]">Asignar Permisos a Roles</h2>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-        <div class="mt-4 flex gap-2">
+        <div class="mt-4 flex flex-wrap gap-2">
           <button id="btn-assign-permissions" class="px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition">Asignar Permisos</button>
           <button id="btn-sync-permissions" class="px-4 py-2 bg-[var(--c-accent)] text-white rounded-lg hover:opacity-95 transition">Sincronizar Permisos</button>
         </div>
@@ -341,13 +341,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     roles.forEach(role => {
       const roleEl = document.createElement('div');
-      roleEl.className = 'flex items-center justify-between p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)]';
+      roleEl.className = 'flex flex-col gap-3 p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)] lg:flex-row lg:items-center lg:justify-between';
       roleEl.innerHTML = `
         <div>
           <h3 class="font-medium text-[var(--c-text)]">${role.name}</h3>
           <p class="text-sm text-[var(--c-muted)]">Guard: ${role.guard_name}</p>
         </div>
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2 sm:justify-end">
           <button class="edit-role-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${role.id}" data-name="${role.name}">Editar</button>
           <button class="delete-role-btn px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${role.id}">Eliminar</button>
         </div>
@@ -383,13 +383,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     permissions.forEach(permission => {
       const permEl = document.createElement('div');
-      permEl.className = 'flex items-center justify-between p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)]';
+      permEl.className = 'flex flex-col gap-3 p-4 bg-[var(--c-elev)] rounded-xl border border-[var(--c-border)] lg:flex-row lg:items-center lg:justify-between';
       permEl.innerHTML = `
         <div>
           <h3 class="font-medium text-[var(--c-text)]">${permission.name}</h3>
           <p class="text-sm text-[var(--c-muted)]">Guard: ${permission.guard_name}</p>
         </div>
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2 sm:justify-end">
           <button class="edit-permission-btn px-3 py-1 text-sm bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-lg hover:opacity-95 transition" data-id="${permission.id}" data-name="${permission.name}">Editar</button>
           <button class="delete-permission-btn px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${permission.id}">Eliminar</button>
         </div>
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
     list.className = 'space-y-2';
     permissions.forEach(permission => {
       const item = document.createElement('div');
-      item.className = 'flex items-center justify-between p-2 bg-[var(--c-elev)] rounded-lg';
+      item.className = 'flex flex-col gap-2 p-2 bg-[var(--c-elev)] rounded-lg sm:flex-row sm:items-center sm:justify-between';
       item.innerHTML = `
         <span class="text-sm text-[var(--c-text)]">${permission.name}</span>
         <button class="detach-permission-btn px-2 py-1 text-xs bg-red-500 text-white rounded hover:bg-red-600 transition" data-id="${permission.id}">Quitar</button>

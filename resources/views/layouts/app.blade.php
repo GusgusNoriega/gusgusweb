@@ -19,7 +19,6 @@
   {{-- Tailwind compilado (Vite) --}}
   @vite(['resources/css/app.css', 'resources/js/app.js'])
   <!-- Alpine.js para tabs y pequeños estados en vistas -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <!-- Variables de color dinámicas del tema del usuario -->
   <style>
@@ -50,14 +49,11 @@
 
       /* Mantiene el look del `shadow-soft` que antes venía del config del CDN */
       --shadow-soft: 0 1px 2px rgba(0,0,0,.04), 0 2px 12px rgba(0,0,0,.06);
+      --dash-sidebar-width: clamp(17.5rem, 20vw, 19rem);
 
       --radius: 14px;
       color-scheme: dark; /* hint al navegador */
     }
-
-    /* Oculta elementos hasta que cargue Alpine (x-cloak) */
-    [x-cloak] { display: none !important; }
- 
     /* Scrollbar sutil */
     ::-webkit-scrollbar{width:10px;height:10px}
     ::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:999px}
@@ -83,6 +79,30 @@
     /* Animación ligera para abrir/cerrar acordeón (barata) */
     .acc-enter { transition: opacity .18s ease, transform .18s ease; opacity: 0; transform: scaleY(.98); }
     .acc-enter.act { opacity: 1; transform: scaleY(1); }
+    #dash-shell {
+      min-height: 100svh;
+    }
+
+    #dash-backdrop {
+      transition: opacity .25s ease;
+    }
+
+    #dash-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #dash-backdrop:not(.is-open) {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    @supports (height: 100dvh) {
+      #dash-shell,
+      #dash-sidebar {
+        min-height: 100dvh;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[var(--c-bg)] text-[var(--c-text)] font-sans">
@@ -99,20 +119,23 @@
   -->
 
   <!-- Backdrop móvil para el sidebar -->
-  <div id="dash-backdrop" class="lg:hidden fixed inset-0 bg-black/40 hidden"></div>
+  <div id="dash-backdrop" aria-hidden="true" class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm xl:hidden"></div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] h-screen">
+  <div id="dash-shell" class="relative min-h-screen xl:grid xl:grid-cols-[var(--dash-sidebar-width)_minmax(0,1fr)]">
 
     <!-- ========================= ASIDE / SIDEBAR ========================= -->
-    <aside id="dash-sidebar" class="fixed lg:static inset-y-0 left-0 z-40 w-[80%] max-w-[320px] lg:w-auto translate-x-[-100%] lg:translate-x-0 transition-transform duration-300 ease-out bg-[var(--c-surface)] border-r border-[var(--c-border)]">
+    <aside id="dash-sidebar" aria-hidden="true" class="fixed inset-y-0 left-0 z-50 flex h-[100svh] w-[min(86vw,20rem)] max-w-[20rem] -translate-x-full flex-col border-r border-[var(--c-border)] bg-[var(--c-surface)] shadow-2xl transition-transform duration-300 ease-out xl:sticky xl:top-0 xl:z-30 xl:w-auto xl:max-w-none xl:translate-x-0 xl:shadow-none">
       <div class="h-full flex flex-col">
         <!-- Branding -->
         <div class="flex items-center gap-3 px-5 py-4 border-b border-[var(--c-border)]">
           <div class="size-9 rounded-xl grid place-items-center bg-[var(--c-primary)] text-white font-bold shadow-soft">D</div>
-          <div>
+          <div class="min-w-0 flex-1">
             <h1 class="text-base font-semibold leading-tight">Dashboard Base</h1>
             <p class="text-xs text-[var(--c-muted)] leading-tight">Layout modular</p>
           </div>
+          <button id="dash-sidebar-close" type="button" class="xl:hidden inline-flex size-10 items-center justify-center rounded-xl ring-1 ring-[var(--c-border)]" aria-label="Cerrar menÃº">
+            <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
         </div>
 
         <!-- Buscador en el sidebar -->
@@ -260,7 +283,7 @@
         </nav>
 
         <!-- Footer del sidebar -->
-        <div class="mt-auto px-4 py-3 border-t border-[var(--c-border)] flex items-center justify-between">
+        <div class="mt-auto px-4 py-3 border-t border-[var(--c-border)] flex flex-wrap items-center justify-between gap-3">
           <a href="#" class="text-xs text-[var(--c-muted)] hover:underline">v1.0</a>
           <form method="POST" action="{{ route('logout') }}" class="inline">
             @csrf
@@ -278,21 +301,17 @@
     </aside>
 
     <!-- ========================= CONTENIDO (Header + Main + Footer) ========================= -->
-    <div class="lg:col-start-2 flex flex-col h-screen">
+    <div class="flex min-h-screen min-w-0 flex-col xl:col-start-2">
       <!-- ===== HEADER / TOPBAR ===== -->
-      <header class="h-[10vh]">
-        @include('components.header')
-      </header>
+      @include('components.header')
 
       <!-- ===== MAIN ===== -->
-      <main id="dash-main" class="h-[80vh] overflow-auto px-4 sm:px-6 py-6">
+      <main id="dash-main" class="min-w-0 flex-1 overflow-x-hidden overflow-y-auto px-4 py-4 sm:px-6 sm:py-6 lg:px-8">
         @yield('content')
       </main>
 
       <!-- ===== FOOTER ===== -->
-      <footer class="h-[10vh]">
-        @include('components.footer')
-      </footer>
+      @include('components.footer')
     </div>
   <!-- JSON Response Modal -->
   @include('components.json-response-modal')
@@ -342,33 +361,51 @@
       // --- Sidebar responsive ---
       const sidebar  = document.getElementById('dash-sidebar');
       const menuBtn  = document.getElementById('dash-menu-btn');
+      const closeBtn = document.getElementById('dash-sidebar-close');
       const backdrop = document.getElementById('dash-backdrop');
+      const overlayViewport = window.matchMedia('(max-width: 1279px)');
+      let sidebarOpen = false;
 
-      // Backdrop blur condicional (solo si el navegador soporta)
-      const enableBlur = CSS.supports && CSS.supports('backdrop-filter: blur(4px)');
-      if (enableBlur) {
-        const s = document.createElement('style');
-        s.textContent = '#dash-backdrop.blur{backdrop-filter:blur(4px)}';
-        document.head.appendChild(s);
-      }
+      const syncSidebar = () => {
+        const useOverlay = overlayViewport.matches;
+        const isOpen = useOverlay ? sidebarOpen : true;
 
-      const openSidebar = () => {
-        sidebar.classList.add('animating');
-        if (enableBlur) backdrop.classList.add('blur');
-        sidebar.style.transform = 'translateX(0)';
-        backdrop.classList.remove('hidden');
-        sidebar.addEventListener('transitionend', () => sidebar.classList.remove('animating'), { once: true });
+        sidebar?.classList.toggle('translate-x-0', isOpen);
+        sidebar?.classList.toggle('-translate-x-full', !isOpen);
+        sidebar?.setAttribute('aria-hidden', useOverlay && !isOpen ? 'true' : 'false');
+        menuBtn?.setAttribute('aria-expanded', useOverlay && isOpen ? 'true' : 'false');
+        backdrop?.classList.toggle('is-open', useOverlay && isOpen);
+        document.body.dataset.sidebarOpen = useOverlay && isOpen ? 'true' : 'false';
       };
+
       const closeSidebar = () => {
-        sidebar.classList.add('animating');
-        sidebar.style.transform = '';
-        sidebar.addEventListener('transitionend', () => sidebar.classList.remove('animating'), { once: true });
-        if (enableBlur) backdrop.classList.remove('blur');
-        backdrop.classList.add('hidden');
+        sidebarOpen = false;
+        syncSidebar();
       };
-      menuBtn?.addEventListener('click', openSidebar);
+
+      menuBtn?.addEventListener('click', () => {
+        sidebarOpen = !sidebarOpen;
+        syncSidebar();
+      });
+      closeBtn?.addEventListener('click', closeSidebar);
       backdrop?.addEventListener('click', closeSidebar);
-      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeSidebar(); });
+      window.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && sidebarOpen) closeSidebar(); });
+      sidebar?.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => {
+          if (overlayViewport.matches) closeSidebar();
+        });
+      });
+
+      const handleViewportChange = () => {
+        if (!overlayViewport.matches) sidebarOpen = false;
+        syncSidebar();
+      };
+      if (typeof overlayViewport.addEventListener === 'function') {
+        overlayViewport.addEventListener('change', handleViewportChange);
+      } else if (typeof overlayViewport.addListener === 'function') {
+        overlayViewport.addListener(handleViewportChange);
+      }
+      handleViewportChange();
 
       // --- Acordeón modular optimizado (sin max-height) ---
       const ACCORDION_SINGLE_OPEN = true; // solo un módulo abierto a la vez

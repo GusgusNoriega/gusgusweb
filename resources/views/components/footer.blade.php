@@ -1,12 +1,11 @@
 <!-- ===== FOOTER ===== -->
-<footer id="dash-footer" class="px-4 sm:px-6 py-6 border-t border-[var(--c-border)] text-sm text-[var(--c-muted)] flex items-center">
-  <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 justify-between">
+<footer id="dash-footer" class="border-t border-[var(--c-border)] px-4 py-4 text-sm text-[var(--c-muted)] sm:px-6 lg:px-8">
+  <div class="flex w-full flex-col gap-3 md:flex-row md:items-center md:justify-between">
     <p>© <span id="dash-year"></span> Tu Empresa. Todos los derechos reservados.</p>
-    <div class="flex items-center gap-3">
+    <div class="flex flex-wrap items-center gap-3 sm:gap-4">
       <a href="#" class="hover:underline">Privacidad</a>
       <a href="#" class="hover:underline">Términos</a>
       <a href="#" class="hover:underline">Contacto</a>
     </div>
   </div>
-
 </footer>

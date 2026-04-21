@@ -3,14 +3,14 @@
 @section('title', 'Plantillas de Email')
 
 @section('content')
-<div class="">
+<div class="space-y-6">
   <!-- Header -->
-  <div class="flex items-center justify-between mb-6">
+  <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
     <div>
       <h1 class="text-2xl font-bold text-[var(--c-text)]">Plantillas de Email</h1>
       <p class="text-[var(--c-muted)] mt-1">Gestiona las plantillas de correo electrónico del sistema</p>
     </div>
-    <div class="flex gap-3">
+    <div class="flex flex-wrap gap-3">
       <button id="btn-create-template" class="inline-flex items-center gap-2 px-4 py-2 bg-[var(--c-primary)] text-[var(--c-primary-ink)] rounded-xl hover:opacity-95 transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
