@@ -79,7 +79,7 @@ class EchosPeruSacCrmQuoteSeeder extends Seeder
                     'phone' => $clientPhone,
                     'is_company' => true,
                     'company_ruc' => $companyRuc,
-                    'project_type' => 'CRM de eventos: administracion, clientes, cotizaciones, proyectos y finanzas',
+                    'project_type' => 'CRM de eventos: administracion, clientes, cotizaciones, proyectos, logistica, personal, inventario, geolocalizacion y finanzas',
                     'budget_up_to' => 2700,
                     'message' => "Cotizacion solicitada para {$companyName} (RUC: {$companyRuc}) por un CRM integral de gestion comercial y operativa de eventos.",
                     'status' => 'new',
@@ -112,6 +112,10 @@ class EchosPeruSacCrmQuoteSeeder extends Seeder
                         "- Clientes: vista de todos los clientes + gestion completa.\n" .
                         "- Cotizaciones: listado general, configuracion de cotizaciones y categorias por producto.\n" .
                         "- Proyectos: listado y seguimiento de proyectos vinculados a cotizaciones/facturas.\n" .
+                        "- Logistica: planificacion operativa de recursos y transporte por evento.\n" .
+                        "- Control de personal: asignacion, asistencia y control operativo por evento.\n" .
+                        "- Inventariado y almacenes: entradas/salidas de stock, movimientos y control por almacen.\n" .
+                        "- Geolocalizacion: ubicacion de eventos, rutas y puntos operativos.\n" .
                         "- Finanzas: gastos por evento, adjuntos de facturas y estadisticas de rentabilidad.\n\n" .
                         "Datos de proyecto que NO son vistas (alcance funcional):\n" .
                         "- Relacion evento-cotizacion y validacion contra factura/baucher/imagen.\n" .
@@ -129,16 +133,19 @@ class EchosPeruSacCrmQuoteSeeder extends Seeder
                     'estimated_start_date' => now()->addDays(2)->toDateString(),
                     'notes' => "Aclaraciones de alcance:\n" .
                         "- El modulo Proyectos se divide en vistas operativas y en estructura de datos de evento (no vistas).\n" .
+                        "- Se agregan modulos de logistica, control de personal, inventariado/almacenes y geolocalizacion sin variar precio total ni plazo.\n" .
                         "- El modulo Finanzas cubre gastos por evento, adjuntos de comprobantes y analitica semanal/mensual.\n" .
                         "- Se contempla carga de documentos (imagenes, PDF, Excel) con validaciones de formato/tamano.\n\n" .
                         "Requisitos para iniciar:\n" .
                         "- Definir responsables por area (administracion, operaciones, finanzas).\n" .
                         "- Validar flujo de aprobacion: cotizacion -> factura/baucher -> proyecto.\n" .
                         "- Definir categorias de cotizacion por tipo de producto/servicio.\n" .
-                        "- Compartir estructura de reportes financieros esperados (semanal y mensual).\n\n" .
+                        "- Compartir estructura de reportes financieros esperados (semanal y mensual).\n" .
+                        "- Definir catalogo de almacenes, items de inventario y responsables de logistica/personal.\n\n" .
                         "Entregables:\n" .
                         "- CRM funcional por modulos con permisos por rol.\n" .
                         "- Vistas operativas y formularios de datos de proyecto.\n" .
+                        "- Modulos de logistica, personal, inventario y geolocalizacion integrados con proyectos.\n" .
                         "- Reportes de gastos/ganancias por evento, semanal y mensual.\n" .
                         "- Manual basico y capacitacion de uso.",
                     'terms_conditions' => "Condiciones comerciales:\n" .
@@ -171,115 +178,155 @@ class EchosPeruSacCrmQuoteSeeder extends Seeder
             $items = [
                 [
                     'name' => 'Descubrimiento funcional y arquitectura del CRM',
-                    'description' => 'Levantamiento de alcance, ordenamiento de requisitos ambiguos y definicion de arquitectura funcional/tecnica para asegurar ejecucion en 1.5 meses.',
+                    'description' => 'Levantamiento de alcance y ordenamiento de requisitos para integrar modulos nuevos sin alterar costo ni plazo global.',
                     'quantity' => 1,
                     'unit' => 'fase',
-                    'unit_price' => 200,
+                    'unit_price' => 140,
                     'tasks' => [
-                        ['name' => 'Workshop de alcance y prioridades', 'description' => 'Definir objetivos de negocio, alcance minimo viable, modulos criticos y criterios de aceptacion por area.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Definicion de flujo comercial principal', 'description' => 'Documentar flujo cotizacion -> aprobacion -> factura/baucher -> proyecto -> cierre financiero.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Modelado inicial de entidades y relaciones', 'description' => 'Disenar estructura base para usuarios, clientes, cotizaciones, proyectos, documentos y finanzas.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Planificacion de iteraciones por semana', 'description' => 'Dividir desarrollo por hitos semanales para completar el alcance en 48 dias.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Alineacion de alcance integral', 'description' => 'Ajustar alcance final considerando nuevos modulos de logistica, personal, inventario y geolocalizacion.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Mapa de dependencias entre modulos', 'description' => 'Definir dependencias funcionales entre cotizaciones, proyectos, logistica, personal e inventario.', 'duration_value' => 0.5, 'duration_unit' => 'days'],
+                        ['name' => 'Definicion de prioridades por iteracion', 'description' => 'Ordenar implementacion por sprints para sostener entrega en 48 dias.', 'duration_value' => 0.25, 'duration_unit' => 'days'],
+                        ['name' => 'Criterios de aceptacion por modulo', 'description' => 'Establecer checklist funcional por cada seccion a entregar.', 'duration_value' => 0.25, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
                     'name' => 'Modulo Administracion (usuarios, roles, permisos, configuracion y documentos)',
-                    'description' => 'Construccion del nucleo administrativo del CRM con control de accesos y carga de documentos (imagenes, PDF, Excel).',
+                    'description' => 'Nucleo de seguridad y operacion para controlar acceso, parametros del CRM y gestion de archivos.',
                     'quantity' => 1,
                     'unit' => 'modulo',
-                    'unit_price' => 520,
+                    'unit_price' => 300,
                     'tasks' => [
-                        ['name' => 'Vista y CRUD de usuarios', 'description' => 'Crear pantalla de listado y formularios para alta/edicion/desactivacion de usuarios.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Vista y CRUD de roles', 'description' => 'Gestion de roles operativos (administracion, ventas, operaciones, finanzas).', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Vista y matriz de permisos', 'description' => 'Definir permisos por modulo y accion (ver, crear, editar, eliminar, exportar).', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Aplicacion de RBAC en rutas y acciones', 'description' => 'Proteger backend y frontend segun permisos para evitar accesos indebidos.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Vista de configuracion general del sistema', 'description' => 'Configurar datos de empresa, parametros de flujo y ajustes globales del CRM.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Modulo de documentos (imagenes/PDF/Excel)', 'description' => 'Subida, validacion, almacenamiento y relacion de archivos a entidades del sistema.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Pruebas de seguridad y permisos', 'description' => 'QA de accesos por rol y pruebas de subida de archivos por tipo.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Vista y CRUD de usuarios', 'description' => 'Listado y formularios para alta, edicion, desactivacion y restablecimiento de acceso.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Vista de roles y permisos', 'description' => 'Gestion de roles por area y permisos por accion para cada modulo.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Aplicacion de control RBAC', 'description' => 'Proteccion de rutas, menus y acciones criticas segun perfil.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuracion general del sistema', 'description' => 'Parametros corporativos, reglas base y preferencias operativas.', 'duration_value' => 0.5, 'duration_unit' => 'days'],
+                        ['name' => 'Gestion documental central', 'description' => 'Carga y validacion de imagenes, PDF y Excel para uso transversal.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Pruebas de seguridad y accesos', 'description' => 'QA de permisos, restricciones y navegacion por rol.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
                     'name' => 'Modulo Clientes (vista todos los clientes)',
-                    'description' => 'Gestion centralizada de clientes con vista global, filtros, historial comercial y relacion con cotizaciones/proyectos.',
+                    'description' => 'Gestion centralizada de clientes con trazabilidad comercial y operativa.',
                     'quantity' => 1,
                     'unit' => 'modulo',
-                    'unit_price' => 240,
+                    'unit_price' => 170,
                     'tasks' => [
-                        ['name' => 'Vista de listado general de clientes', 'description' => 'Construir pagina "Todos los clientes" con busqueda, filtros y paginacion.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'CRUD completo de clientes', 'description' => 'Crear formularios para registro y actualizacion de datos comerciales y fiscales.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Relacion cliente-cotizacion-proyecto', 'description' => 'Mostrar trazabilidad del cliente en procesos comerciales y operativos.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'QA funcional del modulo clientes', 'description' => 'Validar filtros, edicion, estados y navegacion entre modulos relacionados.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Vista general de clientes', 'description' => 'Pantalla de todos los clientes con filtros por documento, razon social y estado.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'CRUD de clientes', 'description' => 'Formularios de registro y actualizacion de datos fiscales y de contacto.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Relacion cliente-cotizacion-proyecto', 'description' => 'Trazabilidad del cliente en procesos de venta y ejecucion.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'QA funcional del modulo', 'description' => 'Pruebas de filtros, integridad de datos y relacion con otros modulos.', 'duration_value' => 0.5, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
                     'name' => 'Modulo Cotizaciones (listado, configuracion y categorias)',
-                    'description' => 'Gestion de cotizaciones con vista general, parametros configurables y categorias por producto/servicio.',
+                    'description' => 'Gestion comercial de cotizaciones con configuraciones, categorias y conversion a proyecto.',
                     'quantity' => 1,
                     'unit' => 'modulo',
-                    'unit_price' => 520,
+                    'unit_price' => 350,
                     'tasks' => [
-                        ['name' => 'Vista "Todas las cotizaciones"', 'description' => 'Listado con filtros por estado, cliente, fechas y busqueda por numero/documento.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Flujo de creacion y edicion de cotizacion', 'description' => 'Formulario de cotizacion con items, condiciones, vigencia y estados.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Configuracion de cotizaciones', 'description' => 'Parametros de numeracion, vigencia por defecto, observaciones y terminos.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Categorias de cotizacion por producto', 'description' => 'CRUD de categorias para clasificar cotizaciones segun tipo de producto/servicio.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Control de aprobacion y pase a proyecto', 'description' => 'Regla para habilitar creacion de proyecto una vez validada factura/baucher.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'QA de calculos y estados', 'description' => 'Pruebas de montos, estados y relacion con cliente/proyecto.', 'duration_value' => 2, 'duration_unit' => 'days'],
+                        ['name' => 'Vista de todas las cotizaciones', 'description' => 'Listado con filtros por cliente, fecha, estado y numero de cotizacion.', 'duration_value' => 1.5, 'duration_unit' => 'days'],
+                        ['name' => 'Formulario de creacion y edicion', 'description' => 'Alta y actualizacion de cotizaciones con items, importes y condiciones.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Configuracion de cotizaciones', 'description' => 'Numeracion, vigencia por defecto, observaciones y terminos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Categorias por producto/servicio', 'description' => 'Clasificacion de cotizaciones segun lineas de producto para analitica.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Regla de pase a proyecto', 'description' => 'Habilitar creacion de proyecto tras validacion de factura/baucher.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'QA de montos y estados', 'description' => 'Pruebas de calculos, flujo de estados y coherencia del proceso.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
-                    'name' => 'Modulo Proyectos (vistas operativas)',
-                    'description' => 'Vistas para gestionar todos los proyectos asociados a cotizaciones aceptadas y comprobantes validados.',
+                    'name' => 'Modulo Proyectos y datos operativos (vistas + no vistas)',
+                    'description' => 'Gestion integral de proyectos incluyendo vistas operativas y datos internos de evento que no son vistas.',
                     'quantity' => 1,
                     'unit' => 'modulo',
-                    'unit_price' => 500,
+                    'unit_price' => 300,
                     'tasks' => [
-                        ['name' => 'Vista "Todos los proyectos"', 'description' => 'Pantalla principal con filtros por cliente, estado, fecha y responsable.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Vista de detalle del proyecto/evento', 'description' => 'Pantalla para visualizar informacion operativa, documentos y avance del evento.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Flujo de creacion desde cotizacion', 'description' => 'Creacion de proyecto vinculando cotizacion aprobada y comprobante correspondiente.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Asignacion de cliente y responsables', 'description' => 'Relacionar cliente del evento y usuarios internos responsables de ejecucion.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Adjuntos de documentacion del evento', 'description' => 'Subida y consulta de archivos operativos dentro del proyecto.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Integracion Google Maps en ubicacion', 'description' => 'Registro de direccion del evento y enlace/preview de ubicacion en mapa.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Vista de todos los proyectos', 'description' => 'Panel de proyectos con filtros por cliente, estado y calendario de ejecucion.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Vista detalle de evento', 'description' => 'Detalle de proyecto con seguimiento de hitos y documentos asociados.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Relacion evento-cotizacion-comprobante', 'description' => 'Estructura de enlace entre cotizacion aprobada y factura/baucher de respaldo.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Fechas operativas obligatorias', 'description' => 'Registro y validacion de montaje, inicio, desmontaje y finalizacion.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Guias de remision y documentos del evento', 'description' => 'Campos y adjuntos para guias, evidencias y archivos operativos.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'QA de consistencia operativa', 'description' => 'Validar que no se cierre evento sin data obligatoria.', 'duration_value' => 0.5, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
-                    'name' => 'Datos de Proyecto (no vistas): estructura operativa del evento',
-                    'description' => 'Implementacion de datos funcionales de proyecto que no son vistas, pero son obligatorios para el control operativo del evento.',
+                    'name' => 'Modulo de Logistica',
+                    'description' => 'Planificacion de recursos, movilidad y actividades logisticas para cada evento/proyecto.',
                     'quantity' => 1,
-                    'unit' => 'estructura',
+                    'unit' => 'modulo',
+                    'unit_price' => 320,
+                    'tasks' => [
+                        ['name' => 'Catalogo de recursos logisticos', 'description' => 'Definir recursos (vehiculos, equipos, materiales) por tipo de evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Planificacion operativa por evento', 'description' => 'Programar requerimientos logisticos por fecha y responsable.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Control de despacho y retorno', 'description' => 'Registro de salida y retorno de recursos con estado y observaciones.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Checklist de cumplimiento logistico', 'description' => 'Control de hitos logisticos pre-evento, durante y post-evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Alertas de incidencias operativas', 'description' => 'Registro de incidencias y alertas por retrasos o faltantes.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA del flujo logistico', 'description' => 'Pruebas de trazabilidad y cierre de ciclo logistico.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                    ],
+                ],
+                [
+                    'name' => 'Modulo Control de Personal',
+                    'description' => 'Asignacion y seguimiento del personal por evento, turnos y cumplimiento operativo.',
+                    'quantity' => 1,
+                    'unit' => 'modulo',
                     'unit_price' => 260,
                     'tasks' => [
-                        ['name' => 'Relacion evento-cotizacion-factura/baucher', 'description' => 'Definir llaves y validaciones para asociar cada evento a su soporte comercial y financiero.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Campos de fechas operativas del evento', 'description' => 'Implementar fecha de montaje, inicio, desmontaje y finalizacion con reglas de consistencia.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Registro de comprobantes con fecha', 'description' => 'Permitir adjuntar factura, baucher o imagenes con fecha de registro/control.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Guias de remision', 'description' => 'Estructura para almacenar numero, fecha y archivo de guias asociadas al proyecto.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Validaciones de completitud operativa', 'description' => 'Reglas para evitar cierre de evento sin datos minimos requeridos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Maestro de personal operativo', 'description' => 'Registro de personal, roles operativos y disponibilidad.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Asignacion de personal por evento', 'description' => 'Vincular personal a proyectos con fecha, horario y funcion.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Control de asistencia y cumplimiento', 'description' => 'Seguimiento de asistencia y estados de participacion.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Bitacora de novedades del personal', 'description' => 'Registrar incidencias, reemplazos y observaciones de jornada.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA de asignaciones y estados', 'description' => 'Pruebas de cruces entre personal, evento y logistica.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
-                    'name' => 'Modulo Finanzas (gastos, ganancias y estadisticas)',
-                    'description' => 'Gestion financiera por evento con adjuntos de facturas, control de gastos/ingresos y reportes de rentabilidad semanal y mensual.',
+                    'name' => 'Modulo Inventariado y Almacenes',
+                    'description' => 'Control de inventario por almacen con entradas, salidas, transferencias y stock por evento.',
                     'quantity' => 1,
                     'unit' => 'modulo',
                     'unit_price' => 330,
                     'tasks' => [
-                        ['name' => 'Registro de gastos del evento', 'description' => 'Formulario para registrar gastos operativos y administrativos por proyecto/evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Adjunto de facturas de gasto', 'description' => 'Subida de comprobantes para sustento de egresos y auditoria.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Calculo de inversion vs ganancia', 'description' => 'Reglas para comparar ingresos y gastos por evento con margen resultante.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Reporte semanal de gastos y ganancias', 'description' => 'Vista/reportes con filtros por semana y consolidado por evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Reporte mensual de gastos y ganancias', 'description' => 'Vista/reportes mensuales con totales, tendencia y utilidad.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'QA de consistencia financiera', 'description' => 'Pruebas de sumatorias, relacion de comprobantes y exactitud de margenes.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Catalogo de items y unidades', 'description' => 'Crear ficha de inventario por item, unidad, categoria y estado.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Gestion de almacenes', 'description' => 'Registrar almacenes, ubicaciones y responsables operativos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Movimientos de entrada y salida', 'description' => 'Controlar ingresos y egresos con motivo, fecha y referencia de evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Transferencias entre almacenes', 'description' => 'Gestionar traslado interno de items con trazabilidad.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Reserva y consumo por evento', 'description' => 'Separar stock para eventos y registrar consumo real.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA de stock y trazabilidad', 'description' => 'Pruebas de consistencia de saldos y movimientos historicos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                    ],
+                ],
+                [
+                    'name' => 'Modulo Geolocalizacion',
+                    'description' => 'Gestion de ubicaciones de eventos, rutas y puntos operativos vinculados a proyectos y logistica.',
+                    'quantity' => 1,
+                    'unit' => 'modulo',
+                    'unit_price' => 210,
+                    'tasks' => [
+                        ['name' => 'Registro de ubicacion de evento', 'description' => 'Guardar direccion estructurada y coordenadas del evento.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Integracion con Google Maps', 'description' => 'Visualizacion de punto geografico en mapa dentro del proyecto.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Rutas logisticas por evento', 'description' => 'Asociar rutas sugeridas para traslado de personal y recursos.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'QA de precision y enlaces', 'description' => 'Validar enlaces de mapa, coordenadas y consistencia por proyecto.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                    ],
+                ],
+                [
+                    'name' => 'Modulo Finanzas (gastos, ganancias y estadisticas)',
+                    'description' => 'Control financiero por evento con indicadores semanales y mensuales.',
+                    'quantity' => 1,
+                    'unit' => 'modulo',
+                    'unit_price' => 220,
+                    'tasks' => [
+                        ['name' => 'Registro de gastos y adjuntos', 'description' => 'Registrar egresos por evento y cargar facturas de sustento.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Calculo de inversion y ganancia', 'description' => 'Obtener margen por evento a partir de ingresos vs gastos.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'Reportes semanales y mensuales', 'description' => 'Consolidar resultados financieros por periodo y proyecto.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
+                        ['name' => 'QA de reportes financieros', 'description' => 'Pruebas de exactitud de totales, filtros y trazabilidad.', 'duration_value' => 0.75, 'duration_unit' => 'days'],
                     ],
                 ],
                 [
                     'name' => 'QA integral, despliegue y capacitacion',
-                    'description' => 'Fase final para asegurar calidad del CRM, estabilizar flujo completo y transferir operacion al equipo de Echos Peru SAC.',
+                    'description' => 'Cierre del proyecto con validacion funcional completa y transferencia operativa.',
                     'quantity' => 1,
                     'unit' => 'fase',
-                    'unit_price' => 130,
+                    'unit_price' => 100,
                     'tasks' => [
-                        ['name' => 'Pruebas end-to-end por modulo', 'description' => 'Ejecutar pruebas funcionales completas en administracion, clientes, cotizaciones, proyectos y finanzas.', 'duration_value' => 2, 'duration_unit' => 'days'],
-                        ['name' => 'Correccion de incidencias criticas', 'description' => 'Ajustar bugs detectados en QA y verificar regresiones.', 'duration_value' => 1, 'duration_unit' => 'days'],
-                        ['name' => 'Capacitacion operativa y entrega', 'description' => 'Sesion de uso del CRM y entrega de guia basica para procesos diarios.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Pruebas end-to-end', 'description' => 'Ejecutar pruebas integrales sobre todos los modulos y sus dependencias.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Ajustes finales y estabilizacion', 'description' => 'Corregir hallazgos de QA y validar no regresion.', 'duration_value' => 1, 'duration_unit' => 'days'],
+                        ['name' => 'Capacitacion y entrega funcional', 'description' => 'Transferencia operativa con guia de uso por modulo.', 'duration_value' => 1, 'duration_unit' => 'days'],
                     ],
                 ],
             ];
