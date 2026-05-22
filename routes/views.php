@@ -86,6 +86,11 @@ Route::get('/cookies', function () {
     return view('marketing.cookies');
 })->name('cookies')->middleware('guest');
 
+// Demo pública del simulador de producción por lotes
+Route::get('/demo/simulador-produccion-plasticos', function () {
+    return view('dashboard-simulador-produccion-plasticos');
+})->name('demo.simulador-produccion-plasticos')->middleware('guest');
+
 // Sitemaps
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 Route::get('/sitemaps/static.xml', [SitemapController::class, 'staticPages'])->name('sitemap.static');
