@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'guest' => \App\Http\Middleware\GuestMiddleware::class,
         ]);
 
-        // SEO: por ahora sólo la home pública debe indexarse.
+        // SEO: block internal routes while public marketing pages control robots from their meta tags.
         $middleware->web(append: \App\Http\Middleware\NoIndexUnlessHome::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
